@@ -1,9 +1,11 @@
 import requests
 from bs4 import BeautifulSoup 
+import re
 
-starting_page = 4
-number_of_pages = 7
+starting_page = 1
+number_of_pages = 1
 base_url = "https://www.ratemds.com/best-doctors/?page="
+last_rating = ""
 
 for page in range(starting_page,number_of_pages+1):
     print(f'Printing: {base_url}{page}')
@@ -29,11 +31,16 @@ for page in range(starting_page,number_of_pages+1):
             r = requests.get(doctor_url)
             c = r.content
             soup = BeautifulSoup(c, 'html.parser')
-            ratings_list = soup.find_all(attrs={"class":"rating-comment"})
+            ratings_text_list = soup.find_all(attrs={"class":"rating-comment-body"})
+            ratings_date_list = soup.find_all(attrs={"class":"link-plain"})
+            for rating.text in ratings_list:
+                print(rating)
+                clean_rating = re.compile(r'(.+)(\\nWas this rating useful\? 0 flag)( \|.+)')
+                #Matches the first half of the text r'.+(?=Was this rating useful\? 0 flag)')
 
             #Remove flag and react link from rating to get clean list
 
-            
+
         except:
             pass
             print("Looped stopped due to error.")
