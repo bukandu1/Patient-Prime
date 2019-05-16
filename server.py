@@ -8,6 +8,12 @@ app = Flask(__name__)
 #Set key to use sessions and debug toolbar
 app.secret_key = os.environ['FLASK_SESSION_KEY']
 
+#Route for homepage
+@app.route('/')
+def homepage():
+    """ HOMEPAGE placeholder"""
+
+    return "<html><title>Patient Ready: Make Informed Decisions Quickly</title><body>Placeholder for homepage and search</body>"
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point
