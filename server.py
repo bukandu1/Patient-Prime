@@ -1,4 +1,6 @@
-from flask import Flask, session, redirect, render_template, flash, request
+from flask import (Flask, session, redirect, render_template, flash, 
+                    request, jsonify)
+
 from flask_debugtoolbar import DebugToolbarExtension
 from model import db, connect_to_db
 import os
@@ -15,6 +17,14 @@ def homepage():
 
     #***Will need form on homepage template
     return render_template("homepage.html")
+
+@app.route('/search-providers')
+def search_providers():
+
+    #Request provider name from homepage form
+    provider_name = request.args.get("provider_name")
+    print("\n\n\n\n**********************Provider Name:", provider_name)
+    return jsonify(provider_name)
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point
