@@ -1,4 +1,4 @@
-from Flask import Flask, session
+from flask import Flask, session, redirect, render_template, flash, request
 from flask_debugtoolbar import DebugToolbarExtension
 from model import db, connect_to_db
 import os
@@ -13,7 +13,8 @@ app.secret_key = os.environ['FLASK_SESSION_KEY']
 def homepage():
     """ HOMEPAGE placeholder"""
 
-    return "<html><title>Patient Ready: Make Informed Decisions Quickly</title><body>Placeholder for homepage and search</body>"
+    #***Will need form on homepage template
+    return render_template("homepage.html")
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point
