@@ -3,3 +3,4 @@ __pycache__
 .DS_Store
 md_review_test_data.html
 sample_md_page.html
+secrets.sh
