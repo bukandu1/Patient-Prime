@@ -63,6 +63,7 @@ db = SQLAlchemy()
 #     provider_id = db.Column()
 #     hospital_id = db.Column()
 
+
 class User(db.Model):
     """User model"""
     __tablename__ = "users"
@@ -83,22 +84,25 @@ class User(db.Model):
 #Helper functions
 
 
-def init_app():
-    """Initialize the Flask app"""
-    app = Flask(__name__)
+def connect_to_db(app):
+    """Connect the database to our Flask app."""
 
+    # Configure to use our PostgreSQL database
     db_name = 'patientready'
 
     #Configure database
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://' + db_name
-    app.config['SQLALCHEMY_ECHO'] = False #Show SQL execution when True
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
 
-    print("Connected to DB!")
 
-if __name__ = "__main__":
-    #Allow to run interactively
-    init_app()
+if __name__ == "__main__":
+    # As a convenience, if we run this module interactively, it will
+    # leave you in a state of being able to work with the database
+    # directly.
+
+    from server import app
+    connect_to_db(app)
+    print("Connected to DB.")
 
