@@ -1,7 +1,9 @@
 import requests
 from bs4 import BeautifulSoup 
 import re
-from model import Provider, Review
+from model import Provider, Review, Speciality, User, UserFavorite, db, connect_to_db
+from server import app
+
 
 def parse_provider_ratings(start, end):
     starting_page = start
@@ -51,6 +53,7 @@ def load_ratings_and_provs(bs4data):
 
     print(ratings_text_list.text)
     print("complete for ", a)
+    return 1
 
             #***complete code for storing physician name
             #if len(provider_name_list) = 2, store first and last name
@@ -71,7 +74,7 @@ def load_ratings_and_provs(bs4data):
 
 if __name__ == "__main__":
     connect_to_db(app)
+    print("Connected to db")
     db.create_all()
-
     data = parse_provider_ratings(1,1)
     #load_ratings_and_provs(data)
