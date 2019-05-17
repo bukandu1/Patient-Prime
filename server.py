@@ -24,7 +24,7 @@ def search_providers():
     #Request provider name from homepage form
     provider_name = request.args.get("provider_name")
     print("\n\n\n\n**********************Provider Name:", provider_name)
-    return jsonify(provider_name)
+    return render_template('display-provider-info.html',name=provider_name)
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point
