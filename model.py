@@ -8,30 +8,34 @@ db = SQLAlchemy()
 ###############################################################
 #Composing ORM
 
-# class Provider(db.Model):
-#     """Provider model"""
-#     __tablename__ = "providers"
+class Provider(db.Model):
+    """Provider model"""
+    __tablename__ = "providers"
 
-#     provider_id = db.Column()
-#     fname = db.Column()
-#     lname = db.Column()
-#     address = db.Column()
-#     phone_number = db.Column()
+    provider_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    fname = db.Column(db.String(64), nullable=False)
+    lname = db.Column(db.String(64), nullable=False)
+    address = db.Column(db.String(64), nullable=True)
+    phone_number = db.Column(db.String(64), nullable=True)
+    speciality_id = db.Column(db.String(64), 
+                                db.ForeignKey('specialities.speciality_id'),
+                                nullable=True)
 
-# class ProviderSpeciality(db.Model):
-#     """Provider-Speciality association model""" #***Not sure what to call these tables
-#     __tablename__ = "provider-speciality"
+class Review(db.Model):
+    """Review Model"""
+    __tablename__ = "reviews"
 
-#     prov_spec_id = db.Column()
-#     provider_id = db.Column()
-#     speciality_id = db.Column()
+    review_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    date = db.Column(db.String(64), nullable=True)
+    rating_text = db.Column(db.String(), nullable=True)
+    site_id = db.Column(db.Integer, nullable=True)
 
-# class Speciality(db.Model):
-#     """Speciality model"""
-#     __tablename__ = "specialities"
+class Speciality(db.Model):
+    """Speciality model"""
+    __tablename__ = "specialities"
 
-#     speciality_id = db.Column()
-#     name = db.Column()
+    speciality_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    name = db.Column(db.String(64), nullable=True)
 
 # class Hospital (db.Model): 
 #     """Hospital model"""
@@ -51,9 +55,6 @@ db = SQLAlchemy()
 #     m_pressure_sores = db.Column()
 #     m_cuts_tears = db.Column()
 #     m_serious_comp = db.Column()
-#     m_ed_time_to_ip = db.Column()
-#     m_readmission = db.Column()
-#     m_payment = db.Column()
 
 # class AssociatedHospital(db.Model):
 #     """Associated_Hospital association model"""
@@ -65,24 +66,23 @@ db = SQLAlchemy()
 
 
 class User(db.Model):
-    """User model"""
+    """User model. To be used for implementing user favorites and login"""
     __tablename__ = "users"
 
-    user_id = db.Column(db.Integer(), autoincrement=True, primary_key=True)
+    user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     email = db.Column(db.String(64), nullable=False)
     password = db.Column(db.String(64), nullable=False)
 
-# class UserFavorite(db.Model):
-#     """User_Favorite association model"""
-#     __tablename__ = "user_favorites"
+class UserFavorite(db.Model):
+    """User_Favorite association model"""
+    __tablename__ = "user_favorites"
 
-#     fav_id = db.Column()
-#     user_id = db.Column()
-#     provider_id = db.Column()
+    fav_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    provider_id = db.Column(db.Integer, db.ForeignKey('providers.provider_id'))
 
 ###############################################################
 #Helper functions
-
 
 def connect_to_db(app):
     """Connect the database to our Flask app."""
