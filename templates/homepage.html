@@ -1,21 +1,18 @@
-<html>
-    <head>
-        <title> Patient Ready: Make Informed Decisions Quickly</title>
-            <link rel = "icon" href = "/static/title_icon_1.jpeg"/>
-        <div class="title"><h1>Patient Ready</h1>
-        </div>
+{%extends 'base.html'%}
 
-
-    </head>
-        <body>Placeholder for homepage and search</body>
+{% block content %}
+    Begin by typing a provider into the search box
 
     <!-- Soon to be form with submit-->
     
-        <form action="/search-provider">
+        <form action="/search-providers">
             <div class="search-bar"></div>
-
+            <input type="search" name="provider_name" aria-label="Search database of providers">
+            <button class="search-button">Search Providers</button>
+            <div></div>
             <input type="submit" name="submit">
         </form>
     
-    <div class="sear"></div>
+    <div class="search"></div>
 </html>
+{%endblock%}
