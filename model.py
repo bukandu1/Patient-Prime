@@ -33,7 +33,9 @@ class Review(db.Model):
 
     review_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     date = db.Column(db.String(64), nullable=True)
-    rating_text = db.Column(db.String(), nullable=True)
+    body_text = db.Column(db.String(), nullable=True)
+    provider_id = db.Column(db.Integer, db.ForeignKey('provider.provider_id'), 
+                            nullable=False)
     site_id = db.Column(db.Integer, nullable=True)
 
 def __repr__(self):
