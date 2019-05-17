@@ -17,9 +17,15 @@ class Provider(db.Model):
     lname = db.Column(db.String(64), nullable=False)
     address = db.Column(db.String(64), nullable=True)
     phone_number = db.Column(db.String(64), nullable=True)
-    speciality_id = db.Column(db.String(64), 
+    speciality_id = db.Column(db.Integer, 
                                 db.ForeignKey('specialities.speciality_id'),
                                 nullable=True)
+def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return f"""<Provider provider_id={self.provider_id} 
+                    name=f'{self.fname} {self.lname}'
+                    speciality={self.speciality}>"""
 
 class Review(db.Model):
     """Review Model"""
@@ -29,6 +35,13 @@ class Review(db.Model):
     date = db.Column(db.String(64), nullable=True)
     rating_text = db.Column(db.String(), nullable=True)
     site_id = db.Column(db.Integer, nullable=True)
+
+def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return f"""<Review={self.review_id} 
+                    date={self.date} 
+                    rating_truc={self.rating_text[:10]}>"""
 
 class Speciality(db.Model):
     """Speciality model"""
@@ -91,16 +104,15 @@ def connect_to_db(app):
     db_name = 'patientready'
 
     #Configure database
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://' + db_name
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///' + db_name
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_ECHO'] = True
     db.app = app
     db.init_app(app)
 
 
 if __name__ == "__main__":
-    # As a convenience, if we run this module interactively, it will
-    # leave you in a state of being able to work with the database
-    # directly.
+    # leave in a state of being able to work with the database directly
 
     from server import app
     connect_to_db(app)
