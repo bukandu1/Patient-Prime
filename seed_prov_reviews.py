@@ -28,7 +28,7 @@ def parse_provider_ratings(start, end):
                 
                 #Obtain physician url for further parsing
                 doctor_url = "https://www.ratemds.com" + a
-                print(doctor_url)
+                #print(doctor_url)
 
                 #Filter on all attributes containing class="rating comment"
                 #***This can be refactored (function use and chaining to make code clean)
@@ -39,11 +39,13 @@ def parse_provider_ratings(start, end):
                 text_list = soup.find_all(attrs={"class":"rating-comment-body"})
                 date_list = soup.find_all(attrs={"class":"link-plain"})
                 prov_name_list = soup.h1.text.split()[1:]
+
+                #Return and load tuple of BS4 objects
+                load_ratings_and_provs((text_list, date_list, prov_name_list))
+                
             except:
                 print("Continue")
 
-    #Returns tuple of BS4 objects
-    return (text_list, date_list, prov_name_list)
             
 def load_ratings_and_provs(bs4data):
     """Load ratings and providers to db"""
@@ -51,31 +53,33 @@ def load_ratings_and_provs(bs4data):
     #Unpack data to store into Review and Provider object
     (text_list, date_list, prov_name_list) = bs4data
 
-    #Add provider to db transaction and commit
-    last_name = prov_name_list[0]
-    first_name = prov_name_list[-1]
-    provider = Provider(lname=last_name, fname=first_name)
-    db.session.add(provider)
+    #Add providers from list to db transaction and commit
+    for  i in prov_name_list:
+        last_name = prov_name_list[0]
+        first_name = prov_name_list[-1]
+        provider = Provider(lname=last_name, fname=first_name)
+        db.session.add(provider)
     db.session.commit()
 
     #Query provider's newly assigned id (to assign reviews appropriately)
     prov_id = Provider.query.filter_by(lname=last_name, fname=first_name).provider_id
 
     #Add reviews from review list to db transaction
-    for i in range(len(text_list)):
-        review_text = text_list[i].text
-        review_date = date_list[i].text
-        review = Review(date=review_date, body_text=review_text, site_id=1)
-        db.session.add(review)
+    for prov_list in range(len(text_list)):
+        for i in range(len(prov_list)):
+            review_text = text_list[i].text
+            review_date = date_list[i].text
+            review = Review(date=review_date, body_text=review_text, 
+                            provider_id=prov_id, site_id=1)
+            db.session.add(review)
 
-        #To assist with notifying on progress on transction and committing
-        if prov_id % 100 == 0:
-            db.session.commit()
-            print("Committed up to Provider ID:", prov_id)
+            #To assist with notifying on progress on transction and committing
+            if prov_id % 100 == 0:
+                db.session.commit()
+                print("Committed up to Provider ID:", prov_id)
 
     #Commit remaining items in transaction
     db.session.commit()
-    return 1
 
             #***complete code for storing physician name
             #if len(provider_name_list) = 2, store first and last name
@@ -99,4 +103,4 @@ if __name__ == "__main__":
     print("Connected to db")
     db.create_all()
     data = parse_provider_ratings(1,1)
-    #load_ratings_and_provs(data)
+    load_ratings_and_provs(data)
