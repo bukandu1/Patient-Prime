@@ -43,16 +43,38 @@ def parse_provider_ratings(start, end):
                 print("Continue")
 
     #Returns tuple of BS4 objects
-    return [text_list, date_list, prov_name_list]
+    return (text_list, date_list, prov_name_list)
             
 def load_ratings_and_provs(bs4data):
     """Load ratings and providers to db"""
     
-    #Unpack tuple 
-    t[0], t[1], t[2] = bs4data.split()
+    #Unpack data to store into Review and Provider object
+    (text_list, date_list, prov_name_list) = bs4data
 
-    print(ratings_text_list.text)
-    print("complete for ", a)
+    #Add provider to db transaction and commit
+    last_name = prov_name_list[0]
+    first_name = prov_name_list[-1]
+    provider = Provider(lname=last_name, fname=first_name)
+    db.session.add(provider)
+    db.session.commit()
+
+    #Query provider's newly assigned id (to assign reviews appropriately)
+    prov_id = Provider.query.filter_by(lname=last_name, fname=first_name).provider_id
+
+    #Add reviews from review list to db transaction
+    for i in range(len(text_list)):
+        review_text = text_list[i].text
+        review_date = date_list[i].text
+        review = Review(date=review_date, body_text=review_text, site_id=1)
+        db.session.add(review)
+
+        #To assist with notifying on progress on transction and committing
+        if prov_id % 100 == 0:
+            db.session.commit()
+            print("Committed up to Provider ID:", prov_id)
+
+    #Commit remaining items in transaction
+    db.session.commit()
     return 1
 
             #***complete code for storing physician name
