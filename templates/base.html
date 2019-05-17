@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title> Patient Ready: Make Informed Decisions Quickly</title>
+            <link rel = "icon" href = "/static/title_icon_1.jpeg"/>
+        <div class="title"><h1>Patient Ready</h1>
+        </div>
+        <link rel="stylesheet" href ="/static/stylesheet.css">
+
+    </head>
+
+<!-- Flash messages in the base template to be used throughout the site  -->
+<div id="extending">
+  {% for flash in get_flashed_messages() %}
+    <div class="alert alert-danger" style="width:90%; margin:0 auto;">{{ flash }}</div>
+  {% endfor %}
+
+{% block content %}
+
+{% endblock %}
+</div>
