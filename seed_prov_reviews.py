@@ -35,7 +35,6 @@ def parse_provider_ratings(start, end):
                 r = requests.get(doctor_url)
                 c = r.content
                 soup = BeautifulSoup(c, 'html.parser')
-                # import pdb; pdb.set_trace()
                 text_list = soup.find_all(attrs={"class":"rating-comment-body"})
                 date_list = soup.find_all(attrs={"class":"link-plain"})
                 prov_name_list = soup.h1.text.split()[1:]
@@ -54,16 +53,17 @@ def load_ratings_and_provs(bs4data):
     (text_list, date_list, prov_name_list) = bs4data
 
     #Add providers from list to db transaction and commit
-    for  i in prov_name_list:
-        last_name = prov_name_list[0]
-        first_name = prov_name_list[-1]
-        provider = Provider(lname=last_name, fname=first_name)
-        db.session.add(provider)
+    last_name = prov_name_list[-1]
+    first_name = prov_name_list[0]
+    provider = Provider(lname=last_name, fname=first_name)
+    db.session.add(provider)
     db.session.commit()
 
     #Query provider's newly assigned id (to assign reviews appropriately)
-    prov_id = Provider.query.filter_by(lname=last_name, fname=first_name).provider_id
+    prov_id = Provider.query.filter_by(lname=last_name, fname=first_name).first().provider_id
+    print(prov_id)
 
+    import pdb; pdb.set_trace()
     #Add reviews from review list to db transaction
     for prov_list in range(len(text_list)):
         for i in range(len(prov_list)):
@@ -73,13 +73,9 @@ def load_ratings_and_provs(bs4data):
                             provider_id=prov_id, site_id=1)
             db.session.add(review)
 
-            #To assist with notifying on progress on transction and committing
-            if prov_id % 100 == 0:
-                db.session.commit()
-                print("Committed up to Provider ID:", prov_id)
-
-    #Commit remaining items in transaction
+        #To assist with notifying on progress on transction and committing
     db.session.commit()
+    print("Committed up to Provider ID:", prov_id)
 
             #***complete code for storing physician name
             #if len(provider_name_list) = 2, store first and last name
@@ -103,4 +99,4 @@ if __name__ == "__main__":
     print("Connected to db")
     db.create_all()
     data = parse_provider_ratings(1,1)
-    load_ratings_and_provs(data)
+    #load_ratings_and_provs(data)
