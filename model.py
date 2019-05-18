@@ -17,9 +17,9 @@ class Provider(db.Model):
     lname = db.Column(db.String(64), nullable=False)
     address = db.Column(db.String(64), nullable=True)
     phone_number = db.Column(db.String(64), nullable=True)
-    speciality_id = db.Column(db.Integer, 
-                                db.ForeignKey('specialities.speciality_id'),
-                                nullable=True)
+    speciality_name = db.Column(db.String(64), nullable=True)
+    npi_id = db.Column(db.Integer, nullable=True)
+
 def __repr__(self):
         """Provide helpful representation when printed."""
 
@@ -52,33 +52,54 @@ class Speciality(db.Model):
     speciality_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     name = db.Column(db.String(64), nullable=True)
 
-# class Hospital (db.Model): 
-#     """Hospital model"""
-#     __tablename__ = "hospitals"
+class Hospital (db.Model): 
+    """Hospital model"""
+    __tablename__ = "hospitals"
 
-#     hospital_id = db.Column()
-#     name = db.Column()
-#     address = db.Column()
-#     city = db.Column()
-#     state = db.Column()
-#     zipcode = db.Column()
-#     phone_number = db.Column()
+    hospital_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    name = db.Column(db.String(64), nullable=False)
+    address = db.Column(db.String(64), nullable=True)
+    city = db.Column(db.String(64), nullable=True)
+    state = db.Column(db.String(64), nullable=True)
+    zipcode = db.Column(db.Integer, nullable=True)
+    phone_number = db.Column(db.String(20), nullable=True)
 
-#     #***Need to review and finalize variables and datatypes from CMS API
-#     m_bsi = db.Column()
-#     m_blood_clots = db.Column()
-#     m_pressure_sores = db.Column()
-#     m_cuts_tears = db.Column()
-#     m_serious_comp = db.Column()
+    #Hospital patient safety measures. Can add to list in future.
+    m_surg = db.Column(db.Float(), nullable=True)
+    m_surg_natl = db.Column(db.String(64), nullable=True)
+    m_bsi = db.Column(db.Float(), nullable=True)
+    m_bsi_natl = db.Column(db.String(64), nullable=True)
+    m_dvt = db.Column(db.Float(), nullable=True)
+    m_dvt_natl = db.Column(db.String(64), nullable=True)
+    m_ulcer = db.Column(db.Float(), nullable=True)
+    m_ulcer_natl = db.Column(db.String(64), nullable=True)
+    m_wound_dehis = db.Column(db.Float(), nullable=True)
+    m_wound_dehis_natl = db.Column(db.String(64), nullable=True)
+    m_lac = db.Column(db.Float(), nullable=True)
+    m_lac_natl = db.Column(db.String(64), nullable=True)
 
-# class AssociatedHospital(db.Model):
-#     """Associated_Hospital association model"""
-#     __tablename__ = "associated_hospitals"
+    def __repr__(self):
+        """Provide helpful representation when printed."""
 
-#     assoc_hosp_id = db.Column()
-#     provider_id = db.Column()
-#     hospital_id = db.Column()
+        return f"""<Hospital={self.hospital_id} name={self.name} bsi={self.m_bsi}> 
+                    clots={self.m_dvt} ulcers={self.m_ulcer} tears={self.m_lac} serious={self.m_surg}
+                    wound={self.m_wound_dehis}>"""
 
+class AssociatedHospital(db.Model):
+    """Associated_Hospital association model"""
+    __tablename__ = "associated_hospitals"
+
+    assoc_hosp_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    provider_id = db.Column(db.Integer, db.ForeignKey('providers.provider_id'), 
+                    nullable=False)
+    hospital_id = db.Column(db.Integer, db.ForeignKey('hospitals.hospital_id'), 
+                    nullable=False)
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return f"""<Provider={self.provider_id} Hospital={self.assoc_hosp_id} 
+                    name={self.hospital_name}>"""
 
 class User(db.Model):
     """User model. To be used for implementing user favorites and login"""
@@ -118,5 +139,6 @@ if __name__ == "__main__":
 
     from server import app
     connect_to_db(app)
+    db.create_all()
     print("Connected to DB.")
 
