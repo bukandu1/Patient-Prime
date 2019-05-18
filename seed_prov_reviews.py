@@ -63,33 +63,27 @@ def load_ratings_and_provs(bs4data):
     prov_id = Provider.query.filter_by(lname=last_name, fname=first_name).first().provider_id
     print(prov_id)
 
-    import pdb; pdb.set_trace()
+    #import pdb; pdb.set_trace()
     #Add reviews from review list to db transaction
-    for prov_list in range(len(text_list)):
-        for i in range(len(prov_list)):
-            review_text = text_list[i].text
-            review_date = date_list[i].text
-            review = Review(date=review_date, body_text=review_text, 
-                            provider_id=prov_id, site_id=1)
-            db.session.add(review)
 
-        #To assist with notifying on progress on transction and committing
+    for i in range(len(text_list)):
+        review_text = text_list[i].text
+        review_date = date_list[i].text
+        review = Review(date=review_date, body_text=review_text, 
+                        provider_id=prov_id, site_id=1)
+        db.session.add(review)
+
+    #To assist with notifying on progress on transction and committing
     db.session.commit()
     print("Committed up to Provider ID:", prov_id)
 
-            #***complete code for storing physician name
-            #if len(provider_name_list) = 2, store first and last name
-            #else, store first, middle initial, and last name
-            #should test to ensure 2 or 3 names being returned
-
-
-                #***Make reviews and dates more readable on screen    
-                #Only parse information when called from database/dictionary
-                #     prog = re.compile(r'(.+)(\\nWas this rating useful\? 0 flag)( \|.+)',)
-                #     #Matches the first half of the text r'.+(?=Was this rating useful\? 0 flag)')
-                #     result = prog.match(rating.text)
-                #     print(result)
-                #last_rating = ratings_text_list.text
+    #***Make reviews and dates more readable on screen    
+    #Only parse information when called from database/dictionary
+    #     prog = re.compile(r'(.+)(\\nWas this rating useful\? 0 flag)( \|.+)',)
+    #     #Matches the first half of the text r'.+(?=Was this rating useful\? 0 flag)')
+    #     result = prog.match(rating.text)
+    #     print(result)
+    #last_rating = ratings_text_list.text
 
 
 ###########################
