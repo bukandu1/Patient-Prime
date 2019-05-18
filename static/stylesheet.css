@@ -1,0 +1,15 @@
+.flex-container {
+  display: 
+    flex;
+    background: green;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.flex-item{
+  background: tomato;
+  heght:100px;
+  width:100px;
+
+  color:white;
+}
