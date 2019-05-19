@@ -16,9 +16,12 @@ class Provider(db.Model):
     fname = db.Column(db.String(64), nullable=False)
     lname = db.Column(db.String(64), nullable=False)
     address = db.Column(db.String(64), nullable=True)
-    phone_number = db.Column(db.String(64), nullable=True)
     speciality_name = db.Column(db.String(64), nullable=True)
     npi_id = db.Column(db.Integer, nullable=True)
+    zipcode = db.Column(db.Integer, nullable=True) #For future analysis of data
+
+    #Not all providers have phone numbers but will keep for possible future
+    #phone_number = db.Column(db.String(64), nullable=True) 
 
 def __repr__(self):
         """Provide helpful representation when printed."""
@@ -61,7 +64,7 @@ class Hospital (db.Model):
     address = db.Column(db.String(64), nullable=True)
     city = db.Column(db.String(64), nullable=True)
     state = db.Column(db.String(64), nullable=True)
-    zipcode = db.Column(db.Integer, nullable=True)
+    zipcode = db.Column(db.String(11), nullable=True)
     phone_number = db.Column(db.String(20), nullable=True)
 
     #Hospital patient safety measures. Can add to list in future.
@@ -124,12 +127,12 @@ def connect_to_db(app):
     """Connect the database to our Flask app."""
 
     # Configure to use our PostgreSQL database
-    db_name = 'patientready'
+    db_name = 'patientprime'
 
     #Configure database
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///' + db_name
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SQLALCHEMY_ECHO'] = True
+    app.config['SQLALCHEMY_ECHO'] = False
     db.app = app
     db.init_app(app)
 
