@@ -4,12 +4,13 @@ import json
 import os
 from server import app
 from model import Hospital, db, connect_to_db
+from sqlalchemy import func
 
 #Request response object with results
 
 def load_hospitals(url):
-#Replace URL with string variable to use with other requests in the future
-#url = "https://data.medicare.gov/resource/ukfj-tt6v.json" + "?$$app_token=" + os.environ['SOCRATA_API_KEY'] + "?state=MD"
+    #Replace URL with string variable to use with other requests in the future
+    #url = "https://data.medicare.gov/resource/ukfj-tt6v.json" + "?$$app_token=" + os.environ['SOCRATA_API_KEY'] + "?state=MD"
     r = requests.get(url)
 
     #Return list of dicts. Each dict represents a measure at a single hospital
