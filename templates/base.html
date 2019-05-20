@@ -2,21 +2,28 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title> Patient Ready: Make Informed Decisions Quickly</title>
+        <title> Patient Prime: Make Informed Decisions Quickly</title>
             <link rel = "icon" href = "/static/title_icon_1.jpeg"/>
-        <div class="title"><h1>Patient Ready</h1>
-        </div>
         <link rel="stylesheet" href ="/static/stylesheet.css">
+        <div class="title">Patient Prime</div>
 
-    </head>
+<div id="root"></div>
 
-<!-- Flash messages in the base template to be used throughout the site  -->
-<div id="extending">
-  {% for flash in get_flashed_messages() %}
-    <div class="alert alert-danger" style="width:90%; margin:0 auto;">{{ flash }}</div>
-  {% endfor %}
+<script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+
+<script src="http://unpkg.com/babel-standalone"></script>
+
+<script src="provider-display.jsx" type="text/jsx"></script>
+
 
 {% block content %}
 
 {% endblock %}
+
+<!-- Flash messages to be used throughout the site  -->
+<div id="extending">
+  {% for flash in get_flashed_messages() %}
+    <div class="alert alert-danger" style="width:90%; margin:0 auto;">{{ flash }}</div>
+  {% endfor %}
 </div>

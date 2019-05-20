@@ -3,4 +3,25 @@
 {%block content%}
 <div class="flex-container">
 <div class="flex-item">{{ name }}</div>
+{{provider.fname}} <br>
+{{provider.lname}} <br>
+{{provider.address}} <br>
+{{provider.zipcode}} <br>
+Speciality: {{provider.speciality}} <br>
+NPI: {{provider.npi_id}} <br>
+ <br><br>
+{{assoc_hosp.name}} <br>
+{{assoc_hosp.address}} <br>
+{{assoc_hosp.city}}, {{assoc_hosp.state}} {{assoc_hosp.zipcode}} <br>
+{{assoc_hosp.phone_number}} <br>
+<br>
+<br>
+<h1>Measures</h1>
+Perioperative pulmonary embolism or deep vein thrombosis (secondary diagnosis) per 1,000 surgical discharges for patients 18 years and older: {{assoc_hosp.m_bsi}}<br>
+National BSI rate: {{assoc_hosp.m_bsi_natl}} <br>
+<br>
+Serious Complications: {{assoc_hosp.m_surg}} <br>
+National Value: {{assoc_hosp.m_surg_natl}} <br>
+
+<div id='root'></div>
 {%endblock%}
