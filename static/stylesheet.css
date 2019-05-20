@@ -8,8 +8,16 @@
 
 .flex-item{
   background: tomato;
-  heght:100px;
+  height:100px;
   width:100px;
 
   color:white;
+}
+
+.title {
+    color: red;
+    background-color: #f4AAA4f4;
+    padding: 20px;
+    margin-right: auto;
+    margin-left: auto;
 }
