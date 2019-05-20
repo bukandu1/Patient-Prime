@@ -4,7 +4,7 @@ import json
 import os
 from server import app
 from model import Hospital, db, connect_to_db
-from sqlalchemy import func
+
 
 #Request response object with results
 
