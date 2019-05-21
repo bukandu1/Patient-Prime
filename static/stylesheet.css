@@ -7,17 +7,25 @@
 }
 
 .flex-item{
+  border-style: dotted;
   background: tomato;
-  height:100px;
-  width:100px;
-
+  height:300px;
+  width:300px;
+  border-color: blue;
   color:white;
+
 }
 
 .title {
     color: red;
-    background-color: #f4AAA4f4;
+    background: #f4AAA4f4;
     padding: 20px;
     margin-right: auto;
     margin-left: auto;
+}
+
+.reviews{
+    border-style: dotted dashed solid double;
+    background: #f4f4f4;
+    border-color: blue;
 }
