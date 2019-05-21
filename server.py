@@ -35,7 +35,7 @@ def search_providers():
     # import pdb; pdb.set_trace()
     reviews = Review.query.filter_by(provider_id=provider_id).all()
     print(provider_id,  reviews)
-    review_list = map(lambda x: x.body_text, reviews)
+    review_list = list(map(lambda x: x.body_text, reviews))
     print(review_list,"\n\n\n\n\n\n\n\n\n\n")
     print(list(review_list))
 
@@ -50,7 +50,7 @@ def search_providers():
     if provider:
         print("\n\n\n\n**********************Provider Name:", provider, provider_id)
         return render_template('display-provider-info.html',provider=provider, 
-                                assoc_hosp=associated_hospitals)
+                                assoc_hosp=associated_hospitals, reviews=review_list)
         
     else:
         flash("This provider is not found in the database. Please try again.")
