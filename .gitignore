@@ -3,3 +3,5 @@ __pycache__
 .DS_Store
 sample_data/
 secrets.sh
+path_to_my_env
+uninstallthese.txt

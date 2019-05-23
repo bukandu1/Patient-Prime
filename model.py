@@ -8,45 +8,47 @@ db = SQLAlchemy()
 ###############################################################
 #Composing ORM
 
-class Provider(db.Model):
-    """Provider model"""
-    __tablename__ = "providers"
+class Doctor(db.Model):
+    """Doctor model"""
+    __tablename__ = "doctors"
 
-    provider_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    fname = db.Column(db.String(64), nullable=False)
-    lname = db.Column(db.String(64), nullable=False)
-    address = db.Column(db.String(64), nullable=True)
+    doctor_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    first_name = db.Column(db.String(64), nullable=False)
+    last_name = db.Column(db.String(64), nullable=False)
+    doctor_main_address = db.Column(db.String(64), nullable=True)
     speciality_name = db.Column(db.String(64), nullable=True)
     npi_id = db.Column(db.Integer, nullable=True)
     zipcode = db.Column(db.Integer, nullable=True) #For future analysis of data
-
-    #Not all providers have phone numbers but will keep for possible future
+        
+    #Not all doctors have phone numbers but will keep for possible future
     #phone_number = db.Column(db.String(64), nullable=True) 
 
-def __repr__(self):
+    def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return f"""<Provider provider_id={self.provider_id} 
+        return f"""<Doctor doctor_id={self.doctor_id} 
                     name=f'{self.fname} {self.lname}'
-                    speciality={self.speciality}>"""
+                    speciality={self.speciality_name}>"""
+
+
 
 class Review(db.Model):
     """Review Model"""
     __tablename__ = "reviews"
 
     review_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    date = db.Column(db.String(64), nullable=True)
-    body_text = db.Column(db.String(), nullable=True)
-    provider_id = db.Column(db.Integer, db.ForeignKey('providers.provider_id'), 
+    review_date = db.Column(db.String(64), nullable=True)
+    review_text_body = db.Column(db.String(), nullable=True)
+    doctor_id = db.Column(db.Integer, db.ForeignKey('doctors.doctor_id'), 
                             nullable=False)
-    site_id = db.Column(db.Integer, nullable=True)
+    review_site_id = db.Column(db.Integer, nullable=True)
 
-def __repr__(self):
+    def __repr__(self):
         """Provide helpful representation when printed."""
 
         return f"""<Review={self.review_id} 
-                    date={self.date} 
-                    rating_truc={self.rating_text[:10]}>"""
+                    date={self.review_date} 
+                    rating_truc={self.review_text_body[:10]}>"""
 
 class Speciality(db.Model):
     """Speciality model"""
@@ -81,6 +83,8 @@ class Hospital (db.Model):
     m_lac = db.Column(db.Float(), nullable=True)
     m_lac_natl = db.Column(db.String(64), nullable=True)
 
+    doctors = db.relationship("Doctor", secondary="associated_hospitals", backref="hospitals")
+
     def __repr__(self):
         """Provide helpful representation when printed."""
 
@@ -93,15 +97,18 @@ class AssociatedHospital(db.Model):
     __tablename__ = "associated_hospitals"
 
     assoc_hosp_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    provider_id = db.Column(db.Integer, db.ForeignKey('providers.provider_id'), 
+    doctor_id = db.Column(db.Integer, db.ForeignKey('doctors.doctor_id'), 
                     nullable=False)
     hospital_id = db.Column(db.Integer, db.ForeignKey('hospitals.hospital_id'), 
                     nullable=False)
 
+    hospital = db.relationship("Hospital", backref="associated_hospitals")
+    doctor = db.relationship("Doctor", backref="associated_hospitals")
+
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return f"""<Provider={self.provider_id} Hospital={self.assoc_hosp_id} 
+        return f"""<Doctor={self.doctor_id} Hospital={self.assoc_hosp_id} 
                     name={self.hospital_name}>"""
 
 class User(db.Model):
@@ -118,7 +125,7 @@ class UserFavorite(db.Model):
 
     fav_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-    provider_id = db.Column(db.Integer, db.ForeignKey('providers.provider_id'))
+    doctor_id = db.Column(db.Integer, db.ForeignKey('doctors.doctor_id'))
 
 ###############################################################
 #Helper functions
@@ -132,7 +139,7 @@ def connect_to_db(app):
     #Configure database
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///' + db_name
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SQLALCHEMY_ECHO'] = False
+    app.config['SQLALCHEMY_ECHO'] = True
     db.app = app
     db.init_app(app)
 

@@ -2,7 +2,7 @@ from flask import (Flask, session, redirect, render_template, flash,
                     request, jsonify)
 
 from flask_debugtoolbar import DebugToolbarExtension
-from model import db, connect_to_db, Provider, Hospital, Review
+from model import db, connect_to_db, Doctor, Hospital, Review
 import os
 
 app = Flask(__name__)
@@ -18,43 +18,43 @@ def homepage():
     #***Will need form on homepage template
     return render_template("homepage.html")
 
-@app.route('/search-providers')
-def search_providers():
-    """Search providers in database"""
+@app.route('/search-doctors')
+def search_doctors():
+    """Search doctors in database"""
     fname = request.args.get("fname")
     lname = request.args.get("lname")
 
-    #Query db for provider 
-    #Future implementation to return back suggested providers
-    provider = Provider.query.filter(Provider.fname.ilike(fname)&Provider.lname.ilike(lname)).first()
+    #Query db for doctor 
+    #Future implementation to return back suggested doctors
+    doctor = Doctor.query.filter(Doctor.fname.ilike(fname)&Doctor.lname.ilike(lname)).first()
     
-    provider_id = provider.provider_id
+    if not doctor:
+        flash("This doctor is not found in the database. Please try again.")
+        return redirect('/')
+
+    doctor_id = doctor.doctor_id
 
     #***Map function to list all reviews
 
     # import pdb; pdb.set_trace()
-    reviews = Review.query.filter_by(provider_id=provider_id).all()
-    print(provider_id,  reviews)
+    reviews = Review.query.filter_by(doctor_id=doctor_id).all()
+    print(doctor_id,  reviews)
     review_list = list(map(lambda x: x.body_text, reviews))
     print(review_list,"\n\n\n\n\n\n\n\n\n\n")
     print(list(review_list))
 
-    #***Needs to be updated with associated hospitals of provider after 
+    #***Needs to be updated with associated hospitals of doctor after 
     #relationships formed in tables
     associated_hospitals = Hospital.query.get(36)
 
     print("\n\n\n\n**********************Hospital Name:", associated_hospitals.name, "BSI:",
             associated_hospitals.m_bsi)
 
-    #If full name match, return provider object
-    if provider:
-        print("\n\n\n\n**********************Provider Name:", provider, provider_id)
-        return render_template('display-provider-info.html',provider=provider, 
-                                assoc_hosp=associated_hospitals, reviews=review_list)
+    #If full name match, return doctor object
+    print("\n\n\n\n**********************Doctor Name:", doctor, doctor_id)
+    return render_template('display-doctor-info.html',doctor=doctor, 
+                            assoc_hosp=associated_hospitals, reviews=review_list)
         
-    else:
-        flash("This provider is not found in the database. Please try again.")
-        return redirect('/')
 
 
 
