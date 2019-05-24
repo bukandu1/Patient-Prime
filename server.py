@@ -13,22 +13,22 @@ app.secret_key = os.environ['FLASK_SESSION_KEY']
 @app.route('/')
 def login():
     """Login page for Patient Prime."""
-    return render_template("search-doctors.html")
+    return render_template("login.html")
 
 #Route for homepage
 @app.route('/search-doctors')
 def homepage():
     """ Homepage"""
 
-    return render_template("user-dashboard.html")
+    return render_template("search-doctors.html")
 
 @app.route('/reviews')
 def search_reviews():
     """Route to send reviews to dashboard"""
 
-
-    first_name = request.args.get("first_name")
-    last_name = request.args.get("last_name")
+    # TODO: Replace with session for doctor and username
+    first_name = "david"
+    last_name = "maine"
 
     # TODO: Future implementation to return back suggested doctors
     doctor = Doctor.query.filter(Doctor.first_name.ilike(first_name)&Doctor.last_name.ilike(last_name)).first()
@@ -43,10 +43,12 @@ def search_reviews():
     
     # TODO: Update query to Doctor.reviews once model relationship updated
     reviews = Review.query.filter_by(doctor_id=doctor_id).all()
-    print(doctor_id, reviews)
+    # print(doctor_id, reviews)
+    review_list = list(map(lambda x: x.review_text_body, reviews))
+    review_dict = {"reviews": review_list}
 
-    return jsonify(reviews)
 
+    return jsonify({"reviews", review_list})
 
 # TODO: Include name in path
 @app.route('/user-dashboard')

@@ -12,33 +12,31 @@ class Reviews extends React.Component {
 }
 
     componentDidMount() {
-        console.log("In Component Mount lifecycle method!");
 
+        console.log("In Component Mount lifecycle method!");
         fetch('/reviews')
-            .then(response => response.json())
+            .then(res => res.json())
             .then(reviews_list => {
-                this.setState({reviews:reviews_list})
+                this.setState({reviews:reviews_list});
             });
     }
-    // doctor_id = (id) =>
-    // {
-    //     console.log(id)
-    //     this.setState({doctor
-    //         )
-    //     }
+
+    
+    // reviewDisplay = (review) => {
+    //     console.log("In reviewDisplay function")
+    //     console.log(review)
     // }
 
     render() {
         return (
             <div>
-                <h1>Reviews</h1>
-                {this.state.reviews.map(review => {
-                    return (
-                        <ul key={review}>
-                        <li>{review}</li>
-                        </ul> 
-                        );
-                })}
+                <h1>Reviews</h1> 
+                {
+                    this.state.reviews.map(review=> {
+                        return {review};
+                    }
+                    )
+                }
             </div>
         );
     }
