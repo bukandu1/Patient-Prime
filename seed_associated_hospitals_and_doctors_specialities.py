@@ -33,7 +33,7 @@ def load_associated_hospitals_and_specialities(url):
                     #store doctor's speciality and NPI id
                     doctor.npi_id = current_doctor_dict['npi']
                     doctor.speciality_name = current_doctor_dict['pri_spec']
-                    doctor.doctor_main_addres = current_doctor_dict['adr_ln_1']
+                    doctor.doctor_main_address = current_doctor_dict['adr_ln_1']
                     #doctor.phone_number = current_doctor_dict['phn_numbr'] not all prov have phone num stored
                     doctor.zipcode = current_doctor_dict['zip'][:5]
                     

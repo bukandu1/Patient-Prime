@@ -10,23 +10,28 @@ app = Flask(__name__)
 #Set key to use sessions and debug toolbar
 app.secret_key = os.environ['FLASK_SESSION_KEY']
 
-#Route for homepage
 @app.route('/')
+def login():
+    """Login page for Patient Prime."""
+    return render_template("search-doctors.html")
+
+#Route for homepage
+@app.route('/search-doctors')
 def homepage():
     """ Homepage"""
 
-    #***Will need form on homepage template
-    return render_template("homepage.html")
+    return render_template("user-dashboard.html")
 
-@app.route('/search-doctors')
-def search_doctors():
-    """Search doctors in database"""
-    fname = request.args.get("fname")
-    lname = request.args.get("lname")
+@app.route('/reviews')
+def search_reviews():
+    """Route to send reviews to dashboard"""
 
-    #Query db for doctor 
-    #Future implementation to return back suggested doctors
-    doctor = Doctor.query.filter(Doctor.fname.ilike(fname)&Doctor.lname.ilike(lname)).first()
+
+    first_name = request.args.get("first_name")
+    last_name = request.args.get("last_name")
+
+    # TODO: Future implementation to return back suggested doctors
+    doctor = Doctor.query.filter(Doctor.first_name.ilike(first_name)&Doctor.last_name.ilike(last_name)).first()
     
     if not doctor:
         flash("This doctor is not found in the database. Please try again.")
@@ -34,16 +39,41 @@ def search_doctors():
 
     doctor_id = doctor.doctor_id
 
-    #***Map function to list all reviews
+    # import pdb; pdb.set_trace()
+    
+    # TODO: Update query to Doctor.reviews once model relationship updated
+    reviews = Review.query.filter_by(doctor_id=doctor_id).all()
+    print(doctor_id, reviews)
+
+    return jsonify(reviews)
+
+
+# TODO: Include name in path
+@app.route('/user-dashboard')
+def search_doctors():
+    """Search doctors in database"""
+    first_name = request.args.get("first_name")
+    last_name = request.args.get("last_name")
+
+    # TODO: Future implementation to return back suggested doctors
+    doctor = Doctor.query.filter(Doctor.first_name.ilike(first_name)&Doctor.last_name.ilike(last_name)).first()
+    
+    if not doctor:
+        flash("This doctor is not found in the database. Please try again.")
+        return redirect('/')
+
+    doctor_id = doctor.doctor_id
+
+    # TODO: Map function to list all reviews
 
     # import pdb; pdb.set_trace()
     reviews = Review.query.filter_by(doctor_id=doctor_id).all()
-    print(doctor_id,  reviews)
-    review_list = list(map(lambda x: x.body_text, reviews))
+    print(doctor_id, reviews)
+    review_list = list(map(lambda x: x.review_text_body, reviews))
     print(review_list,"\n\n\n\n\n\n\n\n\n\n")
     print(list(review_list))
 
-    #***Needs to be updated with associated hospitals of doctor after 
+    # TODO: Needs to be updated with associated hospitals of doctor after 
     #relationships formed in tables
     associated_hospitals = Hospital.query.get(36)
 
@@ -52,10 +82,15 @@ def search_doctors():
 
     #If full name match, return doctor object
     print("\n\n\n\n**********************Doctor Name:", doctor, doctor_id)
-    return render_template('display-doctor-info.html',doctor=doctor, 
+
+    
+    return render_template('user-dashboard.html',doctor=doctor, 
                             assoc_hosp=associated_hospitals, reviews=review_list)
         
 
+@app.route('/logout')
+def logout():
+    return redirect('/login')
 
 
 

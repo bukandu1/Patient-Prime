@@ -27,7 +27,7 @@ class Doctor(db.Model):
         """Provide helpful representation when printed."""
 
         return f"""<Doctor doctor_id={self.doctor_id} 
-                    name=f'{self.fname} {self.lname}'
+                    name=f'{self.first_name} {self.last_name}'
                     speciality={self.speciality_name}>"""
 
 
@@ -96,7 +96,7 @@ class AssociatedHospital(db.Model):
     """Associated_Hospital association model"""
     __tablename__ = "associated_hospitals"
 
-    assoc_hosp_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    associated_hosp_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     doctor_id = db.Column(db.Integer, db.ForeignKey('doctors.doctor_id'), 
                     nullable=False)
     hospital_id = db.Column(db.Integer, db.ForeignKey('hospitals.hospital_id'), 
@@ -108,8 +108,7 @@ class AssociatedHospital(db.Model):
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return f"""<Doctor={self.doctor_id} Hospital={self.assoc_hosp_id} 
-                    name={self.hospital_name}>"""
+        return f"""<Doctor={self.doctor_id} Hospital={self.associated_hosp_id}>"""
 
 class User(db.Model):
     """User model. To be used for implementing user favorites and login"""
@@ -119,6 +118,11 @@ class User(db.Model):
     email = db.Column(db.String(64), nullable=False)
     password = db.Column(db.String(64), nullable=False)
 
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return f"""<User={self.user_id}>"""
+
 class UserFavorite(db.Model):
     """User_Favorite association model"""
     __tablename__ = "user_favorites"
@@ -126,6 +130,11 @@ class UserFavorite(db.Model):
     fav_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     doctor_id = db.Column(db.Integer, db.ForeignKey('doctors.doctor_id'))
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return f"""<User Fav={self.fav_id} {self.doctor_id}>"""
 
 ###############################################################
 #Helper functions

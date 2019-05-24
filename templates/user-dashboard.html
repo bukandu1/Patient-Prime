@@ -1,14 +1,26 @@
 {%extends 'base.html'%}
 
 {%block content%}
+
+    <div class="search">
+        <form action="/search-providers">
+            <div class="search-bar"></div>
+            <input type="search" name="first_name" placeholder="First Name"aria-label="Search database of providers">
+            <input type="search" name="last_name" placeholder="Last Name"aria-label="Search database of providers">
+            <!-- button class="search-button">Search Providers</button>
+            <div></div>
+            <input type="submit" name="submit">
+        </form>
+    </div>
+ -->
 <div class="flex-container"></div>
 <div class="flex-item">{{ name }}
-{{provider.fname}} <br>
-{{provider.lname}} <br>
-{{provider.address}} <br>
-{{provider.zipcode}} <br>
-Speciality: {{provider.speciality}} <br>
-NPI: {{provider.npi_id}} <br>
+{{doctor.first_name}} <br>
+{{doctor.last_name}} <br>
+{{doctor.doctor_main_address}} <br>
+{{doctor.zipcode}} <br>
+Speciality: {{doctor.speciality_name}} <br>
+NPI: {{doctor.npi_id}} <br>
 </div>
  <br><br>
 
@@ -31,6 +43,7 @@ National BSI rate: {{assoc_hosp.m_bsi_natl}} <br>
 Serious Complications: {{assoc_hosp.m_surg}} <br>
 National Value: {{assoc_hosp.m_surg_natl}} <br>
 </div>
+
 <div id='root'></div>
 
 
@@ -40,6 +53,6 @@ National Value: {{assoc_hosp.m_surg_natl}} <br>
 <script src="http://unpkg.com/babel-standalone"></script>
 
 <!-- Load after root npi_id -->
-<script src="/static/provider-display.jsx" type="text/jsx"></script>
+<script src="/static/doctor-display.jsx" type="text/jsx"></script>
 
 {%endblock%}

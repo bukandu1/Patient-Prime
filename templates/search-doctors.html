@@ -4,16 +4,15 @@
     Begin by typing a provider into the search box
 
     <!-- Soon to be form with submit-->
-    
-        <form action="/search-providers">
+    <div class="search">
+        <form action="/user-dashboard">
             <div class="search-bar"></div>
-            <input type="search" name="fname" placeholder="First Name"aria-label="Search database of providers">
-            <input type="search" name="lname" placeholder="Last Name"aria-label="Search database of providers">
+            <input type="search" name="first_name" placeholder="First Name"aria-label="Search database of doctorss">
+            <input type="search" name="last_name" placeholder="Last Name"aria-label="Search database of doctors">
             <!-- button class="search-button">Search Providers</button> -->
             <div></div>
             <input type="submit" name="submit">
         </form>
-    
-    <div class="search"></div>
+    </div>
 </html>
 {%endblock%}
