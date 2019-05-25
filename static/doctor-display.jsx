@@ -15,9 +15,13 @@ class Reviews extends React.Component {
 
         console.log("In Component Mount lifecycle method!");
         fetch('/reviews')
-            .then(res => res.json())
+            .then(res => {
+                console.log(res);
+                return res.json();
+            })
             .then(reviews_list => {
-                this.setState({reviews:reviews_list});
+                console.log(reviews_list);
+                this.setState({reviews:reviews_list.review_text_body});
             });
     }
 
@@ -31,12 +35,7 @@ class Reviews extends React.Component {
         return (
             <div>
                 <h1>Reviews</h1> 
-                {
-                    this.state.reviews.map(review=> {
-                        return {review};
-                    }
-                    )
-                }
+                    <p>{this.state.reviews}</>
             </div>
         );
     }

@@ -48,7 +48,7 @@ def search_reviews():
     review_dict = {"reviews": review_list}
 
 
-    return jsonify({"reviews", review_list})
+    return jsonify(review_dict)
 
 # TODO: Include name in path
 @app.route('/user-dashboard')

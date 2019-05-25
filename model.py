@@ -43,6 +43,9 @@ class Review(db.Model):
                             nullable=False)
     review_site_id = db.Column(db.Integer, nullable=True)
 
+    def to_dict(self):
+        return {"review_text_body": self.review_text_body}
+
     def __repr__(self):
         """Provide helpful representation when printed."""
 
