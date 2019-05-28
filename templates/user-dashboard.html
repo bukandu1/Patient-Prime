@@ -1,58 +1,28 @@
 {%extends 'base.html'%}
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="/static/user_dashboard.js"></script>
 
 {%block content%}
 
-    <div class="search">
-        <form action="/search-providers">
-            <div class="search-bar"></div>
-            <input type="search" name="first_name" placeholder="First Name"aria-label="Search database of providers">
-            <input type="search" name="last_name" placeholder="Last Name"aria-label="Search database of providers">
+<body>
+        <form id="reviews">
+            <input type="search" name="first_name" id="doctor_first_name" placeholder="First Name"aria-label="Search database of providers">
+            <input type="search" name="last_name" id="doctor_last_name" placeholder="Last Name"aria-label="Search database of providers">
+            <button class="btn btn-primary" type="submit">Search Doctor</button>
+<!--  <div class="form-group">
+      <button class="btn btn-primary" type="submit">Search Doctor</button>
+    </div> -->
+
+</form>
+<div id="search-doctor"></div>
+<div id="search-doctor-display"></div>
+
+</body>
             <!-- button class="search-button">Search Providers</button>
             <div></div>
             <input type="submit" name="submit">
         </form>
-    </div>
- -->
-<div class="flex-container"></div>
-<div class="flex-item">{{ name }}
-{{doctor.first_name}} <br>
-{{doctor.last_name}} <br>
-{{doctor.doctor_main_address}} <br>
-{{doctor.zipcode}} <br>
-Speciality: {{doctor.speciality_name}} <br>
-NPI: {{doctor.npi_id}} <br>
-</div>
- <br><br>
-
-<div class="reviews">
-    <h1>Reviews</h1>
-{{reviews}}
-</div>
-
-<div>
-<h1>Hospital Info</h1>
-{{assoc_hosp.name}} <br>
-{{assoc_hosp.address}} <br>
-{{assoc_hosp.city}}, {{assoc_hosp.state}} {{assoc_hosp.zipcode}} <br>
-{{assoc_hosp.phone_number}} <br>
-<br></div>
-<div>
-Perioperative pulmonary embolism or deep vein thrombosis (secondary diagnosis) per 1,000 surgical discharges for patients 18 years and older: {{assoc_hosp.m_bsi}}<br>
-National BSI rate: {{assoc_hosp.m_bsi_natl}} <br>
-<br>
-Serious Complications: {{assoc_hosp.m_surg}} <br>
-National Value: {{assoc_hosp.m_surg_natl}} <br>
-</div>
-
-<div id='root'></div>
-
-
-<script src="https://unpkg.com/react@16/umd/react.development.js"></script>
-<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-
-<script src="http://unpkg.com/babel-standalone"></script>
-
-<!-- Load after root npi_id -->
-<script src="/static/doctor-display.jsx" type="text/jsx"></script>
+Load after root npi_id -->
+<!-- <script src="/static/doctor-display.jsx" type="text/jsx"></script> -->
 
 {%endblock%}

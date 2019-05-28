@@ -10,6 +10,11 @@ app = Flask(__name__)
 #Set key to use sessions and debug toolbar
 app.secret_key = os.environ['FLASK_SESSION_KEY']
 
+@app.route("/user-dashboard-copy")
+def search_test():
+    """Search for providers and render on one page """
+    return render_template("user-dashboard.html")
+
 @app.route('/')
 def login():
     """Login page for Patient Prime."""
@@ -22,7 +27,7 @@ def homepage():
 
     return render_template("search-doctors.html")
 
-@app.route('/reviews')
+@app.route('/reviews.json')
 def search_reviews():
     """Route to send reviews to dashboard"""
 
@@ -37,6 +42,9 @@ def search_reviews():
         flash("This doctor is not found in the database. Please try again.")
         return redirect('/')
 
+    print(jsonify(doctor.first_name, doctor.last_name), "\n\n\n\n\n\n\n\n*********************")
+    return jsonify({"fn":doctor.first_name, "ln":doctor.last_name})
+
     doctor_id = doctor.doctor_id
 
     # import pdb; pdb.set_trace()
@@ -45,10 +53,8 @@ def search_reviews():
     reviews = Review.query.filter_by(doctor_id=doctor_id).all()
     # print(doctor_id, reviews)
     review_list = list(map(lambda x: x.review_text_body, reviews))
-    review_dict = {"reviews": review_list}
 
-
-    return jsonify(review_dict)
+    return jsonify({"reviews": review_list})
 
 # TODO: Include name in path
 @app.route('/user-dashboard')
@@ -86,7 +92,7 @@ def search_doctors():
     print("\n\n\n\n**********************Doctor Name:", doctor, doctor_id)
 
     
-    return render_template('user-dashboard.html',doctor=doctor, 
+    return render_template('user-dashboard-mvp.html',doctor=doctor, 
                             assoc_hosp=associated_hospitals, reviews=review_list)
         
 
