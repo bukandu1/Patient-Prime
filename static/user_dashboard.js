@@ -1,12 +1,14 @@
 "use strict";
 function updateDoctor(results) {
     console.log(results, "Outside");
-    $("#search-doctor-display").html(results)=> {
-        console.log(results, "Inside");
+    $("#search-doctor-display").html((results)=>{
+        console.log(results.fn, results.ln, "Inside");
         debugger;
         return "First Name: "  + results.fn + " Last Name: " + results.ln;
     });
 }
+        
+        
 
 
 function displayDoctor(event) {
