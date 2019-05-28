@@ -6,9 +6,7 @@ class Reviews extends React.Component {
     constructor() {
         super();
 
-        // Should this just be a list of reviews
-        this.state = { reviews : []
-    };
+        this.state = {reviews: [""]};
 }
 
     componentDidMount() {
@@ -19,7 +17,7 @@ class Reviews extends React.Component {
                 console.log(res);
                 return res.json();
             })
-            .then(reviews_list => this.setState({reviews: reviews_list}));
+            .then(reviews_list => this.setState({reviews:reviews_list}));
       //           // this.setState({todos: this.state.todos.map(todo=>{
       // if (todo.id === id){
       //   todo.completed = !todo.completed //toggles
@@ -32,27 +30,26 @@ class Reviews extends React.Component {
     // }
 
     render() {
-        const { reviews } = this.state
-
+        debugger;
+        const { reviews } = this.state;
+        const reviewsList  = this.state.reviews.reviews;
+        console.log(reviewsList);
         return (
             <div>
-            Reviews 
-                    <ul> 
-                        {this.state.reviews.reviews
-
-                            // .map(review => 
-                            // <li key = {review.review_id}>
-                            // {reviews.review_text_body}
-                            // </li>
-                        }
-                        </ul>
-                    );
-            
-                    </div>
+                Reviews 
+                <ol> 
+                    <li>{this.state.reviews.reviews}</li>
+                </ol>
+                <ul>
+                    <li>test1</li>
+                </ul>
+            </div>
                 )
  
             }
-        }
+}
+  
+    
 //end Review class
 
 ReactDOM.render(
