@@ -10,11 +10,13 @@ from seed_associated_hospitals_and_doctors_specialities import load_associated_h
 from model import (Doctor, Review, Hospital, Speciality, AssociatedHospital, User, 
                     UserFavorite, db, connect_to_db)
 
+URL_TEMPLATE = "https://www.ratemds.com/best-doctors/{}/?page="
 
-def load_reviews_and_doctors(starting_page, ending_page):
+def load_reviews_and_doctors(starting_page, ending_page, state_abbreviation="md"):
     """ Load reviews and doctors into database. """
    
-    base_url = "https://www.ratemds.com/best-doctors/md/?page="
+   # TODO: Review over template
+    base_url = URL_TEMPLATE.format(state_abbreviation)
     
 
     for page in range(starting_page, ending_page + 1): 
@@ -30,6 +32,7 @@ def load_reviews_and_doctors(starting_page, ending_page):
 
         for doctor_profile in all_doctors_profiles:
 
+            # TODO: Update try-except clauses to smaller portions of code
             try:
 
                 # Parse the search link for current doctor
