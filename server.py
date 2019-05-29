@@ -27,13 +27,13 @@ def homepage():
 
     return render_template("search-doctors.html")
 
-@app.route('/reviews.json')
+@app.route('/reviews')
 def search_reviews():
     """Route to send reviews to dashboard"""
 
     # TODO: Replace with session for doctor and username
-    first_name = "david"
-    last_name = "maine"
+    first_name = request.args.get("firstName")
+    last_name = request.args.get("lastName")
 
     # TODO: Future implementation to return back suggested doctors
     doctor = Doctor.query.filter(Doctor.first_name.ilike(first_name)&Doctor.last_name.ilike(last_name)).first()
@@ -45,16 +45,6 @@ def search_reviews():
     print(jsonify(doctor.first_name, doctor.last_name), "\n\n\n\n\n\n\n\n*********************")
     return jsonify({"fn":doctor.first_name, "ln":doctor.last_name})
 
-    doctor_id = doctor.doctor_id
-
-    # import pdb; pdb.set_trace()
-    
-    # TODO: Update query to Doctor.reviews once model relationship updated
-    reviews = Review.query.filter_by(doctor_id=doctor_id).all()
-    # print(doctor_id, reviews)
-    review_list = list(map(lambda x: x.review_text_body, reviews))
-
-    return jsonify({"reviews": review_list})
 
 # TODO: Include name in path
 @app.route('/user-dashboard')
