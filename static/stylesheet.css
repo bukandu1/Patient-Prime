@@ -9,7 +9,7 @@
 .flex-item{
   border-style: dotted;
   background: tomato;
-  height:300px;
+  height:auto;
   width:300px;
   border-color: blue;
   color:white;

@@ -2,7 +2,7 @@ from flask import (Flask, session, redirect, render_template, flash,
                     request, jsonify)
 
 from flask_debugtoolbar import DebugToolbarExtension
-from model import db, connect_to_db, Doctor, Hospital, Review
+from model import db, connect_to_db, Doctor, Hospital, Review, AssociatedHospital
 import os
 
 app = Flask(__name__)
@@ -27,8 +27,8 @@ def homepage():
 
     return render_template("search-doctors.html")
 
-@app.route('/reviews')
-def search_reviews():
+@app.route('/search-doctor')
+def search_doctor():
     """Route to send reviews to dashboard"""
 
     # TODO: Replace with session for doctor and username
@@ -43,51 +43,24 @@ def search_reviews():
         flash("This doctor is not found in the database. Please try again.")
         return redirect('/')
 
-    print(jsonify(doctor.first_name, doctor.last_name), "\n\n\n\n\n\n\n\n*********************")
-    return jsonify({"first_name":doctor.first_name, "last_name":doctor.last_name, "main_address": doctor.doctor_main_address,
-                    "speciality_name": doctor.speciality_name, "npi_id": doctor.npi_id, "zipcode": doctor.zipcode,
-                    "doctor_id": doctor.doctor_id })
-
-
-# TODO: Include name in path
-@app.route('/user-dashboard')
-def search_doctors():
-    """Search doctors in database"""
-    first_name = request.args.get("first_name")
-    last_name = request.args.get("last_name")
-
-    # TODO: Future implementation to return back suggested doctors
-    doctor = Doctor.query.filter(Doctor.first_name.ilike(first_name)&Doctor.last_name.ilike(last_name)).first()
-    
-    if not doctor:
-        flash("This doctor is not found in the database. Please try again.")
-        return redirect('/')
-
     doctor_id = doctor.doctor_id
 
-    # TODO: Map function to list all reviews
-
-    # import pdb; pdb.set_trace()
     reviews = Review.query.filter_by(doctor_id=doctor_id).all()
     print(doctor_id, reviews)
     review_list = list(map(lambda x: x.review_text_body, reviews))
     print(review_list,"\n\n\n\n\n\n\n\n\n\n")
     print(list(review_list))
 
-    # TODO: Needs to be updated with associated hospitals of doctor after 
-    #relationships formed in tables
-    associated_hospitals = Hospital.query.get(36)
+    associated_hospitals = [Hospital.query.get(22), Hospital.query.get(2)]
+    # TODO: Can use this line of code once associated hospital table fixed (assoc_hosp_id in psql does not match model)
+    #associated_hospitals = AssociatedHospital.query.filter_by(doctor_id=doctor_id).all()
+    # TODO: When hospital object received, need to check if it is a list (more than one hospital) or one object (only one associated hospital found for the doctor)
+    # print("\n\n\n\n**********************Hospital Name:", associated_hospitals.name, "BSI:",associated_hospitals.m_bsi)
+    print(jsonify(doctor.first_name, doctor.last_name), "\n\n\n\n\n\n\n\n*********************")
+    return jsonify({"first_name":doctor.first_name, "last_name":doctor.last_name, "main_address": doctor.doctor_main_address,
+                    "speciality_name": doctor.speciality_name, "npi_id": doctor.npi_id, "zipcode": doctor.zipcode,
+                    "doctor_id": doctor.doctor_id, "reviews": review_list})
 
-    print("\n\n\n\n**********************Hospital Name:", associated_hospitals.name, "BSI:",
-            associated_hospitals.m_bsi)
-
-    #If full name match, return doctor object
-    print("\n\n\n\n**********************Doctor Name:", doctor, doctor_id)
-
-    
-    return render_template('user-dashboard-mvp.html',doctor=doctor, 
-                            assoc_hosp=associated_hospitals, reviews=review_list)
-        
 
 @app.route('/logout')
 def logout():

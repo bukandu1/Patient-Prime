@@ -4,6 +4,7 @@ function showDoctorInfo(results) {
     let fn = results.fn;
     console.log(fn);
 
+    //Format doctor's background information
     var doctor_background_info = `<b>Doctor Name</b>: ${results.first_name} ${results.last_name} <br> 
                                 <b>Address</b>: ${results.main_address} <br>
                                 <b>Zipcode</b>: ${results.zipcode} <br>
@@ -11,11 +12,17 @@ function showDoctorInfo(results) {
                                 <b>NPI</b>: ${results.npi_id} <br>
                                 <b>Doctor ID</b>: ${results.doctor_id}`;
 
+    //Format doctor's associated hospital information
     var doctor_hospital_info = 'doctor associated hospitals go here!!';
 
-    var doctor_reviews_info = 'review info goes here!';
+    //Format doctor's review list
+    var doctor_reviews_info = "<b>Reviews</b>:<br>";
+    for (let review of results.reviews){
+        doctor_reviews_info += `<div class="flex-item">${review}</div>`;
+    }
 
     // TODO: possibly consider using .empty().append() instead of .html() due to .html does not result in event firing
+    //Display doctor's background information
     $("#doctor-background-info").html(()=>{
         console.log(fn, "Inside displaying background info");
         if (results.first_name == undefined){
@@ -27,6 +34,7 @@ function showDoctorInfo(results) {
         }
     });
 
+    //Display doctor's associated hospitals
     $('#doctor-associated-hospital-info').html(()=>{
         console.log(fn, "Inside displaying hospital info");
          if (results.first_name == undefined){
@@ -39,6 +47,7 @@ function showDoctorInfo(results) {
         }
     });
 
+    //Display doctor's review list
     $('#doctor-reviews-info').html(()=>{
         console.log(fn, "Inside displaying reviews info");
         if (results.first_name == undefined){
@@ -52,9 +61,6 @@ function showDoctorInfo(results) {
     });
 
 }
-        
-
-
 
 function displayDoctor(event) {
     event.preventDefault();
@@ -65,7 +71,7 @@ function displayDoctor(event) {
     let formDoctor = {"firstName": $("#doctor_first_name").val(), "lastName": $("#doctor_last_name").val()};
     console.log(formDoctor);
 
-    let url = "/reviews"; //grab info from database
+    let url = "/search-doctor"; //grab info from database
     console.log(url);
     // debugger;
     //Pull appropriate information about the doctor from the database
