@@ -63,6 +63,7 @@ def load_associated_hospitals_and_specialities(url):
         except:
             print("Skipped Doctor: ", last_name, first_name)
 
+# TODO: Update method with regex to account for all hospitals with issue
 def check_hospital_in_system(hospital_name, doctor_object):
     #These hospitals is incorrectly formatted and breaks the code, will manually fix 
     if hospital_name in ["UNIV OF MD REHABILITATION &  ORTHOPAEDIC INSTITUTE"]:
