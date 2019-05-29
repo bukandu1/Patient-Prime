@@ -37,13 +37,16 @@ def search_reviews():
 
     # TODO: Future implementation to return back suggested doctors
     doctor = Doctor.query.filter(Doctor.first_name.ilike(first_name)&Doctor.last_name.ilike(last_name)).first()
-    
-    if not doctor:
+    print(doctor, "********************Doctor***************")
+    if doctor == None:
+        print("This doctor is not in system!!!!")
         flash("This doctor is not found in the database. Please try again.")
         return redirect('/')
 
     print(jsonify(doctor.first_name, doctor.last_name), "\n\n\n\n\n\n\n\n*********************")
-    return jsonify({"fn":doctor.first_name, "ln":doctor.last_name})
+    return jsonify({"first_name":doctor.first_name, "last_name":doctor.last_name, "main_address": doctor.doctor_main_address,
+                    "speciality_name": doctor.speciality_name, "npi_id": doctor.npi_id, "zipcode": doctor.zipcode,
+                    "doctor_id": doctor.doctor_id })
 
 
 # TODO: Include name in path
