@@ -10,17 +10,33 @@ app = Flask(__name__)
 #Set key to use sessions and debug toolbar
 app.secret_key = os.environ['FLASK_SESSION_KEY']
 
-@app.route("/user-dashboard-copy")
-def search_test():
+@app.route("/user-dashboard/")
+def search_test(username):
     """Search for providers and render on one page """
-    return render_template("user-dashboard.html")
 
-@app.route('/')
-def login():
+    #Retrieve username from login form
+    print(username, "##################USERNAME#############")
+
+    return render_template("/user-dashboard.html", username=username)
+
+@app.route('/', methods=["GET"])
+def display_login():
     """Login page for Patient Prime."""
     return render_template("login.html")
 
-#Route for homepage
+@app.route('/', methods=["POST"])
+def process_login():
+    """Log into site 
+    Find the user's login credentials, look up the user, and store them in the session.
+    """
+
+    email = request.form.get('email')
+
+    #Search database for email entered
+
+    return redirect("/user-dashboard")
+    
+
 @app.route('/search-doctors')
 def homepage():
     """ Homepage"""
@@ -51,7 +67,8 @@ def search_doctor():
     print(review_list,"\n\n\n\n\n\n\n\n\n\n")
     print(list(review_list))
 
-    associated_hospitals = [Hospital.query.get(22), Hospital.query.get(2)]
+    associated_hospitals = [Hospital.query.get(22).hospital_id, Hospital.query.get(2).hospital_id]
+    print(associated_hospitals)
     # TODO: Can use this line of code once associated hospital table fixed (assoc_hosp_id in psql does not match model)
     #associated_hospitals = AssociatedHospital.query.filter_by(doctor_id=doctor_id).all()
     # TODO: When hospital object received, need to check if it is a list (more than one hospital) or one object (only one associated hospital found for the doctor)
@@ -61,7 +78,7 @@ def search_doctor():
                     "speciality_name": doctor.speciality_name, "npi_id": doctor.npi_id, "zipcode": doctor.zipcode,
                     "doctor_id": doctor.doctor_id, "reviews": review_list})
 
-########################################################DELETE ONCE REACT TEST COMPLETE
+#TODO: Implement React JS route for reviews in future
 # @app.route('/reviews')
 # def search_reviews():
 #     """Route to send reviews to dashboard"""
