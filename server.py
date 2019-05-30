@@ -62,32 +62,32 @@ def search_doctor():
                     "doctor_id": doctor.doctor_id, "reviews": review_list})
 
 ########################################################DELETE ONCE REACT TEST COMPLETE
-@app.route('/reviews')
-def search_reviews():
-    """Route to send reviews to dashboard"""
+# @app.route('/reviews')
+# def search_reviews():
+#     """Route to send reviews to dashboard"""
 
-    # TODO: Replace with session for doctor and username
-    first_name = "david"
-    last_name = "maine"
+#     # TODO: Replace with session for doctor and username
+#     first_name = "david"
+#     last_name = "maine"
 
-    # TODO: Future implementation to return back suggested doctors
-    doctor = Doctor.query.filter(Doctor.first_name.ilike(first_name)&Doctor.last_name.ilike(last_name)).first()
+#     # TODO: Future implementation to return back suggested doctors
+#     doctor = Doctor.query.filter(Doctor.first_name.ilike(first_name)&Doctor.last_name.ilike(last_name)).first()
     
-    if not doctor:
-        flash("This doctor is not found in the database. Please try again.")
-        return redirect('/')
+#     if not doctor:
+#         flash("This doctor is not found in the database. Please try again.")
+#         return redirect('/')
 
-    doctor_id = doctor.doctor_id
+#     doctor_id = doctor.doctor_id
 
-    # import pdb; pdb.set_trace()
+#     # import pdb; pdb.set_trace()
     
-    # TODO: Update query to Doctor.reviews once model relationship updated
-    reviews = Review.query.filter_by(doctor_id=doctor_id).all()
-    # print(doctor_id, reviews)
-    review_list = list(map(lambda x: x.review_text_body, reviews))
-    review_dict = {"reviews": review_list}
+#     # TODO: Update query to Doctor.reviews once model relationship updated
+#     reviews = Review.query.filter_by(doctor_id=doctor_id).all()
+#     # print(doctor_id, reviews)
+#     review_list = list(map(lambda x: x.review_text_body, reviews))
+#     review_dict = {"reviews": review_list}
 
-    return jsonify(review_dict)
+#     return jsonify(review_dict)
 ########################################################DELETE ONCE REACT TEST COMPLETE
 
 @app.route('/logout')
