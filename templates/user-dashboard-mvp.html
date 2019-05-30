@@ -1,9 +1,9 @@
 {%extends 'base.html'%}
 
 {%block content%}
-<script src="http://code.jquery.com/jquery.js"></script>
+<!-- <script src="http://code.jquery.com/jquery.js"></script>
 <script src="/static/user_dashboard.js"></script>
-
+ -->
     <div class="search">
         <form action="/reviews">
             <div class="search-bar"></div>
@@ -54,7 +54,6 @@ Serious Complications: {{assoc_hosp.m_surg}} <br>
 National Value: {{assoc_hosp.m_surg_natl}} <br>
 </div>
 
-<
 
 <div id='root'></div>
 
@@ -66,6 +65,6 @@ National Value: {{assoc_hosp.m_surg_natl}} <br>
 <script src="http://unpkg.com/babel-standalone"></script>
 
 <!-- Load after root npi_id -->
-<!-- <script src="/static/doctor-display.jsx" type="text/jsx"></script> -->
+<script src="/static/doctor-display.jsx" type="text/jsx"></script>
 
 {%endblock%}
