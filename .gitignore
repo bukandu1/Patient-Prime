@@ -5,3 +5,5 @@ sample_data/
 secrets.sh
 path_to_my_env
 uninstallthese.txt
+client_secret.json
+test.json
