@@ -8,7 +8,7 @@ import googleapiclient.discovery
 import requests
 
 from flask_debugtoolbar import DebugToolbarExtension
-from model import db, connect_to_db, Doctor, Hospital, Review, AssociatedHospital
+from model import db, connect_to_db, Doctor, Hospital, Review, AssociatedHospital, User
 import os
 
 app = Flask(__name__)
@@ -48,30 +48,70 @@ def display_login():
 
 @app.route('/test')
 def test_api_request():
-  if 'credentials' not in session:
-    return redirect('authorize')
+    if 'credentials' not in session:
+        return redirect('authorize')
 
-  # Load credentials from the session.
-  credentials = google.oauth2.credentials.Credentials(
-      **session['credentials'])
+    # Load credentials from the session. Returns back as a JSON array
+    credentials = google.oauth2.credentials.Credentials(**session['credentials'])
 
-  drive = googleapiclient.discovery.build(
-      API_SERVICE_NAME, API_VERSION, credentials=credentials)
+    drive = googleapiclient.discovery.build(API_SERVICE_NAME, API_VERSION, credentials=credentials)
 
-  # Makes request to
-  files = drive.files().list().execute()
+    # Makes request to
+    files = drive.files().list().execute()
 
-  # Save credentials back to session in case access token was refreshed.
-  # ACTION ITEM: In a production app, you likely want to save these
-  #              credentials in a persistent database instead.
-  session['credentials'] = credentials_to_dict(credentials)
+    # Save credentials back to session in case access token was refreshed.
+    # ACTION ITEM: In a production app, you likely want to save these
+    #              credentials in a persistent database instead.
+    session['credentials'] = credentials_to_dict(credentials)
 
-  fullname = files['items'][0]['owners'][0]['displayName']
+    user_token = session['credentials']["token"]
+    user_refresh_token = session['credentials']["refresh_token"]
+    user_token_uri=session['credentials']["token_uri"]
+    user_email_address = files['items'][0]['owners'][0]['emailAddress']
 
-  print(files['items'][0]['owners'][0]['displayName'], "*******************SESSION!!!!!!!!\n\n\n\n\n")
-  # return jsonify(**files)
-  return render_template("/user-dashboard.html", fullname=fullname)
+    #Add new user to database if not there already
+    if 'user_id' not in session:
+        new_user_created = User(user_token=user_token, 
+                                user_refresh_token=user_refresh_token,
+                                user_token_uri=user_token_uri, 
+                                user_email=user_email_address)
+        db.session.add(new_user_created)
+        db.session.commit()
+    
+   #if email stored in database, continue
+    user_id = User.query.filter_by(user_email=user_email_address).all()[0].user_id
+    session['user_id'] = user_id
+    print("\n\n\n\n\n\n\nSession ID: ", session['user_id'], session['user_email_address'])
+    
+    # TODO: Uncomment this block when server can catch that there is a token already
+    # added to the database for the user in session
+    # try:
+    #     session['user_id'] = User.query.filter_by(user_email_address=user_email_address).one()
+    # except:
+    #     print("There are either more than one tokens stored or none.")
 
+
+    session['user_favorite_doctors'] = Doctor.query.get(2).last_name
+        #TODO: Add favorite providers to session
+        # query user's favorites
+        # store to session['user_favorite_doctors']
+        # if only one favorite, add to a list
+        # if None, store value of None or empty list (test)
+        # if more than one, add to session
+        # doing this to format how info stored
+
+    session['user_email_address'] = user_email_address
+
+    #Save fullname to display in user's dashboard
+    fullname = files['items'][0]['owners'][0]['displayName']
+
+    print(files['items'][0]['owners'][0]['displayName'], 
+        "*******************SESSION!!!!!!!!\n\n\n\n\n", "favorites are:", session['user_favorite_doctors'])
+    
+    return render_template("/user-dashboard.html", fullname=fullname)
+    
+    #Used for testing the response returned via json
+    # return jsonify(**files)
 
 @app.route('/authorize')
 def authorize():
@@ -96,25 +136,34 @@ def authorize():
 
 @app.route('/oauth2callback')
 def oauth2callback():
-  # Specify the state when creating the flow in the callback so that it can
-  # verified in the authorization server response.
-  state = session['state']
+    # Specify the state when creating the flow in the callback so that it can
+    # verified in the authorization server response.
+    state = session['state']
 
-  flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
+    flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
       CLIENT_SECRETS_FILE, scopes=SCOPES, state=state)
-  flow.redirect_uri = url_for('oauth2callback', _external=True)
+    flow.redirect_uri = url_for('oauth2callback', _external=True)
 
-  # Use the authorization server's response to fetch the OAuth 2.0 tokens.
-  authorization_response = request.url
-  flow.fetch_token(authorization_response=authorization_response)
+    # Use the authorization server's response to fetch the OAuth 2.0 tokens.
+    authorization_response = request.url
+    flow.fetch_token(authorization_response=authorization_response)
 
-  # Store credentials in the session.
-  # ACTION ITEM: In a production app, you likely want to save these
-  #              credentials in a persistent database instead.
-  credentials = flow.credentials
-  session['credentials'] = credentials_to_dict(credentials)
+    # Store credentials in the session.
+    # TODO: In a production app, you likely want to save these
+    #              credentials in a persistent database instead.
+    credentials = flow.credentials
+    print("Credentials are of type: ", type(credentials))
+    session['credentials'] = credentials_to_dict(credentials)
 
-  return redirect(url_for('test_api_request'))
+    # #Add new user to database if not there already
+    # db.session.add(new_user_created)
+    # db.session.commit()
+
+    print(session['credentials'])
+
+    #Update database with credentials
+    # TODO: Encrypt credentials prior to adding to database
+    return redirect(url_for('test_api_request'))
 
 
 @app.route('/revoke')
@@ -130,27 +179,41 @@ def revoke():
       params={'token': credentials.token},
       headers = {'content-type': 'application/x-www-form-urlencoded'})
 
+  #TODO: Add flash message for when revoked and reroute to homepage
   status_code = getattr(revoke, 'status_code')
   if status_code == 200:
     return('Credentials successfully revoked.' + print_index_table())
   else:
-    return('An error occurred.' + print_index_table())
+    return('An error occurred.')
 
 
 @app.route('/clear')
 def clear_credentials():
+    #if credentials are still found in session, delete credentials
   if 'credentials' in session:
     del session['credentials']
+    del session['user_id']
+    del session['user_favorite_doctors']
   return ('Credentials have been cleared.<br><br><a href="localhost:5000">')
 
 
 def credentials_to_dict(credentials):
-  return {'token': credentials.token,
-          'refresh_token': credentials.refresh_token,
-          'token_uri': credentials.token_uri,
-          'client_id': credentials.client_id,
-          'client_secret': credentials.client_secret,
-          'scopes': credentials.scopes}
+    """ Response from authorization is sent from the Credentials class. 
+    client_id: which you obtain from the API Console
+    
+    redirect_uri: 
+        HTTP endpoint on your server that will receive the response 
+    from Google. The value must exactly match one of the authorized redirect 
+    URIs for the OAuth 2.0 client, which you configured in the API Console. If 
+    this value doesn't match an authorized URI, you will get a 
+    'redirect_uri_mismatch' error."""
+
+    return {'token': credentials.token,
+            'refresh_token': credentials.refresh_token,
+            'token_uri': credentials.token_uri,
+            'client_id': credentials.client_id,
+            'client_secret': credentials.client_secret,
+            'scopes': credentials.scopes}
 
 ################GOOGLE OAUTH####################
 

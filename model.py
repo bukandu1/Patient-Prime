@@ -118,13 +118,16 @@ class User(db.Model):
     __tablename__ = "users"
 
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    email = db.Column(db.String(64), nullable=False)
-    password = db.Column(db.String(64), nullable=False)
+    user_token = db.Column(db.Text, nullable=False)
+    user_refresh_token = db.Column(db.String(64), nullable=False)
+    user_token_uri = db.Column(db.String(64), nullable=True)
+    user_email = db.Column(db.String(64), nullable=True)
 
     def __repr__(self):
         """Provide helpful representation when printed."""
 
         return f"""<User={self.user_id}>"""
+
 
 class UserFavorite(db.Model):
     """User_Favorite association model"""
