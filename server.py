@@ -46,7 +46,7 @@ def display_login():
     """Login page for Patient Prime."""
     return render_template("login.html")
 
-@app.route('/test')
+@app.route('/login')
 def test_api_request():
     if 'credentials' not in session:
         return redirect('authorize')
@@ -64,6 +64,7 @@ def test_api_request():
     #              credentials in a persistent database instead.
     session['credentials'] = credentials_to_dict(credentials)
 
+    # TODO: Think about if token really needs to be stored. If so, encrypt first!
     user_token = session['credentials']["token"]
     user_refresh_token = session['credentials']["refresh_token"]
     user_token_uri=session['credentials']["token_uri"]
@@ -71,16 +72,20 @@ def test_api_request():
 
     #Add new user to database if not there already
     if 'user_id' not in session:
-        new_user_created = User(user_token=user_token, 
-                                user_refresh_token=user_refresh_token,
-                                user_token_uri=user_token_uri, 
-                                user_email=user_email_address)
-        db.session.add(new_user_created)
-        db.session.commit()
+        user_id = User.query.filter_by(user_email=user_email_address).first().user_id
+        if user_id == None:
+            new_user_created = User(user_token=user_token, 
+                                    user_refresh_token=user_refresh_token,
+                                    user_token_uri=user_token_uri, 
+                                    user_email=user_email_address)
+            db.session.add(new_user_created)
+            db.session.commit()
+        session['user_id'] = user_id
     
    #if email stored in database, continue
-    user_id = User.query.filter_by(user_email=user_email_address).all()[0].user_id
-    session['user_id'] = user_id
+    # user_id = User.query.filter_by(user_email=user_email_address).all()[0].user_id
+    # if 'user_id' not in session:
+    #     session['user_id'] = user_id
     print("\n\n\n\n\n\n\nSession ID: ", session['user_id'], session['user_email_address'])
     
     # TODO: Uncomment this block when server can catch that there is a token already
@@ -96,7 +101,7 @@ def test_api_request():
         # query user's favorites
         # store to session['user_favorite_doctors']
         # if only one favorite, add to a list
-        # if None, store value of None or empty list (test)
+        # if None, store value of None or empty list (login)
         # if more than one, add to session
         # doing this to format how info stored
 
@@ -166,35 +171,14 @@ def oauth2callback():
     return redirect(url_for('test_api_request'))
 
 
-@app.route('/revoke')
-def revoke():
-  if 'credentials' not in session:
-    return ('You need to <a href="/authorize">authorize</a> before ' +
-            'testing the code to revoke credentials.')
-
-  credentials = google.oauth2.credentials.Credentials(
-    **session['credentials'])
-
-  revoke = requests.post('https://accounts.google.com/o/oauth2/revoke',
-      params={'token': credentials.token},
-      headers = {'content-type': 'application/x-www-form-urlencoded'})
-
-  #TODO: Add flash message for when revoked and reroute to homepage
-  status_code = getattr(revoke, 'status_code')
-  if status_code == 200:
-    return('Credentials successfully revoked.' + print_index_table())
-  else:
-    return('An error occurred.')
-
-
-@app.route('/clear')
+@app.route('/logout')
 def clear_credentials():
     #if credentials are still found in session, delete credentials
   if 'credentials' in session:
     del session['credentials']
     del session['user_id']
     del session['user_favorite_doctors']
-  return ('Credentials have been cleared.<br><br><a href="localhost:5000">')
+  return ('Credentials have been cleared.<br><br> <a href="localhost:5000">')
 
 
 def credentials_to_dict(credentials):
@@ -214,6 +198,27 @@ def credentials_to_dict(credentials):
             'client_id': credentials.client_id,
             'client_secret': credentials.client_secret,
             'scopes': credentials.scopes}
+
+# TODO: DONT THINK THIS IS NEEDED
+# @app.route('/revoke')
+# def revoke():
+#   if 'credentials' not in session:
+#     return ('You need to <a href="/authorize">authorize</a> before ' +
+#             'testing the code to revoke credentials.')
+
+#   credentials = google.oauth2.credentials.Credentials(
+#     **session['credentials'])
+
+#   revoke = requests.post('https://accounts.google.com/o/oauth2/revoke',
+#       params={'token': credentials.token},
+#       headers = {'content-type': 'application/x-www-form-urlencoded'})
+
+#   #TODO: Add flash message for when revoked and reroute to homepage
+#   status_code = getattr(revoke, 'status_code')
+#   if status_code == 200:
+#     return('Credentials successfully revoked.' + print_index_table())
+#   else:
+#     return('An error occurred.')
 
 ################GOOGLE OAUTH####################
 
