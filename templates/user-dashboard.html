@@ -5,19 +5,35 @@
 {%block content%}
 <h1>Welcome, {{fullname}}! </h1>
 <body>
-        <form id="reviews">
-            <input type="search" name="first_name" id="doctor_first_name" placeholder="First Name"aria-label="Search database of providers">
-            <input type="search" name="last_name" id="doctor_last_name" placeholder="Last Name"aria-label="Search database of providers">
-            <button class="btn btn-primary" type="submit">Search Doctor</button>
+        
 <!--  <div class="form-group">
       <button class="btn btn-primary" type="submit">Search Doctor</button>
     </div> -->
 
 </form>
-<div id="search-doctor"></div>
-<div id="doctor-background-info"></div>
-<div id="doctor-associated-hospital-info"></div>
-<div id="doctor-reviews-info"></div>
+<!-- <div id="search-doctor"></div> -->
+
+
+<div class="wrapper">
+  <div id="search-doctor">Search Doctors Here! One<br>
+  <form id="reviews">
+            <input type="search" name="first_name" id="doctor_first_name" placeholder="First Name"aria-label="Search database of providers">
+            <input type="search" name="last_name" id="doctor_last_name" placeholder="Last Name"aria-label="Search database of providers">
+            <button class="btn btn-primary" type="submit">Search Doctor</button>
+        </div>
+  <div class="two">Two<div id="doctor-associated-hospital-info"></div></div>
+  <div class="three">Three  
+    <div id="doctor-background-info"></div>
+</div>
+
+  <div class="four">Four</div>
+  <div class="five">Five<div id="doctor-reviews-info"></div></div>
+  <div class="six">Six</div>
+
+
+
+</div>
+
 </body>
            
 <!-- Load after root npi_id
