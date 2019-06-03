@@ -15,7 +15,7 @@ function showDoctorInfo(results) {
     var doctor_hospital_info = 'doctor associated hospitals go here!!';
 
     //Format doctor's review list
-    var doctor_reviews_info = "<b>Reviews</b>:<br>";
+    var doctor_reviews_info = "<b>Reviews (10 Most Recent)</b>:<br>";
 
 
     // TODO: possibly consider using .empty().append() instead of .html() due to .html does not result in event firing
