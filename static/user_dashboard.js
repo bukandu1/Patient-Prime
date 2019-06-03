@@ -82,3 +82,10 @@ function displayDoctor(event) {
 }
 
 $("#reviews").on('submit', displayDoctor);
+
+function displayFavoriteDoctors(event){
+    console.log(event)
+
+    let url = "/display-favorite-doctors";
+}
+$("#button-favorite-current-doctor").on('click', displayFavoriteDoctors);

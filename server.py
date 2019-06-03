@@ -27,27 +27,14 @@ SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly']
 API_SERVICE_NAME = 'drive'
 API_VERSION = 'v2'
 
-# Use the client_secret.json file to identify the application requesting
-# authorization. The client ID (from that file) and access scopes are required.
-# flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file('client_secret.json', scopes=SCOPES)
-
-# # Generate URL for request to Google's OAuth 2.0 server.
-# # Use kwargs to set optional request parameters.
-# authorization_url, state = flow.authorization_url(
-#     # Enable offline access so that you can refresh an access token without
-#     # re-prompting the user for permission. Recommended for web server apps.
-#     access_type='offline',
-#     # Enable incremental authorization. Recommended as a best practice.
-#     include_granted_scopes='true')
-
-
 @app.route('/', methods=["GET"])
 def display_login():
-    """Login page for Patient Prime."""
+    """Home page for Patient Prime."""
     return render_template("login.html")
 
 @app.route('/login')
 def test_api_request():
+    """ Login workflow"""
     if 'credentials' not in session:
         return redirect('authorize')
 
@@ -74,6 +61,7 @@ def test_api_request():
     if 'user_id' not in session:
         user_id = User.query.filter_by(user_email=user_email_address).first().user_id
         if user_id == None:
+            flash("You do not have an account. We're creating one for you right now!")
             new_user_created = User(user_token=user_token, 
                                     user_refresh_token=user_refresh_token,
                                     user_token_uri=user_token_uri, 
@@ -120,23 +108,27 @@ def test_api_request():
 
 @app.route('/authorize')
 def authorize():
-  # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
-  flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
+    """ Authorizatioib workflow for Patient Prime to receive auth key from 
+    Google app on behalf of the user logging in
+    """
+
+    # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
+    flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
       CLIENT_SECRETS_FILE, scopes=SCOPES)
 
-  flow.redirect_uri = url_for('oauth2callback', _external=True)
+    flow.redirect_uri = url_for('oauth2callback', _external=True)
 
-  authorization_url, state = flow.authorization_url(
+    authorization_url, state = flow.authorization_url(
       # Enable offline access so that you can refresh an access token without
       # re-prompting the user for permission. Recommended for web server apps.
       access_type='offline',
       # Enable incremental authorization. Recommended as a best practice.
       include_granted_scopes='true')
 
-  # Store the state so the callback can verify the auth server response.
-  session['state'] = state
+    # Store the state so the callback can verify the auth server response.
+    session['state'] = state
 
-  return redirect(authorization_url)
+    return redirect(authorization_url)
 
 
 @app.route('/oauth2callback')
@@ -240,7 +232,7 @@ def process_login():
 
     return redirect("/user-dashboard")
     
-
+# TODO: Remove this route and test to make sure does not break anything. 
 @app.route('/search-doctors')
 def homepage():
     """ Homepage"""
@@ -291,6 +283,10 @@ def search_doctor():
                     "speciality_name": doctor.speciality_name, "npi_id": doctor.npi_id, "zipcode": doctor.zipcode,
                     "doctor_id": doctor.doctor_id, "reviews": review_list})
 
+app.route('/display-favorite-doctors')
+def display_favorite_doctors():
+    print(session['user_favorite_doctors'])
+    return 
 #TODO: Implement React JS route for reviews in future
 # @app.route('/reviews')
 # def search_reviews():
