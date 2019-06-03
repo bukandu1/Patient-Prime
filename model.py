@@ -121,7 +121,7 @@ class User(db.Model):
     user_token = db.Column(db.Text, nullable=False)
     user_refresh_token = db.Column(db.String(64), nullable=False)
     user_token_uri = db.Column(db.String(64), nullable=True)
-    user_email = db.Column(db.String(64), nullable=True)
+    user_email_address = db.Column(db.String(64), nullable=True)
 
     def __repr__(self):
         """Provide helpful representation when printed."""

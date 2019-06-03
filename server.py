@@ -59,17 +59,19 @@ def test_api_request():
 
     #Add new user to database if not there already
     if 'user_id' not in session:
-        user_id = User.query.filter_by(user_email=user_email_address).first().user_id
+        user_id = User.query.filter_by(user_email_address=user_email_address).first()
         if user_id == None:
             flash("You do not have an account. We're creating one for you right now!")
             new_user_created = User(user_token=user_token, 
                                     user_refresh_token=user_refresh_token,
                                     user_token_uri=user_token_uri, 
-                                    user_email=user_email_address)
+                                    user_email_address=user_email_address)
             db.session.add(new_user_created)
             db.session.commit()
-        session['user_id'] = user_id
+        session['user_id'] = user_id.user_id
     
+    session['user_email_address'] = user_email_address
+
    #if email stored in database, continue
     # user_id = User.query.filter_by(user_email=user_email_address).all()[0].user_id
     # if 'user_id' not in session:
@@ -83,7 +85,6 @@ def test_api_request():
     # except:
     #     print("There are either more than one tokens stored or none.")
 
-
     session['user_favorite_doctors'] = Doctor.query.get(2).last_name
         #TODO: Add favorite providers to session
         # query user's favorites
@@ -93,7 +94,6 @@ def test_api_request():
         # if more than one, add to session
         # doing this to format how info stored
 
-    session['user_email_address'] = user_email_address
 
     #Save fullname to display in user's dashboard
     fullname = files['items'][0]['owners'][0]['displayName']
@@ -169,6 +169,7 @@ def clear_credentials():
   if 'credentials' in session:
     del session['credentials']
     del session['user_id']
+    del session['current_doctor']
     del session['user_favorite_doctors']
   return ('Credentials have been cleared.<br><br> <a href="localhost:5000">')
 
@@ -255,16 +256,21 @@ def search_doctor():
     # TODO: Replace with session for doctor and username
     first_name = request.args.get("firstName")
     last_name = request.args.get("lastName")
+    #import pdb; pdb.set_trace()
 
     # TODO: Future implementation to return back suggested doctors
     doctor = Doctor.query.filter(Doctor.first_name.ilike(first_name)&Doctor.last_name.ilike(last_name)).first()
     print(doctor, "********************Doctor***************")
+    
     if doctor == None:
         print("This doctor is not in system!!!!")
         flash("This doctor is not found in the database. Please try again.")
         return redirect('/')
 
+    # TODO: Delete duplicate doctor id assignment and replace all references 
+    # with session['current_doctor']
     doctor_id = doctor.doctor_id
+    session['current_doctor'] = doctor.doctor_id
 
     reviews = Review.query.filter_by(doctor_id=doctor_id).all()
     print(doctor_id, reviews)
@@ -286,7 +292,7 @@ def search_doctor():
 app.route('/display-favorite-doctors')
 def display_favorite_doctors():
     print(session['user_favorite_doctors'])
-    return 
+    return jsonify({"user_favorite_doctors": session['user_favorite_doctors']})
 #TODO: Implement React JS route for reviews in future
 # @app.route('/reviews')
 # def search_reviews():
