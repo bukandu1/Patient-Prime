@@ -88,7 +88,7 @@ $("#reviews").on('submit', displayDoctor);
 function displayUpdatedFavorites(results){
     console.log("In the display updated favorites function")
     console.log(results.user_favorite_doctors);
-    return $('.user-favorite-doctors-list').html(results.user_favorite_doctors.map((docs)=> {return `<ul><li>${docs}</li></ul>`;
+    return $('#user-favorite-doctors-list').html(results.user_favorite_doctors.map((docs)=> {return `<ul><li>${docs}</li></ul>`;
         }));
 
 }
