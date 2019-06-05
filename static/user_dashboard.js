@@ -78,7 +78,6 @@ function displayDoctor(event) {
 
     let url = "/search-doctor"; //grab info from database
     console.log(url);
-    // debugger;
     //Pull appropriate information about the doctor from the database
     $.get(url, formDoctor, showDoctorInfo);
     //Display information on dashboard
@@ -88,8 +87,18 @@ $("#reviews").on('submit', displayDoctor);
 
 function displayUpdatedFavorites(results){
     console.log("In the display updated favorites function")
-    console.log(results.user_favorite_doctors)
+    console.log(results.user_favorite_doctors);
+    return $('.user-favorite-doctors-list').html(results.user_favorite_doctors.map((docs)=> {return `${docs}`;
+        }));
+
 }
+
+// Arrow function for inside the displayUpFav
+// ()=>{results.user_favorite_doctors.map(
+//         (docs)=> {
+//             return docs;
+//         });
+//     }
 
 function updateFavoriteDoctors(event){
     event.preventDefault();
