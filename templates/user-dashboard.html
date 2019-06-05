@@ -28,7 +28,13 @@
   <div class="three">Three  
     <button id="button-favorite-current-doctor">Favorite This Doctor!</button>
     <button id="button-unfavorite-current-doctor">Delete This Doctor from Favorites</button>
-    <div id="user-favorite-doctors-list">{{favorites}}}</div>
+    <div id="user-favorite-doctors-list">
+    {%for doctor in favorites%}
+      <ul>
+      <li>{{doctor}}</li>
+    </ul>
+    {%endfor%}
+      </div>
   </div>
 
   <div class="four">Four</div>
@@ -53,6 +59,4 @@
  -->
 <!-- Load after root npi_id -->
 <!-- <script src="/static/doctor-display.jsx" type="text/jsx"></script> -->
-
-
 {%endblock%}
