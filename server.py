@@ -69,10 +69,9 @@ def test_api_request():
             db.session.commit()
             session['user_favorite_doctors'] = []
         session['user_id'] = user.user_id
-    
-    # TODO: Hard coded info that needs to be deleted
-    session['user_favorite_doctors'] = ["testing", "yes"] #hard coded 
+
     session['user_email_address'] = user_email_address
+    find_favorite_doctors() 
 
    #if email stored in database, continue
     # user_id = User.query.filter_by(user_email=user_email_address).all()[0].user_id
@@ -88,14 +87,6 @@ def test_api_request():
     #     print("There are either more than one tokens stored or none.")
 
     #Doctor.query.filter(Doctor.last_name.like('%'+ user_email_address[0].upper() +'%')).limit(3).all()
-       
-        #TODO: Add favorite providers to session
-        # query user's favorites
-        # store to session['user_favorite_doctors']
-        # if only one favorite, add to a list
-        # if None, store value of None or empty list (login)
-        # if more than one, add to session
-        # doing this to format how info stored
 
 
     #Save fullname to display in user's dashboard
@@ -222,12 +213,6 @@ def credentials_to_dict(credentials):
 
 ################GOOGLE OAUTH####################
 
-
-
-
-
-
-
 @app.route('/', methods=["POST"])
 def process_login():
     """Log into site 
@@ -295,9 +280,6 @@ def search_doctor():
                     "speciality_name": doctor.speciality_name, "npi_id": doctor.npi_id, "zipcode": doctor.zipcode,
                     "doctor_id": doctor.doctor_id, "reviews": review_list, "favorites": session['user_favorite_doctors']})
 
-@app.route('/display_favorite_doctors')
-def display_favorite_doctors():
-    return jsonify({"favorites": session['user_favorite_doctors']})
 
 @app.route('/update-favorite-doctors')
 def update_favorite_doctors():
@@ -321,13 +303,7 @@ def update_favorite_doctors():
 
     db.session.commit()
 
-    #get doctors
-    user_favorite_doctors_objects = UserFavorite.query.filter_by(user_id=session['user_id']).all()
-    print(user_favorite_doctors_objects)
-    # Add the names of the doctors to the list to prepare to be sent in JSON
-    session['user_favorite_doctors'] = []
-    for doctor in user_favorite_doctors_objects:
-        session['user_favorite_doctors'].append(doctor.doctor_id)
+    find_favorite_doctors()
 
     print("*******Favorite Doctors Before Sent: *********", session['user_favorite_doctors'])
     # for doctor in user_favorite_doctors_objects:
@@ -335,6 +311,20 @@ def update_favorite_doctors():
     
     return jsonify({"user_favorite_doctors": session['user_favorite_doctors']})
 
+#### Helper functions #####
+
+def find_favorite_doctors():
+    """ Updates favorite doctors session. Used in the following routes:
+         /update-favorite-doctor
+         /login
+
+    """
+    user_favorite_doctors_objects = UserFavorite.query.filter_by(user_id=session['user_id']).all()
+    print(user_favorite_doctors_objects)
+    # Add the names of the doctors to the list to prepare to be sent in JSON
+    session['user_favorite_doctors'] = []
+    for doctor in user_favorite_doctors_objects:
+        session['user_favorite_doctors'].append(doctor.doctor_id)
 
 #TODO: Implement React JS route for reviews in future
 # @app.route('/reviews')
