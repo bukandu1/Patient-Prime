@@ -8,7 +8,7 @@ import googleapiclient.discovery
 import requests
 
 from flask_debugtoolbar import DebugToolbarExtension
-from model import db, connect_to_db, Doctor, Hospital, Review, AssociatedHospital, User
+from model import db, connect_to_db, Doctor, Hospital, Review, AssociatedHospital, User, UserFavorite
 import os
 
 app = Flask(__name__)
@@ -43,7 +43,6 @@ def test_api_request():
 
     drive = googleapiclient.discovery.build(API_SERVICE_NAME, API_VERSION, credentials=credentials)
 
-    # Makes request to
     files = drive.files().list().execute()
 
     # Save credentials back to session in case access token was refreshed.
@@ -59,17 +58,20 @@ def test_api_request():
 
     #Add new user to database if not there already
     if 'user_id' not in session:
-        user_id = User.query.filter_by(user_email_address=user_email_address).first()
-        if user_id == None:
-            flash("You do not have an account. We're creating one for you right now!")
-            new_user_created = User(user_token=user_token, 
+        user = User.query.filter_by(user_email_address=user_email_address).first()
+        if not user:
+            flash("You do not have an account. We created one for you right now!")
+            user = User(user_token=user_token, 
                                     user_refresh_token=user_refresh_token,
                                     user_token_uri=user_token_uri, 
                                     user_email_address=user_email_address)
-            db.session.add(new_user_created)
+            db.session.add(user)
             db.session.commit()
-        session['user_id'] = user_id.user_id
+            session['user_favorite_doctors'] = []
+        session['user_id'] = user.user_id
     
+    # TODO: Hard coded info that needs to be deleted
+    session['user_favorite_doctors'] = ["testing", "yes"] #hard coded 
     session['user_email_address'] = user_email_address
 
    #if email stored in database, continue
@@ -85,7 +87,8 @@ def test_api_request():
     # except:
     #     print("There are either more than one tokens stored or none.")
 
-    session['user_favorite_doctors'] = Doctor.query.get(2).last_name
+    #Doctor.query.filter(Doctor.last_name.like('%'+ user_email_address[0].upper() +'%')).limit(3).all()
+       
         #TODO: Add favorite providers to session
         # query user's favorites
         # store to session['user_favorite_doctors']
@@ -101,7 +104,8 @@ def test_api_request():
     print(files['items'][0]['owners'][0]['displayName'], 
         "*******************SESSION!!!!!!!!\n\n\n\n\n", "favorites are:", session['user_favorite_doctors'])
     
-    return render_template("/user-dashboard.html", fullname=fullname)
+    return render_template("/user-dashboard.html", fullname=fullname, 
+                            favorites=session['user_favorite_doctors'])
     
     #Used for testing the response returned via json
     # return jsonify(**files)
@@ -167,10 +171,13 @@ def oauth2callback():
 def clear_credentials():
     #if credentials are still found in session, delete credentials
   if 'credentials' in session:
-    del session['credentials']
-    del session['user_id']
-    del session['current_doctor']
-    del session['user_favorite_doctors']
+    try:
+        del session['credentials']
+        del session['user_id']
+        del session['current_doctor']
+        del session['user_favorite_doctors']
+    except:
+        print("No doctors or favorite doctors to delete. Or did not complete login.")
   return ('Credentials have been cleared.<br><br> <a href="localhost:5000">')
 
 
@@ -256,7 +263,6 @@ def search_doctor():
     # TODO: Replace with session for doctor and username
     first_name = request.args.get("firstName")
     last_name = request.args.get("lastName")
-    #import pdb; pdb.set_trace()
 
     # TODO: Future implementation to return back suggested doctors
     doctor = Doctor.query.filter(Doctor.first_name.ilike(first_name)&Doctor.last_name.ilike(last_name)).first()
@@ -270,7 +276,7 @@ def search_doctor():
     # TODO: Delete duplicate doctor id assignment and replace all references 
     # with session['current_doctor']
     doctor_id = doctor.doctor_id
-    session['current_doctor'] = doctor.doctor_id
+    session['current_doctor_id'] = doctor.doctor_id
 
     reviews = Review.query.filter_by(doctor_id=doctor_id).all()
     print(doctor_id, reviews)
@@ -287,12 +293,49 @@ def search_doctor():
     print(jsonify(doctor.first_name, doctor.last_name), "\n\n\n\n\n\n\n\n*********************")
     return jsonify({"first_name":doctor.first_name, "last_name":doctor.last_name, "main_address": doctor.doctor_main_address,
                     "speciality_name": doctor.speciality_name, "npi_id": doctor.npi_id, "zipcode": doctor.zipcode,
-                    "doctor_id": doctor.doctor_id, "reviews": review_list})
+                    "doctor_id": doctor.doctor_id, "reviews": review_list, "favorites": session['user_favorite_doctors']})
 
-app.route('/display-favorite-doctors')
+@app.route('/display_favorite_doctors')
 def display_favorite_doctors():
+    return jsonify({"favorites": session['user_favorite_doctors']})
+
+@app.route('/update-favorite-doctors')
+def update_favorite_doctors():
     print(session['user_favorite_doctors'])
+
+    current_favorite_doctor = UserFavorite.query.filter_by(user_id=session['user_id'], doctor_id=session['current_doctor_id']).first()
+    print("\n\n\n\n*****************Current favorite doctor: ", type(current_favorite_doctor), "**************Doctor in session: ", session['current_doctor_id'])
+    
+    # Toggle between deleting and adding doctor based on favorite button being selected
+    # Add current doctor in session to 
+    if not current_favorite_doctor:
+        # add to database
+        new_favorite_doctor = UserFavorite(user_id=session['user_id'], doctor_id=session['current_doctor_id'])
+        print("Making a user favorite")
+        db.session.add(new_favorite_doctor)
+
+    # Delete current doctor in session if found in database
+    else:
+        print("Delete a user favorite")
+        db.session.delete(current_favorite_doctor)
+
+    db.session.commit()
+
+    #get doctors
+    user_favorite_doctors_objects = UserFavorite.query.filter_by(user_id=session['user_id']).all()
+    print(user_favorite_doctors_objects)
+    # Add the names of the doctors to the list to prepare to be sent in JSON
+    session['user_favorite_doctors'] = []
+    for doctor in user_favorite_doctors_objects:
+        session['user_favorite_doctors'].append(doctor.doctor_id)
+
+    print("*******Favorite Doctors Before Sent: *********", session['user_favorite_doctors'])
+    # for doctor in user_favorite_doctors_objects:
+    #     session['user_favorite_doctors'].append(doctor.first_name + " " + doctor.last_name) 
+    
     return jsonify({"user_favorite_doctors": session['user_favorite_doctors']})
+
+
 #TODO: Implement React JS route for reviews in future
 # @app.route('/reviews')
 # def search_reviews():
