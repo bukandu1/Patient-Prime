@@ -1,4 +1,8 @@
 "use strict";
+
+
+//$("user-favorite-doctors-list").html($.get("/update-favorite-doctors", results, )results.user_favorite_doctors);
+
 function showDoctorInfo(results) {
     console.log(results, "Outside");
     console.log(results.first_name);
@@ -16,7 +20,6 @@ function showDoctorInfo(results) {
 
     //Format doctor's review list
     var doctor_reviews_info = "<b>Reviews (10 Most Recent)</b>:<br>";
-
 
     // TODO: possibly consider using .empty().append() instead of .html() due to .html does not result in event firing
     //Display doctor's background information
@@ -83,9 +86,20 @@ function displayDoctor(event) {
 
 $("#reviews").on('submit', displayDoctor);
 
-function displayFavoriteDoctors(event){
-    console.log(event)
-
-    let url = "/display-favorite-doctors";
+function displayUpdatedFavorites(results){
+    console.log("In the display updated favorites function")
+    console.log(results.user_favorite_doctors)
 }
-$("#button-favorite-current-doctor").on('click', displayFavoriteDoctors);
+
+function updateFavoriteDoctors(event){
+    event.preventDefault();
+    console.log(event);
+
+    //let favoriteDoctor = {"firstName": $("#doctor_first_name").val(), "lastName": $("#doctor_last_name").val()};
+    let url = "/update-favorite-doctors";
+
+    $.get(url, displayUpdatedFavorites);
+}
+
+    
+$("#button-favorite-current-doctor").on('click', updateFavoriteDoctors);
