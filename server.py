@@ -281,6 +281,13 @@ def search_doctor():
                     "doctor_id": doctor.doctor_id, "reviews": review_list, "favorites": session['user_favorite_doctors']})
 
 
+#retrive associated hospitals information
+@app.route('/search-associated-hospitals')
+def search_associated_hospitals():
+    print("inside search-associated-hospitals function in server ***********************\n\n\n\n\n")
+    associated_hospitals_list = {"hospital_1": [{'x': 10, 'y':1, 'r':20}, {'x': 20, 'y':.5, 'r':30}], "hospital_2": [None]}
+    return jsonify({"associated_hospital_list": associated_hospitals_list})
+
 @app.route('/update-favorite-doctors')
 def update_favorite_doctors():
     print(session['user_favorite_doctors'])
