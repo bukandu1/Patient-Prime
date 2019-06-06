@@ -1,6 +1,8 @@
 {%extends 'base.html'%}
 <script src="http://code.jquery.com/jquery.js"></script>
 <script src="/static/user_dashboard.js"></script>
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.3"></script>
 
 {%block content%}
 <h1>Welcome, {{fullname}}! </h1>
@@ -21,7 +23,11 @@
     <div id="doctor-background-info"></div>
   </div>
 
-  <div class="two">Twosjdaskdk<div id="doctor-associated-hospital-info"></div></div>
+  <div class="two">Two
+    <div id="doctor-associated-hospital-info"></div>
+    <button id="test chart button">Test Button Until Hospital Buttons Work</button>
+    <div id="test chart"></div>
+</div>
   <div class="three">Three  
     <button id="button-favorite-current-doctor">Favorite This Doctor!</button>
   
@@ -34,9 +40,9 @@
       </div>
   </div>
 
-  <div class="four">Four</div>
+  <!-- <div class="four">Four</div> -->
   <div class="five">Five<div id="doctor-reviews-info"></div></div>
-  <div class="six">Six </div>
+  <div class="six">Six: Additional Helpful Links!</div>
 
 
 

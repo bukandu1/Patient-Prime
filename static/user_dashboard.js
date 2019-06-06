@@ -16,7 +16,7 @@ function showDoctorInfo(results) {
                                 <b>Doctor ID</b>: ${results.doctor_id}`;
 
     //Format doctor's associated hospital information
-    var doctor_hospital_info = 'doctor associated hospitals go here!!';
+    var doctor_hospital_info = results.associated_hospitals_list.map((hospital)=> {return `<button id = "${hospital}"> ${hospital}</button>`;});
 
     //Format doctor's review list
     var doctor_reviews_info = "<b>Reviews (10 Most Recent)</b>:<br>";
@@ -30,7 +30,7 @@ function showDoctorInfo(results) {
             return 'The doctor searched was not found. Please try again.';
         }else{
             console.log("Defined doctor", results.first_name)
-            return doctor_background_info;
+            return '<div class="fb-share-button" data-href="https://google.com" data-layout="box_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fgoogle.com%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>' + doctor_background_info;
         }
     });
 
@@ -43,7 +43,7 @@ function showDoctorInfo(results) {
         }else{
             console.log("Defined doctor", results.first_name)
         
-        return doctor_hospital_info;
+        return 'Select One or more associated hospitals to view more information<br>' + doctor_hospital_info;
         }
     });
 
@@ -93,12 +93,6 @@ function displayUpdatedFavorites(results){
 
 }
 
-// Arrow function for inside the displayUpFav
-// ()=>{results.user_favorite_doctors.map(
-//         (docs)=> {
-//             return docs;
-//         });
-//     }
 
 function updateFavoriteDoctors(event){
     event.preventDefault();
@@ -110,5 +104,28 @@ function updateFavoriteDoctors(event){
     $.get(url, displayUpdatedFavorites);
 }
 
-    
 $("#button-favorite-current-doctor").on('click', updateFavoriteDoctors);
+
+function displayHospitalChart(event){
+    event.preventDefault();
+    console.log("inside display hospital fx", event);
+}
+$(document).ready(function() {
+    $("#test chart button").on('click', (event)=>{
+    event.preventDefault();
+    console.log("inside display hospital fx", event);
+});
+});
+
+// TODO: Loop through associated hospital results
+$("#UNIVERSITY OF MARYLAND MEDICAL CENTER").on('click', (event) => {
+    console.log("inside display hospital ARROW function", event);
+});
+
+$("#JOHNS HOPKINS HOSPITAL, THE").on('click', displayHospitalChart);
+
+// TODO: Delete hard-coded information once jQuery code works and AJAX setup
+var associated_hospitals_list_measure_data = {"hospital_1": [{'x': 10, 'y':1, 'r':20}, {'x': 20, 'y':.5, 'r':30}], "hospital_2": [None]}
+    
+
+
