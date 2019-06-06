@@ -269,8 +269,9 @@ def search_doctor():
     print(review_list,"\n\n\n\n\n\n\n\n\n\n")
     print(list(review_list))
 
-    associated_hospitals = [Hospital.query.get(22).hospital_id, Hospital.query.get(2).hospital_id]
-    print(associated_hospitals)
+    associated_hospitals_list = [Hospital.query.get(3).name, Hospital.query.get(19).name]
+    session['associated_hospitals_list'] = associated_hospitals_list
+    print(associated_hospitals_list)
     # TODO: Can use this line of code once associated hospital table fixed (assoc_hosp_id in psql does not match model)
     #associated_hospitals = AssociatedHospital.query.filter_by(doctor_id=doctor_id).all()
     # TODO: When hospital object received, need to check if it is a list (more than one hospital) or one object (only one associated hospital found for the doctor)
@@ -278,15 +279,17 @@ def search_doctor():
     print(jsonify(doctor.first_name, doctor.last_name), "\n\n\n\n\n\n\n\n*********************")
     return jsonify({"first_name":doctor.first_name, "last_name":doctor.last_name, "main_address": doctor.doctor_main_address,
                     "speciality_name": doctor.speciality_name, "npi_id": doctor.npi_id, "zipcode": doctor.zipcode,
-                    "doctor_id": doctor.doctor_id, "reviews": review_list, "favorites": session['user_favorite_doctors']})
+                    "doctor_id": doctor.doctor_id, "reviews": review_list, "favorites": session['user_favorite_doctors'], "associated_hospitals_list":associated_hospitals_list})
 
 
 #retrive associated hospitals information
 @app.route('/search-associated-hospitals')
 def search_associated_hospitals():
+    """Returns the associated hospitals of the doctor currently in session."""
     print("inside search-associated-hospitals function in server ***********************\n\n\n\n\n")
-    associated_hospitals_list = {"hospital_1": [{'x': 10, 'y':1, 'r':20}, {'x': 20, 'y':.5, 'r':30}], "hospital_2": [None]}
-    return jsonify({"associated_hospital_list": associated_hospitals_list})
+    associated_hospitals_list_measure_data = {"hospital_1": [{'x': 10, 'y':1, 'r':20}, {'x': 20, 'y':.5, 'r':30}], "hospital_2": [None]}
+    return jsonify({"associated_hospital_list": associated_hospitals_list_measure_data})
+
 
 @app.route('/update-favorite-doctors')
 def update_favorite_doctors():
