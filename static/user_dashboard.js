@@ -49,8 +49,8 @@ function showDoctorInfo(results) {
         }else{
             console.log("Defined doctor", results.first_name)
         
-        return 'Select One or more associated hospitals to view more information<br>' + doctor_hospital_info + `<canvas id="myChart" width="400" height="400"></canvas>
-      <canvas id="newChart" width="400" height="400"></canvas>`;
+        return 'Select One or more associated hospitals to view more information<br>' 
+        + doctor_hospital_info + `<canvas id="myChart" width="400" height="400"></canvas>`;
         }
     });
 
@@ -59,7 +59,7 @@ function showDoctorInfo(results) {
         console.log(results.first_name, "Inside displaying reviews info");
 
 
-        if (results.first_name == undefined){
+        if (results.first_name == undefined || results.last_name == undefined){
             console.log("Undefined doctor")
             return '';
         }else{
@@ -136,108 +136,23 @@ $("#two").on('click', "button", (event) => {
 
     // var myChart = new Chart(ctx, config);
 var forecast_chart = new Chart(ctx, config);
-$("#3").click(function() {
+$(`#${event.currentTarget.id}`).click(function() {
+    console.log(`Going to grab ${event.currentTarget.id}'s information!`);
     var data = forecast_chart.config.data;
     data.datasets[0].data = temp_dataset;
-    data.datasets[1].data = rain_dataset;
+    //data.datasets[0].data = rain_dataset;
     data.labels = chart_labels;
     forecast_chart.update();
 });
-$("#19").click(function() {
-    var chart_labels = ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00'];
-    var temp_dataset = ['5', '3', '4', '8', '10', '11', '10', '9'];
-    var rain_dataset = ['0', '0', '1', '4', '19', '19', '7', '2'];
-    var data = forecast_chart.config.data;
-    data.datasets[0].data = temp_dataset;
-    data.datasets[1].data = rain_dataset;
-    data.labels = chart_labels;
-    forecast_chart.update();
+
 });
-    
-});
-
-$("#3").on('click', displayHospitalChart);
-
-
-// $(document).ready(function() {
-// });
-
 
 // TODO: Delete hard-coded information once jQuery code works and AJAX setup
 var more_test_data = {"hospital_1": [{'x': 10, 'y':1, 'r':20}, {'x': 20, 'y':.5, 'r':30}], "hospital_2": [null]}
 var hospital_1 = more_test_data.hospital_1 //list of 
 console.log(hospital_1);
 
-$("#myChart").html(`
-  var ctx = document.getElementById('myChart');
-  var myChart = new Chart(ctx, {
-      "type":"bubble",
-      "data":{
-          "datasets":[{
-              "label":"First Dataset",
-              "data":[{
-                  "x":20,"y":30,"r":15},
-                  {"x":40,"y":10,"r":10},{'x': 10, 'y':1, 'r':20}, {'x': 20, 'y':.5, 'r':30}
-                  ],
-              "backgroundColor":"rgb(255, 99, 132)"
-            }]}});
-")`);
-
-var chart_labels = ['06:00', '09:00', '12:00', '15:00', '18:00', '21:00'];
-var temp_dataset = ['1', '8', '10', '10', '9', '7'];
-var rain_dataset = ['0', '0', '6', '32', '7', '2'];
-var ctx = document.getElementById("myChart").getContext('2d');
-var config = {
-    type: 'bar',
-    data: {
-        labels: chart_labels,
-        datasets: [{
-            type: 'line',
-            label: "Temperature (Celsius)",
-            yAxisID: "y-axis-0",
-            fill: false,
-            data: temp_dataset,
-        }, {
-            type: 'bar',
-            label: "Precipitation (%)",
-            yAxisID: "y-axis-1",
-            data: rain_dataset,
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                position: "left",
-                "id": "y-axis-0",
-            }, {
-                position: "right",
-                "id": "y-axis-1",
-            }]
-        }
-    }
-};
-var forecast_chart = new Chart(ctx, config);
-$("#3").click(function() {
-    var data = forecast_chart.config.data;
-    data.datasets[0].data = temp_dataset;
-    data.datasets[1].data = rain_dataset;
-    data.labels = chart_labels;
-    forecast_chart.update();
-});
-$("#19").click(function() {
-    var chart_labels = ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00'];
-    var temp_dataset = ['5', '3', '4', '8', '10', '11', '10', '9'];
-    var rain_dataset = ['0', '0', '1', '4', '19', '19', '7', '2'];
-    var data = forecast_chart.config.data;
-    data.datasets[0].data = temp_dataset;
-    data.datasets[1].data = rain_dataset;
-    data.labels = chart_labels;
-    forecast_chart.update();
-});
-
-
-//     $("#hospital_1").append(`
-//       <script>
+// $("#myChart").html(`
 //   var ctx = document.getElementById('myChart');
 //   var myChart = new Chart(ctx, {
 //       "type":"bubble",
@@ -246,17 +161,98 @@ $("#19").click(function() {
 //               "label":"First Dataset",
 //               "data":[{
 //                   "x":20,"y":30,"r":15},
-//                   {"x":40,"y":10,"r":10},{'x': 10, 'y':1, 'r':20}, {'x': 30, 'y':.5, 'r':30},
-//                   {'x': 50, 'y':.5, 'r':30}
+//                   {"x":40,"y":10,"r":10},{'x': 10, 'y':1, 'r':20}, {'x': 20, 'y':.5, 'r':30}
 //                   ],
 //               "backgroundColor":"rgb(255, 99, 132)"
 //             }]}});
-// </script>")`);
+// ")`);
+
+var chart_labels = ['06:00', '09:00', '12:00', '15:00', '18:00', '21:00'];
+var temp_dataset = [{
+                  "x":20,"y":30,"r":15},
+                  {"x":40,"y":10,"r":10},{'x': 10, 'y':1, 'r':20}, {'x': 30, 'y':.5, 'r':30},
+                  {'x': 50, 'y':.5, 'r':30}
+                  ];
+var rain_dataset = [{
+                  "x":20,"y":30,"r":40},
+                  {"x":40,"y":10,"r":10},{'x': 20, 'y':5, 'r':20}, {'x': 30, 'y':.5, 'r':30},
+                  {'x': 50, 'y':.5, 'r':30}
+                  ];
+var ctx = document.getElementById("myChart").getContext('2d');
+var config = {
+      "type":"bubble",
+      "data":{
+          "labels": chart_labels,
+          "datasets":[{
+              "label":"Patient Safety Indicators",
+              "data":[{
+                  "x":20,"y":30,"r":15},
+                  {"x":40,"y":10,"r":10},{'x': 10, 'y':1, 'r':20}, {'x': 30, 'y':.5, 'r':30},
+                  {'x': 45, 'y':.5, 'r':30}
+                  ],
+              "backgroundColor":"rgb(255, 99, 132)"
+            }]}};
+
+
+var myChart = new Chart(ctx, {
+      "type":"bubble",
+      "data":{
+          "labels": chart_labels,
+          "datasets":[{
+              "label":"First Dataset",
+              "data":[{
+                  "x":20,"y":30,"r":15},
+                  {"x":40,"y":10,"r":10},{'x': 10, 'y':1, 'r':20}, {'x': 30, 'y':.5, 'r':30},
+                  {'x': 50, 'y':.5, 'r':30}
+                  ],
+              "backgroundColor":"rgb(255, 99, 132)"
+            }]}});
+var forecast_chart = new Chart(ctx, config);
+
+$("#19").click(function() {
+    // var chart_labels = ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00'];
+    // var temp_dataset = ['5', '3', '4', '8', '10', '11', '10', '9'];
+    var rain_dataset = ['0', '0', '1', '4', '19', '19', '7', '2'];
+    var data = forecast_chart.config.data;
+    data.datasets[0].data = temp_dataset;
+    data.datasets[1].data = rain_dataset;
+    data.labels = chart_labels;
+    forecast_chart.update();
+});
 
 
 
 
 
+// {
+//     type: 'bar',
+//     data: {
+//         labels: chart_labels,
+//         datasets: [{
+//             type: 'line',
+//             label: "Temperature (Celsius)",
+//             yAxisID: "y-axis-0",
+//             fill: false,
+//             data: temp_dataset,
+//         }, {
+//             type: 'bar',
+//             label: "Precipitation (%)",
+//             yAxisID: "y-axis-1",
+//             data: rain_dataset,
+//         }]
+//     },
+//     options: {
+//         scales: {
+//             yAxes: [{
+//                 position: "left",
+//                 "id": "y-axis-0",
+//             }, {
+//                 position: "right",
+//                 "id": "y-axis-1",
+//             }]
+//         }
+//     }
+// };
 
 
 
