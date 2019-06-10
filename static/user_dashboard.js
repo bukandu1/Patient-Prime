@@ -1,3 +1,4 @@
+
 "use strict";
 
 
@@ -6,6 +7,7 @@
 function showDoctorInfo(results) {
     console.log(results, "Outside");
     console.log(results.first_name);
+    console.log(results.associated_hospitals_list);
 
     //Format doctor's background information
     var doctor_background_info = `<b>Doctor Name</b>: ${results.first_name} ${results.last_name} <br> 
@@ -16,7 +18,9 @@ function showDoctorInfo(results) {
                                 <b>Doctor ID</b>: ${results.doctor_id}`;
 
     //Format doctor's associated hospital information
-    var doctor_hospital_info = results.associated_hospitals_list.map((hospital)=> {return `<button id = "${hospital}"> ${hospital}</button>`;});
+    var doctor_hospital_info = results.associated_hospitals_list.map((hospital)=> 
+        {return `<button class="hospital_button" id="${hospital.hospital_id}"value ="${hospital.name}"> 
+                    ${hospital.name}</button>`;});
 
     //Format doctor's review list
     var doctor_reviews_info = "<b>Reviews (10 Most Recent)</b>:<br>";
@@ -30,20 +34,23 @@ function showDoctorInfo(results) {
             return 'The doctor searched was not found. Please try again.';
         }else{
             console.log("Defined doctor", results.first_name)
-            return '<div class="fb-share-button" data-href="https://google.com" data-layout="box_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fgoogle.com%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>' + doctor_background_info;
+            return doctor_background_info + 
+            '<div class="fb-share-button" data-href="https://google.com" data-layout="box_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fgoogle.com%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>' 
+            ;
         }
     });
 
     //Display doctor's associated hospitals
-    $('#doctor-associated-hospital-info').html(()=>{
-        console.log(results.first_name, "Inside displaying hospital info");
+    $('#two').html(()=>{
+        console.log(results.first_name, "Inside displaying hospital infozzzzzz");
          if (results.first_name == undefined){
             console.log("Undefined doctor")
             return '';
         }else{
             console.log("Defined doctor", results.first_name)
         
-        return 'Select One or more associated hospitals to view more information<br>' + doctor_hospital_info;
+        return 'Select One or more associated hospitals to view more information<br>' + doctor_hospital_info + `<canvas id="myChart" width="400" height="400"></canvas>
+      <canvas id="newChart" width="400" height="400"></canvas>`;
         }
     });
 
@@ -106,26 +113,152 @@ function updateFavoriteDoctors(event){
 
 $("#button-favorite-current-doctor").on('click', updateFavoriteDoctors);
 
+
 function displayHospitalChart(event){
+        //event.preventDefault();
+        console.log("inside display hospital fx", event);
+    }
+
+
+$("#testchartbutton").on('click', (event)=>{
     event.preventDefault();
     console.log("inside display hospital fx", event);
-}
-$(document).ready(function() {
-    $("#test chart button").on('click', (event)=>{
-    event.preventDefault();
-    console.log("inside display hospital fx", event);
-});
 });
 
-// TODO: Loop through associated hospital results
-$("#UNIVERSITY OF MARYLAND MEDICAL CENTER").on('click', (event) => {
+    // TODO: Loop through associated hospital results
+$("#two").on('click', "button", (event) => {
     console.log("inside display hospital ARROW function", event);
+    console.log(event.currentTarget.id);
+
+    // $('#myChart').empty();
+    var ctx = document.getElementById("myChart").getContext('2d');
+  // ajax
+
+    // var myChart = new Chart(ctx, config);
+var forecast_chart = new Chart(ctx, config);
+$("#3").click(function() {
+    var data = forecast_chart.config.data;
+    data.datasets[0].data = temp_dataset;
+    data.datasets[1].data = rain_dataset;
+    data.labels = chart_labels;
+    forecast_chart.update();
+});
+$("#19").click(function() {
+    var chart_labels = ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00'];
+    var temp_dataset = ['5', '3', '4', '8', '10', '11', '10', '9'];
+    var rain_dataset = ['0', '0', '1', '4', '19', '19', '7', '2'];
+    var data = forecast_chart.config.data;
+    data.datasets[0].data = temp_dataset;
+    data.datasets[1].data = rain_dataset;
+    data.labels = chart_labels;
+    forecast_chart.update();
+});
+    
 });
 
-$("#JOHNS HOPKINS HOSPITAL, THE").on('click', displayHospitalChart);
+$("#3").on('click', displayHospitalChart);
+
+
+// $(document).ready(function() {
+// });
+
 
 // TODO: Delete hard-coded information once jQuery code works and AJAX setup
-var associated_hospitals_list_measure_data = {"hospital_1": [{'x': 10, 'y':1, 'r':20}, {'x': 20, 'y':.5, 'r':30}], "hospital_2": [None]}
-    
+var more_test_data = {"hospital_1": [{'x': 10, 'y':1, 'r':20}, {'x': 20, 'y':.5, 'r':30}], "hospital_2": [null]}
+var hospital_1 = more_test_data.hospital_1 //list of 
+console.log(hospital_1);
+
+$("#myChart").html(`
+  var ctx = document.getElementById('myChart');
+  var myChart = new Chart(ctx, {
+      "type":"bubble",
+      "data":{
+          "datasets":[{
+              "label":"First Dataset",
+              "data":[{
+                  "x":20,"y":30,"r":15},
+                  {"x":40,"y":10,"r":10},{'x': 10, 'y':1, 'r':20}, {'x': 20, 'y':.5, 'r':30}
+                  ],
+              "backgroundColor":"rgb(255, 99, 132)"
+            }]}});
+")`);
+
+var chart_labels = ['06:00', '09:00', '12:00', '15:00', '18:00', '21:00'];
+var temp_dataset = ['1', '8', '10', '10', '9', '7'];
+var rain_dataset = ['0', '0', '6', '32', '7', '2'];
+var ctx = document.getElementById("myChart").getContext('2d');
+var config = {
+    type: 'bar',
+    data: {
+        labels: chart_labels,
+        datasets: [{
+            type: 'line',
+            label: "Temperature (Celsius)",
+            yAxisID: "y-axis-0",
+            fill: false,
+            data: temp_dataset,
+        }, {
+            type: 'bar',
+            label: "Precipitation (%)",
+            yAxisID: "y-axis-1",
+            data: rain_dataset,
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                position: "left",
+                "id": "y-axis-0",
+            }, {
+                position: "right",
+                "id": "y-axis-1",
+            }]
+        }
+    }
+};
+var forecast_chart = new Chart(ctx, config);
+$("#3").click(function() {
+    var data = forecast_chart.config.data;
+    data.datasets[0].data = temp_dataset;
+    data.datasets[1].data = rain_dataset;
+    data.labels = chart_labels;
+    forecast_chart.update();
+});
+$("#19").click(function() {
+    var chart_labels = ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00'];
+    var temp_dataset = ['5', '3', '4', '8', '10', '11', '10', '9'];
+    var rain_dataset = ['0', '0', '1', '4', '19', '19', '7', '2'];
+    var data = forecast_chart.config.data;
+    data.datasets[0].data = temp_dataset;
+    data.datasets[1].data = rain_dataset;
+    data.labels = chart_labels;
+    forecast_chart.update();
+});
+
+
+//     $("#hospital_1").append(`
+//       <script>
+//   var ctx = document.getElementById('myChart');
+//   var myChart = new Chart(ctx, {
+//       "type":"bubble",
+//       "data":{
+//           "datasets":[{
+//               "label":"First Dataset",
+//               "data":[{
+//                   "x":20,"y":30,"r":15},
+//                   {"x":40,"y":10,"r":10},{'x': 10, 'y':1, 'r':20}, {'x': 30, 'y':.5, 'r':30},
+//                   {'x': 50, 'y':.5, 'r':30}
+//                   ],
+//               "backgroundColor":"rgb(255, 99, 132)"
+//             }]}});
+// </script>")`);
+
+
+
+
+
+
+
+
 
 

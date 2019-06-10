@@ -85,7 +85,7 @@ if __name__ == "__main__":
     connect_to_db(app)
     print("Connected to db")
     db.create_all()
-    load_reviews_and_doctors(1,150) #NOTE: When seeding, max pages on site = 3781 
+    load_reviews_and_doctors(10,20) #NOTE: When seeding, max pages on site = 3781 
     load_hospitals("https://data.medicare.gov/resource/ukfj-tt6v.json?state=MD")
     load_associated_hospitals_and_specialities("https://data.medicare.gov/resource/c8qv-268j.json?st=MD&$limit=30000&$where=hosp_afl_lbn_1%20IS%20NOT%20NULL")
         #"https://data.medicare.gov/resource/c8qv-268j.json?cred=MD&st=MD&$where=hosp_afl_lbn_1%20in(%27UNIVERSITY%20OF%20MARYLAND%20MEDICAL%20CENTER%27,%27UNIVERSITY%20OF%20MARYLAND%20ST%20JOSEPH%20MEDICAL%20CENTER%27,%27SIBLEY%20MEMORIAL%20HOSPITAL%27,%27BON%20SECOURS%20HOSPITAL%27,%27SUBURBAN%20HOSPITAL%27,%27UNITED%20MEDICAL%20CENTER%27,%27HOLY%20CROSS%20HOSPITAL%27,%27ANNE%20ARUNDEL%20MEDICAL%20CENTER%27,%27MERITUS%20MEDICAL%20CENTER%27,%27JOHNS%20HOPKINS%20HOSPITAL,%20THE%27)")

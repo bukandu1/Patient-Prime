@@ -58,9 +58,10 @@ def test_api_request():
 
     #Add new user to database if not there already
     if 'user_id' not in session:
+        flash("1You do not have an account. We created one for you right now!")
         user = User.query.filter_by(user_email_address=user_email_address).first()
         if not user:
-            flash("You do not have an account. We created one for you right now!")
+
             user = User(user_token=user_token, 
                                     user_refresh_token=user_refresh_token,
                                     user_token_uri=user_token_uri, 
@@ -71,7 +72,9 @@ def test_api_request():
         session['user_id'] = user.user_id
 
     session['user_email_address'] = user_email_address
+
     find_favorite_doctors() 
+    flash("3You do not have an account. We created one for you right now!")
 
    #if email stored in database, continue
     # user_id = User.query.filter_by(user_email=user_email_address).all()[0].user_id
@@ -94,7 +97,7 @@ def test_api_request():
 
     print(files['items'][0]['owners'][0]['displayName'], 
         "*******************SESSION!!!!!!!!\n\n\n\n\n", "favorites are:", session['user_favorite_doctors'])
-    
+
     return render_template("/user-dashboard.html", fullname=fullname, 
                             favorites=session['user_favorite_doctors'])
     
@@ -269,7 +272,7 @@ def search_doctor():
     print(review_list,"\n\n\n\n\n\n\n\n\n\n")
     print(list(review_list))
 
-    associated_hospitals_list = [Hospital.query.get(3).name, Hospital.query.get(19).name]
+    associated_hospitals_list = [{"hospital_id": Hospital.query.get(19).hospital_id, "name":Hospital.query.get(19).name}, {"hospital_id":Hospital.query.get(3).hospital_id, "name":Hospital.query.get(3).name}]
     session['associated_hospitals_list'] = associated_hospitals_list
     print(associated_hospitals_list)
     # TODO: Can use this line of code once associated hospital table fixed (assoc_hosp_id in psql does not match model)
@@ -287,7 +290,7 @@ def search_doctor():
 def search_associated_hospitals():
     """Returns the associated hospitals of the doctor currently in session."""
     print("inside search-associated-hospitals function in server ***********************\n\n\n\n\n")
-    associated_hospitals_list_measure_data = {"hospital_1": [{'x': 10, 'y':1, 'r':20}, {'x': 20, 'y':.5, 'r':30}], "hospital_2": [None]}
+    associated_hospitals_list_measure_data = {"hospital_1": [{'x': 10, 'y':1, 'r':20}, {'x': 20, 'y':.5, 'r':30}], "hospital_2": [0]}
     return jsonify({"associated_hospital_list": associated_hospitals_list_measure_data})
 
 
