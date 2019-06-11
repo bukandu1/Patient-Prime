@@ -74,7 +74,7 @@ def test_api_request():
     session['user_email_address'] = user_email_address
 
     find_favorite_doctors() 
-    flash("3You do not have an account. We created one for you right now!")
+    #flash("3You do not have an account. We created one for you right now!")
 
    #if email stored in database, continue
     # user_id = User.query.filter_by(user_email=user_email_address).all()[0].user_id
@@ -384,7 +384,7 @@ if __name__ == "__main__":
     # Use the DebugToolbar
     DebugToolbarExtension(app)
 
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0", port=5001)
 
     # When running locally, disable OAuthlib's HTTPs verification.
     # ACTION ITEM for developers:

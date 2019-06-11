@@ -58,7 +58,7 @@ function showDoctorInfo(results) {
     $('#doctor-reviews-info').html(()=>{
         console.log(results.first_name, "Inside displaying reviews info");
 
-
+        // TODO: Fix log. Currently error if last name not in system
         if (results.first_name == undefined || results.last_name == undefined){
             console.log("Undefined doctor")
             return '';
