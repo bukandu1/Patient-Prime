@@ -27,6 +27,13 @@ SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly']
 API_SERVICE_NAME = 'drive'
 API_VERSION = 'v2'
 
+# TODO: Update function
+@app.before_request
+def clear_doctor_from_session():
+    print("oh wow!!!\n\n\n")
+    print(session)
+
+
 @app.route('/', methods=["GET"])
 def display_login():
     """Home page for Patient Prime."""
@@ -384,7 +391,7 @@ if __name__ == "__main__":
     # Use the DebugToolbar
     DebugToolbarExtension(app)
 
-    app.run(host="0.0.0.0", port=5001)
+    app.run(host="0.0.0.0")
 
     # When running locally, disable OAuthlib's HTTPs verification.
     # ACTION ITEM for developers:
