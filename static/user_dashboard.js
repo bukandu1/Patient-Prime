@@ -80,7 +80,11 @@ function displayDoctor(event) {
 
 
     //Retrieve the first and last name from the form
-    let formDoctor = {"firstName": $("#doctor_first_name").val(), "lastName": $("#doctor_last_name").val()};
+    // TODO: Update class names with dashes (-)
+    let $form = $(event.target) //jQuery object --> form 
+    let formDoctor = {"firstName": $form.find(".doctor_first_name").val(), 
+                      "lastName": $form.find(".doctor_last_name").val()};
+    console.log($form.find(".doctor_first_name").val());
     console.log(formDoctor);
 
     let url = "/search-doctor"; //grab info from database
@@ -90,7 +94,7 @@ function displayDoctor(event) {
     //Display information on dashboard
 }
 
-$("#reviews").on('submit', displayDoctor);
+$(".reviews").on('submit', displayDoctor);
 
 function displayUpdatedFavorites(results){
     console.log("In the display updated favorites function")
@@ -220,7 +224,13 @@ $("#19").click(function() {
     forecast_chart.update();
 });
 
+// var $favorites = $(".reviews");
+// // TODO: Update class 
+// $favorites.toggleClass("wrapper");
 
+$("#button-favorite-current-doctor").click(function(){
+        $(this).text($(this).text() == 'Favorite This Doctor!' ? 'Unfavorite This Doctor' : 'Favorite This Doctor!');
+    });
 
 
 
