@@ -282,7 +282,7 @@ article, aside, dialog, figcaption, figure, footer, header, hgroup, main, nav, s
   grid-auto-rows: minmax(300px, auto);
 }
 
-#search-doctor {
+.search-doctor {
   grid-column: 1;
   grid-row: 1/2;
 }

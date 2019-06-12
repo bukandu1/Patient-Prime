@@ -19,7 +19,7 @@ function showDoctorInfo(results) {
 
     //Format doctor's associated hospital information
     var doctor_hospital_info = results.associated_hospitals_list.map((hospital)=> 
-        {return `<button class="hospital_button" id="${hospital.hospital_id}"value ="${hospital.name}"> 
+        {return `<button class="hospital_button" class="${hospital.hospital_id}"value ="${hospital.name}"> 
                     ${hospital.name}</button>`;});
 
     //Format doctor's review list
@@ -27,7 +27,7 @@ function showDoctorInfo(results) {
 
     // TODO: possibly consider using .empty().append() instead of .html() due to .html does not result in event firing
     //Display doctor's background information
-    $("#doctor-background-info").html(()=>{
+    $(".doctor-background-info").html(()=>{
         console.log(results.first_name, "Inside displaying background info");
         if (results.first_name == undefined){
             console.log("Undefined doctor")
@@ -41,7 +41,7 @@ function showDoctorInfo(results) {
     });
 
     //Display doctor's associated hospitals
-    $('#two').html(()=>{
+    $('.two').html(()=>{
         console.log(results.first_name, "Inside displaying hospital infozzzzzz");
          if (results.first_name == undefined){
             console.log("Undefined doctor")
@@ -55,7 +55,7 @@ function showDoctorInfo(results) {
     });
 
     //Display doctor's review list
-    $('#doctor-reviews-info').html(()=>{
+    $('.doctor-reviews-info').html(()=>{
         console.log(results.first_name, "Inside displaying reviews info");
 
         // TODO: Fix log. Currently error if last name not in system
@@ -96,10 +96,11 @@ function displayDoctor(event) {
 
 $(".reviews").on('submit', displayDoctor);
 
+// TODO: Add conditional for when there are no favorites to be shown
 function displayUpdatedFavorites(results){
     console.log("In the display updated favorites function")
     console.log(results.user_favorite_doctors);
-    return $('#user-favorite-doctors-list').html(results.user_favorite_doctors.map((docs)=> {return `<ul><li>${docs}</li></ul>`;
+    return $('.user-favorite-doctors-list').html(results.user_favorite_doctors.map((docs)=> {return `<ul><li>${docs}</li></ul>`;
         }));
 
 }
@@ -115,7 +116,12 @@ function updateFavoriteDoctors(event){
     $.get(url, displayUpdatedFavorites);
 }
 
-$("#button-favorite-current-doctor").on('click', updateFavoriteDoctors);
+$(".button-favorite-current-doctor").on('click', updateFavoriteDoctors);
+
+
+$(".button-favorite-current-doctor").click(function(){
+        $(this).text($(this).text() == 'Favorite This Doctor!' ? 'Unfavorite This Doctor' : 'Favorite This Doctor!');
+    });
 
 
 function displayHospitalChart(event){
@@ -124,13 +130,8 @@ function displayHospitalChart(event){
     }
 
 
-$("#testchartbutton").on('click', (event)=>{
-    event.preventDefault();
-    console.log("inside display hospital fx", event);
-});
-
     // TODO: Loop through associated hospital results
-$("#two").on('click', "button", (event) => {
+$(".two").on('click', "button", (event) => {
     console.log("inside display hospital ARROW function", event);
     console.log(event.currentTarget.id);
 
@@ -140,7 +141,7 @@ $("#two").on('click', "button", (event) => {
 
     // var myChart = new Chart(ctx, config);
 var forecast_chart = new Chart(ctx, config);
-$(`#${event.currentTarget.id}`).click(function() {
+$(`.${event.currentTarget.id}`).click(function() {
     console.log(`Going to grab ${event.currentTarget.id}'s information!`);
     var data = forecast_chart.config.data;
     data.datasets[0].data = temp_dataset;
@@ -224,13 +225,16 @@ $("#19").click(function() {
     forecast_chart.update();
 });
 
+$("logout").click(function(){
+  url = "/logout";
+  $.get(url, ()=> {
+    alert("You have logged out. functioCome back again!");
+  });
+});
+
 // var $favorites = $(".reviews");
 // // TODO: Update class 
 // $favorites.toggleClass("wrapper");
-
-$("#button-favorite-current-doctor").click(function(){
-        $(this).text($(this).text() == 'Favorite This Doctor!' ? 'Unfavorite This Doctor' : 'Favorite This Doctor!');
-    });
 
 
 

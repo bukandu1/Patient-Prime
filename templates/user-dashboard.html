@@ -20,16 +20,13 @@
           <li class="nav-item">
             <a class="nav-link" href="#">Profile</a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="#">Help</a>
-          </li>
+          </li> -->
         </ul>
-        <form class="reviews">
-
-          <input class="form-control mr-sm-2" type="text" placeholder="Search">
-          <input class="form-control mr-sm-2"type="search" name="first_name" class="doctor_first_name" placeholder="First Name"aria-label="Search database of providers">
-            <input type="search" name="last_name" class="doctor_last_name" placeholder="Last Name"aria-label="Search database of providers">
-            <button class="btn btn-primary" type="submit">Search Doctor</button>
+        <!-- <form class="reviews"> -->
+        <a class="nav-logout" href="/logout">Log Out</a>
+        <!-- <button class="logout btn btn-primary" type="submit" href="/logout">Logout</button> -->
          <!--  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
         </form>
       </div></nav>
@@ -44,23 +41,23 @@
 
 
 <div class="wrapper">
-  <div id="search-doctor">Search Doctors Here! One<br>
+  <div class="search-doctor">Search Doctors Here! One<br>
     <form class="reviews">
             <input type="search" name="first_name" class="doctor_first_name" placeholder="First Name"aria-label="Search database of providers">
             <input type="search" name="last_name" class="doctor_last_name" placeholder="Last Name"aria-label="Search database of providers">
             <button class="btn btn-primary" type="submit">Search Doctor</button>
     </form>
-    <div id="doctor-background-info"></div>
+    <div class="doctor-background-info"></div>
   </div>
 
-  <div id="two">Two
+  <div class="two">Two
     <!-- <div id="doctor-associated-hospital-info"></div> -->
     <!-- <button id="testchartbutton">Test Button Until Hospital Buttons Work</button> -->
       <canvas id="myChart" width="400" height="400"></canvas>
       <!-- <canvas id="newChart" width="400" height="400"></canvas> -->
-      <script id="hospital_1"></script>
+      <script class="hospital_1"></script>
 
-      <div id="two_half"> Two half</div>
+      <!-- <div class="two_half"> Two half</div> -->
      <!--  <script>
   var ctx = document.getElementById('myChart');
   var myChart = new Chart(ctx, {
@@ -77,9 +74,9 @@
 
 </div>
   <div class="three">Three  
-    <button id="button-favorite-current-doctor">Favorite This Doctor!</button>
+    <button class="button-favorite-current-doctor text=">Favorite This Doctor!</button>
   
-    <div id="user-favorite-doctors-list">
+    <div class="user-favorite-doctors-list">
     {%for doctor in favorites%}
       <ul>
       <li>{{doctor}}</li>
@@ -89,7 +86,7 @@
   </div>
 
   <!-- <div class="four">Four</div> -->
-  <div class="five">Five<div id="doctor-reviews-info"></div></div>
+  <div class="five">Five<div class="doctor-reviews-info"></div></div>
   <div class="six">Six: Additional Helpful Links!</div>
 
 

@@ -179,7 +179,8 @@ def clear_credentials():
         del session['user_favorite_doctors']
     except:
         print("No doctors or favorite doctors to delete. Or did not complete login.")
-  return ('Credentials have been cleared.<br><br> <a href="localhost:5000">')
+    return redirect("/")
+  #return ('Credentials have been cleared.<br><br> <a href="localhost:5000">')
 
 
 def credentials_to_dict(credentials):
