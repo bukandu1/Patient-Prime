@@ -39,7 +39,7 @@ def display_login():
     """Home page for Patient Prime."""
     return render_template("login.html")
 
-@app.route('/login')
+@app.route('/user-dashboard')
 def test_api_request():
     """ Login workflow"""
     if 'credentials' not in session:
