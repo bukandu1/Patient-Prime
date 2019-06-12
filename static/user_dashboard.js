@@ -10,20 +10,31 @@ function showDoctorInfo(results) {
     console.log(results.associated_hospitals_list);
 
     //Format doctor's background information
-    var doctor_background_info = `<b>Doctor Name</b>: ${results.first_name} ${results.last_name} <br> 
-                                <b>Address</b>: ${results.main_address} <br>
-                                <b>Zipcode</b>: ${results.zipcode} <br>
-                                <b>Speciality</b>: ${results.speciality_name} <br>
-                                <b>NPI</b>: ${results.npi_id} <br>
-                                <b>Doctor ID</b>: ${results.doctor_id}`;
+    var doctor_background_info = `<p><b><h1>${results.first_name} ${results.last_name} </b></h1></p> 
+                                <p><b>Address</b>: ${results.main_address} <br></p>
+                                <p><b>Zipcode</b>: ${results.zipcode} <br></p>
+                                <p><b>NPI</b>: ${results.npi_id} <br></p>
+                                <p><b>Doctor ID</b>: ${results.doctor_id}</p>
+                                <p><b>Speciality</b>: <span class="tags">${results.speciality_name} </span><br></p>
+
+                                <div class="col-xs-12 divider text-center">
+                
+                <div class="col-xs-12 emphasis">
+                    <h2><strong>Text This Doctor to a Friend</strong></h2>                    
+                    <button class="btn btn-info btn-block"><span class="fa fa-user"></span> Share (Messaging & Data Rates Apply) </button>
+                    
+                  </div>
+                <p>
+                </div>
+                `;
 
     //Format doctor's associated hospital information
     var doctor_hospital_info = results.associated_hospitals_list.map((hospital)=> 
-        {return `<button class="hospital_button" class="${hospital.hospital_id}"value ="${hospital.name}"> 
-                    ${hospital.name}</button>`;});
+        {return `<li><button class="hospital_button clean center" id="${hospital.hospital_id}"value ="${hospital.name}"> 
+                    ${hospital.name}</button></li>`;});
 
     //Format doctor's review list
-    var doctor_reviews_info = "<b>Reviews (10 Most Recent)</b>:<br>";
+    var doctor_reviews_info = "<small>(10 Most Recent)</small>:<br>";
 
     // TODO: possibly consider using .empty().append() instead of .html() due to .html does not result in event firing
     //Display doctor's background information
@@ -49,8 +60,8 @@ function showDoctorInfo(results) {
         }else{
             console.log("Defined doctor", results.first_name)
         
-        return 'Select One or more associated hospitals to view more information<br>' 
-        + doctor_hospital_info + `<canvas id="myChart" width="400" height="400"></canvas>`;
+        return '<h1>Associated Hospitals</h1><br> Select an associated hospitals to view more information' 
+        + doctor_hospital_info + `<canvas id="myChart" width="300" height="150"></canvas>`;
         }
     });
 
@@ -118,9 +129,10 @@ function updateFavoriteDoctors(event){
 
 $(".button-favorite-current-doctor").on('click', updateFavoriteDoctors);
 
-
+// TODO: Fix toggle to check if already favorited. Bug fix.
 $(".button-favorite-current-doctor").click(function(){
-        $(this).text($(this).text() == 'Favorite This Doctor!' ? 'Unfavorite This Doctor' : 'Favorite This Doctor!');
+
+        $(this).text($(this).text() == 'Favorite The Doctor Above!' ? 'Unfavorite The Doctor Above' : 'Favorite The Doctor Above!');
     });
 
 
@@ -141,8 +153,8 @@ $(".two").on('click', "button", (event) => {
 
     // var myChart = new Chart(ctx, config);
 var forecast_chart = new Chart(ctx, config);
-$(`.${event.currentTarget.id}`).click(function() {
-    console.log(`Going to grab ${event.currentTarget.id}'s information!`);
+$(`.${event.currentTarget.id}`).click(function(event) {
+    console.log(`Going to grab ${event.currentTarget.id}s information!`);
     var data = forecast_chart.config.data;
     data.datasets[0].data = temp_dataset;
     //data.datasets[0].data = rain_dataset;
@@ -228,7 +240,7 @@ $("#19").click(function() {
 $("logout").click(function(){
   url = "/logout";
   $.get(url, ()=> {
-    alert("You have logged out. functioCome back again!");
+    alert("You have logged out. Come back again!");
   });
 });
 
