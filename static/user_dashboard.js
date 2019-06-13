@@ -70,7 +70,7 @@ function showDoctorInfo(results) {
             console.log("Defined doctor", results.first_name)
         
         return '<h1>Associated Hospitals</h1><br> Select an associated hospitals to view more information' 
-        + doctor_hospital_info + `<canvas id="myChart" width="300" height="150"></canvas>`;
+        + doctor_hospital_info + `<canvas id="myChart" width="300" height="250"></canvas>`;
         }
     });
 
