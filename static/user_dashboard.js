@@ -29,9 +29,18 @@ function showDoctorInfo(results) {
                 `;
 
     //Format doctor's associated hospital information
-    var doctor_hospital_info = results.associated_hospitals_list.map((hospital)=> 
-        {return `<li><button class="hospital_button clean center" id="${hospital.hospital_id}"value ="${hospital.name}"> 
-                    ${hospital.name}</button></li>`;});
+    var doctor_hospital_info = results.associated_hospitals_list.map((hospital)=> {
+        return `
+          <li>
+            <button class="clean center" id=${hospital.hospital_id} value=${hospital.name}>
+              ${hospital.name}
+            </button>
+          </li>
+        `;
+    }).join('');
+        
+          // return `<li><button class="hospital_button clean center" id="${hospital.hospital_id}"value ="${hospital.name}"> 
+          //           ${hospital.name}</button></li>`;});
 
     //Format doctor's review list
     var doctor_reviews_info = "<small>(10 Most Recent)</small>:<br>";
