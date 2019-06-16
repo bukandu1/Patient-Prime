@@ -1,4 +1,3 @@
-
 "use strict";
 
 
@@ -16,7 +15,6 @@ function showDoctorInfo(results) {
                                 <p><b>NPI</b>: ${results.npi_id} <br></p>
                                 <p><b>Doctor ID</b>: ${results.doctor_id}</p>
                                 <p><b>Speciality</b>: <span class="tags">${results.speciality_name} </span><br></p>
-
                                 <div class="col-xs-12 divider text-center">
                 
                 <div class="col-xs-12 emphasis">
@@ -160,7 +158,7 @@ $(".two").on('click', "button", (event) => {
 
 
     // TODO: Delete hard-coded information once jQuery code works and AJAX setup
-    var forecast_chart = new Chart(ctx, config);
+    //var forecast_chart = new Chart(ctx, config);
     $('#3').on('click', (function(event) {
         //myChart.destroy();
         console.log(`Going to grab ${event.currentTarget.id}s information!`);
@@ -259,10 +257,17 @@ $(".two").on('click', "button", (event) => {
             labelString: "Measures"
           }
         }]
+      },
+      legend: {
+        display: true,
+        position: 'bottom',
+        labels:
+        {
+          fontColor: '#000080',
+        }
       }
     }
     };
-
 
         var myChart = new Chart(ctx, config);
         }));
@@ -330,5 +335,3 @@ $("logout").click(function(){
     alert("You have logged out. Come back again!");
   });
 });
-
-
