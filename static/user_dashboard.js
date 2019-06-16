@@ -159,7 +159,7 @@ $(".two").on('click', "button", (event) => {
 
     // TODO: Delete hard-coded information once jQuery code works and AJAX setup
     //var forecast_chart = new Chart(ctx, config);
- $('#3').on('click', (function(event) {
+    $('#3').on('click', (function(event) {
         //myChart.destroy();
         console.log(`Going to grab ${event.currentTarget.id}s information!`);
         var ctx = document.getElementById("myChart").getContext('2d');
@@ -218,6 +218,74 @@ $(".two").on('click', "button", (event) => {
                   data: [{
                     x: 50,
                     y: .0,
+                    r: 10
+                  }]
+                }]
+      }};
+        var myChart = new Chart(ctx, config);
+        console.log("3 was created");
+        }));
+
+
+    $('#19').on('click', (function(event) {
+        //myChart.destroy();
+        console.log(`Going to grab ${event.currentTarget.id}s information!`);
+        var ctx = document.getElementById("myChart").getContext('2d');
+        var config = {
+          "type":"bubble",
+          "data":{
+              "datasets":[{
+                  label: ["Sepsis"],
+                  backgroundColor: "rgba(60,186,159,1)",
+                  //borderColor: "rgba(255,221,50,1)",
+                  data: [{
+                    x: 25,
+                    y: 1,
+                    r: 40
+                  }]
+                },{
+                  label: ["Clots/DVT"],
+                  backgroundColor: "rgba(255,221,50,1)",
+                  //borderColor: "rgba(255,221,50,0.2)",
+                  data: [{
+                    x: 15,
+                    y: 10,
+                    r: 20
+                  }]
+                },{
+                  label: ["Clots/DVT"],
+                  backgroundColor: "rgb(255, 99, 132)",
+                  //borderColor: "rgba(255,221,50,0.2)",
+                  data: [{
+                    x: 5,
+                    y: 5,
+                    r: 20
+                  }]
+                },{
+                  label: ["Ulcers"],
+                  backgroundColor: "rgba(22, 96, 173, 1)",
+                  //borderColor: "rgba(255,221,50,0.2)",
+                  data: [{
+                    x: 45,
+                    y: 35,
+                    r: 30
+                  }]
+                },{
+                  label: ["Wound Opening/Dehiscence"],
+                  backgroundColor: "rgba(193,46,12,1)",
+                  //borderColor: "rgba(255,221,50,0.2)",
+                  data: [{
+                    x: 40,
+                    y: 20,
+                    r: 20
+                  }]
+                },{
+                  label: ["Cut/Lacerations"],
+                  backgroundColor: "rgba(186,24,62,1)",
+                  //borderColor: "rgba(255,221,50,0.2)",
+                  data: [{
+                    x: 50,
+                    y: 40,
                     r: 10
                   }]
                 }]
@@ -255,105 +323,6 @@ $(".two").on('click', "button", (event) => {
         var myChart = new Chart(ctx, config);
         }));
 });
-
-
-
-    $('#19').on('click', (function(event) {
-        //myChart.destroy();
-        console.log(`Going to grab ${event.currentTarget.id}s information!`);
-        var ctx = document.getElementById("myChart").getContext('2d');
-        var config = {
-          "type":"bubble",
-          "data":{
-              "datasets":[{
-                  label: ["Sepsis"],
-                  backgroundColor: "rgba(60,186,159,1)",
-                  //borderColor: "rgba(255,221,50,1)",
-                  data: [{
-                    x: 10,
-                    y: 5.0,
-                    r: 40
-                  }]
-                },{
-                  label: ["Clots/DVT"],
-                  backgroundColor: "rgba(255,221,50,1)",
-                  //borderColor: "rgba(255,221,50,0.2)",
-                  data: [{
-                    x: 15,
-                    y: 10,
-                    r: 20
-                  }]
-                },{
-                  label: ["Clots/DVT"],
-                  backgroundColor: "rgb(255, 99, 132)",
-                  //borderColor: "rgba(255,221,50,0.2)",
-                  data: [{
-                    x: 20,
-                    y: 5,
-                    r: 20
-                  }]
-                },{
-                  label: ["Ulcers"],
-                  backgroundColor: "rgba(22, 96, 173, 1)",
-                  //borderColor: "rgba(255,221,50,0.2)",
-                  data: [{
-                    x: 30,
-                    y: 40,
-                    r: 30
-                  }]
-                },{
-                  label: ["Wound Opening/Dehiscence"],
-                  backgroundColor: "rgba(193,46,12,1)",
-                  //borderColor: "rgba(255,221,50,0.2)",
-                  data: [{
-                    x: 40,
-                    y: 30,
-                    r: 20
-                  }]
-                },{
-                  label: ["Cut/Lacerations"],
-                  backgroundColor: "rgba(186,24,62,1)",
-                  //borderColor: "rgba(255,221,50,0.2)",
-                  data: [{
-                    x: 50,
-                    y: .0,
-                    r: 10
-                  }]
-                }]
-      },
-      options: {
-      title: {
-        display: true,
-        text: 'Patient Safety Measures'
-      }, 
-      scales: {
-        yAxes: [{ 
-          scaleLabel: {
-            display: true,
-            labelString: "Patients per 1000"
-          }
-        }],
-        xAxes: [{ 
-          scaleLabel: {
-            display: true,
-            labelString: "Measures"
-          }
-        }]
-      },
-      legend: {
-        display: true,
-        position: 'bottom',
-        labels:
-        {
-          fontColor: '#000080',
-        }
-      }
-    }
-    };
-
-        var myChart = new Chart(ctx, config);
-        }));
-//});
 
 var more_test_data = {"hospital_1": [{'x': 10, 'y':1, 'r':20}, {'x': 20, 'y':.5, 'r':30}], "hospital_2": [null]}
 var hospital_1 = more_test_data.hospital_1 //list of 
