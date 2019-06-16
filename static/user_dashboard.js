@@ -120,7 +120,7 @@ $(".reviews").on('submit', displayDoctor);
 function displayUpdatedFavorites(results){
     console.log("In the display updated favorites function")
     console.log(results.user_favorite_doctors);
-    return $('.user-favorite-doctors-list').html(results.user_favorite_doctors.map((docs)=> {return `<ul><li>${docs}</li></ul>`;
+    return $('.user-favorite-doctors-list').html(results.user_favorite_doctors.map((docs)=> {return `<li>${docs}</li><br>`;
         }));
 
 }
@@ -157,82 +157,159 @@ $(".two").on('click', "button", (event) => {
     console.log(event.currentTarget.id);
 
     // $('#myChart').empty();
-    var ctx = document.getElementById("myChart").getContext('2d');
-  // ajax
 
-    // var myChart = new Chart(ctx, config);
-var forecast_chart = new Chart(ctx, config);
-$(`.${event.currentTarget.id}`).click(function(event) {
-    console.log(`Going to grab ${event.currentTarget.id}s information!`);
-    var data = forecast_chart.config.data;
-    data.datasets[0].data = temp_dataset;
-    //data.datasets[0].data = rain_dataset;
-    data.labels = chart_labels;
-    forecast_chart.update();
+
+    // TODO: Delete hard-coded information once jQuery code works and AJAX setup
+    var forecast_chart = new Chart(ctx, config);
+    $('#3').on('click', (function(event) {
+        //myChart.destroy();
+        console.log(`Going to grab ${event.currentTarget.id}s information!`);
+        var ctx = document.getElementById("myChart").getContext('2d');
+        var config = {
+          "type":"bubble",
+          "data":{
+              "datasets":[{
+                  "label":"Patient Safety Indicators",
+                  "data": data2,
+                  "backgroundColor":"rgb(255, 99, 132)"
+                }]}};
+        var myChart = new Chart(ctx, config);
+        console.log("3 was created");
+        }));
+
+
+    $('#19').on('click', (function(event) {
+        //myChart.destroy();
+        console.log(`Going to grab ${event.currentTarget.id}s information!`);
+        var ctx = document.getElementById("myChart").getContext('2d');
+        var config = {
+          "type":"bubble",
+          "data":{
+              "datasets":[{
+                  label: ["Sepsis"],
+                  backgroundColor: "rgba(60,186,159,1)",
+                  //borderColor: "rgba(255,221,50,1)",
+                  data: [{
+                    x: 10,
+                    y: 5.0,
+                    r: 40
+                  }]
+                },{
+                  label: ["Clots/DVT"],
+                  backgroundColor: "rgba(255,221,50,1)",
+                  //borderColor: "rgba(255,221,50,0.2)",
+                  data: [{
+                    x: 15,
+                    y: 10,
+                    r: 20
+                  }]
+                },{
+                  label: ["Clots/DVT"],
+                  backgroundColor: "rgb(255, 99, 132)",
+                  //borderColor: "rgba(255,221,50,0.2)",
+                  data: [{
+                    x: 20,
+                    y: 5,
+                    r: 20
+                  }]
+                },{
+                  label: ["Ulcers"],
+                  backgroundColor: "rgba(22, 96, 173, 1)",
+                  //borderColor: "rgba(255,221,50,0.2)",
+                  data: [{
+                    x: 30,
+                    y: 40,
+                    r: 30
+                  }]
+                },{
+                  label: ["Wound Opening/Dehiscence"],
+                  backgroundColor: "rgba(193,46,12,1)",
+                  //borderColor: "rgba(255,221,50,0.2)",
+                  data: [{
+                    x: 40,
+                    y: 30,
+                    r: 20
+                  }]
+                },{
+                  label: ["Cut/Lacerations"],
+                  backgroundColor: "rgba(186,24,62,1)",
+                  //borderColor: "rgba(255,221,50,0.2)",
+                  data: [{
+                    x: 50,
+                    y: .0,
+                    r: 10
+                  }]
+                }]
+      },
+      options: {
+      title: {
+        display: true,
+        text: 'Patient Safety Measures'
+      }, 
+      scales: {
+        yAxes: [{ 
+          scaleLabel: {
+            display: true,
+            labelString: "Patients per 1000"
+          }
+        }],
+        xAxes: [{ 
+          scaleLabel: {
+            display: true,
+            labelString: "Measures"
+          }
+        }]
+      }
+    }
+    };
+
+
+        var myChart = new Chart(ctx, config);
+        }));
 });
 
-});
-
-// TODO: Delete hard-coded information once jQuery code works and AJAX setup
 var more_test_data = {"hospital_1": [{'x': 10, 'y':1, 'r':20}, {'x': 20, 'y':.5, 'r':30}], "hospital_2": [null]}
 var hospital_1 = more_test_data.hospital_1 //list of 
 console.log(hospital_1);
 
-// $("#myChart").html(`
-//   var ctx = document.getElementById('myChart');
-//   var myChart = new Chart(ctx, {
+var ctx = document.getElementById("myChart").getContext('2d');
+
+var data = [
+            {"x":20,"y":10,"r":15},
+            {"x":40,"y":9,"r":10},
+            {'x': 10, 'y':8, 'r':20}, 
+            {'x': 30, 'y':7, 'r':30},
+            {'x': 50, 'y':6, 'r':30},
+            {'x': 20, 'y':5, 'r':30}
+
+            ]
+
+var data2 = [
+            {"x":30,"y":10,"r":10},
+            {"x":20,"y":9,"r":10},
+            {'x': 50, 'y':8, 'r':10}, 
+            {'x': 30, 'y':5, 'r':30},
+            {'x': 40, 'y':5, 'r':20},
+            {'x': 10, 'y':7, 'r':20}
+
+            ]
+
+
+// var myChart = new Chart(ctx, {
 //       "type":"bubble",
 //       "data":{
+//           "labels": chart_labels,
 //           "datasets":[{
 //               "label":"First Dataset",
-//               "data":[{
-//                   "x":20,"y":30,"r":15},
-//                   {"x":40,"y":10,"r":10},{'x': 10, 'y':1, 'r':20}, {'x': 20, 'y':.5, 'r':30}
+//               "data":[
+//                   {"x":20,"y":30,"r":15},
+//                   {"x":40,"y":10,"r":10},
+//                   {'x': 10, 'y':1, 'r':20}, 
+//                   {'x': 30, 'y':.5, 'r':30},
+//                   {'x': 50, 'y':.5, 'r':30}
 //                   ],
 //               "backgroundColor":"rgb(255, 99, 132)"
 //             }]}});
-// ")`);
-
-var chart_labels = ['06:00', '09:00', '12:00', '15:00', '18:00', '21:00'];
-var temp_dataset = [{
-                  "x":20,"y":30,"r":15},
-                  {"x":40,"y":10,"r":10},{'x': 10, 'y':1, 'r':20}, {'x': 30, 'y':.5, 'r':30},
-                  {'x': 50, 'y':.5, 'r':30}
-                  ];
-var rain_dataset = [{
-                  "x":20,"y":30,"r":40},
-                  {"x":40,"y":10,"r":10},{'x': 20, 'y':5, 'r':20}, {'x': 30, 'y':.5, 'r':30},
-                  {'x': 50, 'y':.5, 'r':30}
-                  ];
-var ctx = document.getElementById("myChart").getContext('2d');
-var config = {
-      "type":"bubble",
-      "data":{
-          "labels": chart_labels,
-          "datasets":[{
-              "label":"Patient Safety Indicators",
-              "data":[{
-                  "x":20,"y":30,"r":15},
-                  {"x":40,"y":10,"r":10},{'x': 10, 'y':1, 'r':20}, {'x': 30, 'y':.5, 'r':30},
-                  {'x': 45, 'y':.5, 'r':30}
-                  ],
-              "backgroundColor":"rgb(255, 99, 132)"
-            }]}};
-
-
-var myChart = new Chart(ctx, {
-      "type":"bubble",
-      "data":{
-          "labels": chart_labels,
-          "datasets":[{
-              "label":"First Dataset",
-              "data":[{
-                  "x":20,"y":30,"r":15},
-                  {"x":40,"y":10,"r":10},{'x': 10, 'y':1, 'r':20}, {'x': 30, 'y':.5, 'r':30},
-                  {'x': 50, 'y':.5, 'r':30}
-                  ],
-              "backgroundColor":"rgb(255, 99, 132)"
-            }]}});
 var forecast_chart = new Chart(ctx, config);
 
 $("#19").click(function() {
@@ -246,50 +323,12 @@ $("#19").click(function() {
     forecast_chart.update();
 });
 
+// Log out functionality
 $("logout").click(function(){
   url = "/logout";
   $.get(url, ()=> {
     alert("You have logged out. Come back again!");
   });
 });
-
-// var $favorites = $(".reviews");
-// // TODO: Update class 
-// $favorites.toggleClass("wrapper");
-
-
-
-// {
-//     type: 'bar',
-//     data: {
-//         labels: chart_labels,
-//         datasets: [{
-//             type: 'line',
-//             label: "Temperature (Celsius)",
-//             yAxisID: "y-axis-0",
-//             fill: false,
-//             data: temp_dataset,
-//         }, {
-//             type: 'bar',
-//             label: "Precipitation (%)",
-//             yAxisID: "y-axis-1",
-//             data: rain_dataset,
-//         }]
-//     },
-//     options: {
-//         scales: {
-//             yAxes: [{
-//                 position: "left",
-//                 "id": "y-axis-0",
-//             }, {
-//                 position: "right",
-//                 "id": "y-axis-1",
-//             }]
-//         }
-//     }
-// };
-
-
-
 
 

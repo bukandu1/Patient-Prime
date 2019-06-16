@@ -337,9 +337,9 @@ span.tags
     color: white;
 }
 
-.clean{
+.clean {
   flex: 1 0 90px;
-  
+  margin: 6px;
   max-height: 2em;
   font-size: 1.1em;
   letter-spacing: .2em;
@@ -513,4 +513,16 @@ input[type="submit"]:hover{
     max-width: 400px;
     box-shadow: 0 0 1em #888;
     border-radius: 12px;
+}
+
+td {
+  padding: 18px;
+}
+
+.btn{
+  margin: 16px 8px 16px 0px;
+}
+
+a {
+  color: #ffffff;
 }

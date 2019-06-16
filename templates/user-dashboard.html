@@ -20,6 +20,8 @@
           <li class="nav-item active">
             <a class="nav-link" href="#">Profile</a>
           </li>
+
+          <!-- TODO: Implement help section -->
           <!-- <li class="nav-item">
             <a class="nav-link" href="#">Help</a>
           </li> -->
@@ -49,26 +51,12 @@
             <button class="clean" type="submit">Search Doctor</button>
     </form>
     <div class="doctor-background-info">
-            <!-- <div class="col-xs-12 divider text-center">
-                <div class="col-xs-12">
-                    <h2><strong> Favorite This Doctor </strong></h2>                    
-                    <button class="button-favorite-current-doctor btn btn-success btn-block"><span class="fa fa-plus-circle"></span>Favorite This Doctor!</button>
-                </div>
-                <div class="col-xs-12 emphasis">
-                    <h2><strong>Text This Doctor to a Friend</strong></h2>                    
-                    <button class="btn btn-info btn-block"><span class="fa fa-user"></span> Share (Messaging & Data Rates Apply) </button>
-                <div class="col-xs-12 emphasis">
-                    
-                  </div>
-                <p>
-                </div>
-                </div> -->
-  </div>
+            
+    </div>
 </div>
 
-  <div class="two center"><h1>Associated Hospitals</h1>
-    <!-- <div id="doctor-associated-hospital-info"></div> -->
-    <!-- <button id="testchartbutton">Test Button Until Hospital Buttons Work</button> -->
+  <div class="two center">
+    <h1>Associated Hospitals</h1>
       <canvas id="myChart" width="300" height="150"></canvas>
       <!-- <canvas id="newChart" width="400" height="400"></canvas> -->
       <!-- <script class="hospital_1"></script> -->
@@ -93,24 +81,53 @@
 
     <div class="col-xs-12">
                     <!-- <h2><strong> Favorite This Doctor </strong></h2>  -->                   
-                    <button class="button-favorite-current-doctor btn btn-success btn-block"><span class="fa fa-plus-circle"></span>Favorite The Doctor Above!</button>
-                </div>
+      <button class="button-favorite-current-doctor btn btn-success btn-block"><span class="fa fa-plus-circle"></span>Favorite The Doctor Above!</button>
+    </div>
   
     <div class="user-favorite-doctors-list">
     {%for doctor in favorites%}
-      <ul>
-      <li>{{doctor}}</li>
-    </ul>
+      <li>{{doctor}}</li><br>
     {%endfor%}
       </div>
   </div>
 
   <!-- <div class="four">Four</div> -->
   <div class="five center"><h1>Reviews</h1><div class="doctor-reviews-info"></div></div>
-  <div class="six center"><h1>Background on Associated Hospital Measures</h1></div>
+  <div class="six center"><h1>Background on Associated Hospital Measures</h1>
+    <table border="2">
+      <tbody>
+      <tr>
+      <td>Sketch 1</td>
+      <td>Measure</td>
+      <td>Words</td>
+      </tr>
+      <tr>
+      <td>Sketch 2</td>
+      <td>&nbsp;</td>
+      <td>MWords</td>
+      </tr>
+      <tr>
+      <td>Sketch 3</td>
+      <td>Measure</td>
+      <td>Words</td>
+      </tr>
+      <tr>
+      <td>Sketch 4</td>
+      <td>Measure</td>
+      <td>Words</td>
+      </tr>
+      <tr>
+      <td>SKetch 5;</td>
+      <td>5</td>
+      <td> Words</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 
 
 </div>
+
 </div>
 
 </body>

@@ -28,10 +28,12 @@ API_SERVICE_NAME = 'drive'
 API_VERSION = 'v2'
 
 # TODO: Update function
-@app.before_request
-def clear_doctor_from_session():
-    print("oh wow!!!\n\n\n")
-    print(session)
+# @app.before_request
+# def before_request():
+#     """Clear doctor from session when there is a new request"""
+#     is_doctor_in_session = session.get("current_doctor_id", None)
+#     if is_doctor_in_session:
+#         del session["current_doctor_id"]
 
 
 @app.route('/', methods=["GET"])
@@ -82,22 +84,6 @@ def test_api_request():
 
     find_favorite_doctors() 
     #flash("3You do not have an account. We created one for you right now!")
-
-   #if email stored in database, continue
-    # user_id = User.query.filter_by(user_email=user_email_address).all()[0].user_id
-    # if 'user_id' not in session:
-    #     session['user_id'] = user_id
-    print("\n\n\n\n\n\n\nSession ID: ", session['user_id'], session['user_email_address'])
-    
-    # TODO: Uncomment this block when server can catch that there is a token already
-    # added to the database for the user in session
-    # try:
-    #     session['user_id'] = User.query.filter_by(user_email_address=user_email_address).one()
-    # except:
-    #     print("There are either more than one tokens stored or none.")
-
-    #Doctor.query.filter(Doctor.last_name.like('%'+ user_email_address[0].upper() +'%')).limit(3).all()
-
 
     #Save fullname to display in user's dashboard
     fullname = files['items'][0]['owners'][0]['displayName']
@@ -200,27 +186,6 @@ def credentials_to_dict(credentials):
             'client_id': credentials.client_id,
             'client_secret': credentials.client_secret,
             'scopes': credentials.scopes}
-
-# TODO: DONT THINK THIS IS NEEDED
-# @app.route('/revoke')
-# def revoke():
-#   if 'credentials' not in session:
-#     return ('You need to <a href="/authorize">authorize</a> before ' +
-#             'testing the code to revoke credentials.')
-
-#   credentials = google.oauth2.credentials.Credentials(
-#     **session['credentials'])
-
-#   revoke = requests.post('https://accounts.google.com/o/oauth2/revoke',
-#       params={'token': credentials.token},
-#       headers = {'content-type': 'application/x-www-form-urlencoded'})
-
-#   #TODO: Add flash message for when revoked and reroute to homepage
-#   status_code = getattr(revoke, 'status_code')
-#   if status_code == 200:
-#     return('Credentials successfully revoked.' + print_index_table())
-#   else:
-#     return('An error occurred.')
 
 ################GOOGLE OAUTH####################
 
@@ -338,43 +303,17 @@ def find_favorite_doctors():
     """ Updates favorite doctors session. Used in the following routes:
          /update-favorite-doctor
          /login
-
     """
     user_favorite_doctors_objects = UserFavorite.query.filter_by(user_id=session['user_id']).all()
     print(user_favorite_doctors_objects)
     # Add the names of the doctors to the list to prepare to be sent in JSON
     session['user_favorite_doctors'] = []
-    for doctor in user_favorite_doctors_objects:
-        session['user_favorite_doctors'].append(doctor.doctor_id)
+    for user_favorite in user_favorite_doctors_objects:
+        doctor = Doctor.query.get(user_favorite.doctor_id)
+        session['user_favorite_doctors'].append(f'{doctor.first_name} {doctor.last_name},\
+                                                Speciality: {doctor.speciality_name}, \
+                                                NPI: {doctor.npi_id}')
 
-#TODO: Implement React JS route for reviews in future
-# @app.route('/reviews')
-# def search_reviews():
-#     """Route to send reviews to dashboard"""
-
-#     # TODO: Replace with session for doctor and username
-#     first_name = "david"
-#     last_name = "maine"
-
-#     # TODO: Future implementation to return back suggested doctors
-#     doctor = Doctor.query.filter(Doctor.first_name.ilike(first_name)&Doctor.last_name.ilike(last_name)).first()
-    
-#     if not doctor:
-#         flash("This doctor is not found in the database. Please try again.")
-#         return redirect('/')
-
-#     doctor_id = doctor.doctor_id
-
-#     # import pdb; pdb.set_trace()
-    
-#     # TODO: Update query to Doctor.reviews once model relationship updated
-#     reviews = Review.query.filter_by(doctor_id=doctor_id).all()
-#     # print(doctor_id, reviews)
-#     review_list = list(map(lambda x: x.review_text_body, reviews))
-#     review_dict = {"reviews": review_list}
-
-#     return jsonify(review_dict)
-########################################################DELETE ONCE REACT TEST COMPLETE
 
 @app.route('/logout')
 def logout():
