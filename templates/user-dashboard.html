@@ -26,127 +26,112 @@
             <a class="nav-link" href="#">Help</a>
           </li> -->
         </ul>
-        <!-- <form class="reviews"> -->
         <h2><a class="nav-item active" href="/logout">Log Out</a></h2>
-        <!-- <button class="logout btn btn-primary" type="submit" href="/logout">Logout</button> -->
-         <!--  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
-        </div>
+        
+      </div>
       </nav>
 
 <h1>Welcome, {{fullname}}! </h1>
 <body>
-<!--  <div class="form-group">
-      <button class="btn btn-primary" type="submit">Search Doctor</button></form>
-    </div> -->
 
-<!-- <div id="search-doctor"></div> -->
-
-
-
-<div class="wrapper">
-  <div class="reviews center"><h1>Doctor Info</h1><p><strong>Begin here by searching for a doctor</strong><br>
-    <form>
-            <input type="search" name="first_name" class="doctor_first_name" placeholder="First Name"aria-label="Search database of providers">
-            <input type="search" name="last_name" class="doctor_last_name" placeholder="Last Name"aria-label="Search database of providers">
-            <button class="clean" type="submit">Search Doctor</button>
-    </form>
-    <div class="doctor-background-info">
-            
+  <div class="wrapper">
+    <div class="reviews center">
+      <h1>Doctor Info</h1>
+      <p>
+        <strong>Begin here by searching for a doctor</strong>
+        <br>
+      <form>
+        <input type="search" name="first_name" class="doctor_first_name" placeholder="First Name"aria-label="Search database of providers">
+        <input type="search" name="last_name" class="doctor_last_name" placeholder="Last Name"aria-label="Search database of providers">
+        <button class="clean" type="submit">Search Doctor</button>
+      </form>
+    <div class="doctor-background-info"></div>
     </div>
-</div>
 
-  <div class="two center">
-    <h1>Associated Hospitals</h1>
-      <canvas id="myChart" width="300" height="150"></canvas>
-      <!-- <canvas id="newChart" width="400" height="400"></canvas> -->
-      <!-- <script class="hospital_1"></script> -->
+    <div class="two center">
+      <h1>Associated Hospitals</h1>
+        <canvas id="myChart" width="300" height="150"></canvas>
 
-      <!-- <div class="two_half"> Two half</div> -->
-     <!--  <script>
-  var ctx = document.getElementById('myChart');
-  var myChart = new Chart(ctx, {
-      "type":"bubble",
-      "data":{
-          "datasets":[{
-              "label":"First Dataset",
-              "data":[
-                  ],
-              "backgroundColor":"rgb(255, 99, 132)"
-            }]}});
-</script>
- -->
-
-</div>
-  <div class="three center"><h1>Favorite Doctors</h1>
-
-    <div class="col-xs-12">
-                    <!-- <h2><strong> Favorite This Doctor </strong></h2>  -->                   
-      <button class="button-favorite-current-doctor btn btn-success btn-block"><span class="fa fa-plus-circle"></span>Favorite The Doctor Above!</button>
     </div>
-  
-    <div class="user-favorite-doctors-list">
-    {%for doctor in favorites%}
-      <li>{{doctor}}</li><br>
-    {%endfor%}
+    <div class="three center"><h1>Favorite Doctors</h1>
+
+      <div class="col-xs-12">                   
+        <button class="button-favorite-current-doctor btn btn-success btn-block"><span class="fa fa-plus-circle"></span>Favorite The Doctor Above!</button>
       </div>
+    
+      <div class="user-favorite-doctors-list">
+      {%for doctor in favorites%}
+        <li>{{doctor}}</li><br>
+      {%endfor%}
+        </div>
+    </div>
+
+    <!-- <div class="four">Four</div> -->
+    <div class="five center">
+      <h1>Reviews</h1>
+      <div class="doctor-reviews-info"></div>
+    </div>
+
+    <div class="six center">
+      <h1>Background on Associated Hospital Measures</h1>
+      <table border="0">
+        <tbody>
+        <tr>
+        <td>
+            <img class="icon-sketch" src="static/m-hospital-1.png" alt="hospital building sketch">
+        </td>
+        <td>Death Among Patients With Treatable Complications</td>
+        <td>This measure is intended to identify patients who pass away following the development of a complication. The underlying assumption is that good hospitals identify these complications quickly and treat them aggressively.
+        </td>
+        </tr>
+        <tr>
+        <td>
+            <img class="icon-sketch" src="static/m-test-tubes-sepsis.png" alt="test tube sketch">
+        </td>
+        <td>Sepsis</td>
+        <td>Considered a life-threatening medical emergency,
+        sepsis happens when an infection you already have triggers a chain reaction throughout your body. Without timely treatment, sepsis can rapidly lead to tissue damage, organ failure, and death.</td>
+        </tr>
+        <tr>
+        <td>
+          <img class="icon-sketch" src="static/m-syringe-clots-dvt.png" alt="syringe sketch">
+        </td>
+        <td width=46px>Clots/Deep Vein Thrombosis (DVT)</td>
+        <td>A medical condition that occurs when a blood clot forms in a deep vein (common in the lower leg, thigh, or pelvis). Complications of clots happens when a part of the clot breaks off and travels through the bloodstream to the lungs, preventing blood from getting to your lungs.</td>
+        </tr>
+        <tr>
+        <td>
+          <img class="icon-sketch" src="static/m-hospital-bed-ulcers.png" alt="hospital bed sketch">
+        </td>
+        <td>Pressure Sores & Ulcers</td>
+        <td>Caused by unrelieved pressure on the skin. They usually develop over bony prominences, such as the elbow, heel, hip, shoulder, back, and back of the head, creating soft-tissue damage ranging from a cut to deep crater in the skin. </td>
+        </tr>
+        <tr>
+        <td>
+          <img class="icon-sketch" src="static/m-lungs-wounds.png" alt="lung sketch">
+        </td>
+        <td>Wounds Dehiscence</td>
+        <td> Caused by a surgical wound failing to heal. Can also be caused by perforation of a surgical wound where internal organs are exposed.</td>
+        </tr>
+        <tr>
+        <td>
+          <img class="icon-sketch" src="static/m-scalpel-lacerations.png" alt="scalpel sketch">
+        </td>
+        <td>Accidental Cuts & Lacerations</td>
+        <td>Looking at the rate of a hospital and physician's inadvertent cuts, punctures, perforations, and lacerations during a surgical procedure is a very good gauge of quality of care.</td>
+        </tr>
+        </tbody>
+      </table>
+      <br>
+      <div>For additonal information on measures, see  
+        <a style="background-color: gray;" href="https://www.medicare.gov/hospitalcompare/Data/Data-Updated.html#">Medicare's Hospital Compare</a> webpage
+      </div>
+      References: CDC.gov and Medicare.gov
+
+
   </div>
 
-  <!-- <div class="four">Four</div> -->
-  <div class="five center"><h1>Reviews</h1><div class="doctor-reviews-info"></div></div>
-  <div class="six center"><h1>Background on Associated Hospital Measures</h1>
-    <table border="0">
-      <tbody>
-      <tr>
-      <td>
-          <img class="icon-sketch" src="static/m-hospital-1.png" alt="hospital building sketch">
-      </td>
-      <td>Serious (Preventable) Complications</td>
-      <td>Words</td>
-      </tr>
-      <tr>
-      <td>
-          <img class="icon-sketch" src="static/m-test-tubes-sepsis.png" alt="test tube sketch">
-      </td>
-      <td>Sepsis</td>
-      <td>Also known as bloodstream infections.</td>
-      </tr>
-      <tr>
-      <td>
-        <img class="icon-sketch" src="static/m-syringe-clots-dvt.png" alt="syringe sketch">
-      </td>
-      <td width=46px>Clots/Deep Vein Thrombosis (DVT)</td>
-      <td>Words</td>
-      </tr>
-      <tr>
-      <td>
-        <img class="icon-sketch" src="static/m-hospital-bed-ulcers.png" alt="hospital bed sketch">
-      </td>
-      <td>Ulcers</td>
-      <td>Words</td>
-      </tr>
-      <tr>
-      <td>
-        <img class="icon-sketch" src="static/m-lungs-wounds.png" alt="lung sketch">
-      </td>
-      <td>Wounds</td>
-      <td> Words</td>
-      </tr>
-      <tr>
-      <td>
-        <img class="icon-sketch" src="static/m-scalpel-lacerations.png" alt="scalpel sketch">
-      </td>
-      <td>Cuts & Lacerations</td>
-      <td>Words</td>
-      </tr>
-      </tbody>
-    </table>
-      <div>For additonal information on measures, see [insert link]</div>
   </div>
-
-
-</div>
-
-</div>
 
 </body>
            

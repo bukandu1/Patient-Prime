@@ -517,12 +517,12 @@ input[type="submit"]:hover{
 
 td {
   text-align: left;
-  padding: 6px 0px 6px 0px;
-  border-bottom: 1px solid rgb(235, 238, 242);;
+  padding: 6px 0px 12px 20px;
+  border-bottom: 2px solid rgb(235, 238, 242);;
 }
 
 .btn{
-  margin: 16px 8px 16px 0px;
+  margin: 16px 10px 16px 0px;
 }
 
 a {
@@ -534,14 +534,14 @@ a {
   width: 30px;
   height: 30px;
   padding: 2px 2px 2px 2px;
-  margin: 2px 6px 2px 2px;
+  /*margin: 2px 6px 2px 2px;*/
   border-radius: 10px;
 }
 
 .title-icon{
   width: 30px;
   height: 30px;
-  margin: 1px 20px 1px 1px;
+  margin: 1px 10px 1px 1px;
 }
 
 /*table{

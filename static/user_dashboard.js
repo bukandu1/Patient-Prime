@@ -221,7 +221,36 @@ $(".two").on('click', "button", (event) => {
                     r: 10
                   }]
                 }]
-      }};
+      },
+    options: {
+      title: {
+        display: true,
+        text: 'Patient Safety Measures'
+      }, 
+      scales: {
+        yAxes: [{ 
+          scaleLabel: {
+            display: true,
+            labelString: "Patients per 1000"
+          }
+        }],
+        xAxes: [{ 
+          scaleLabel: {
+            display: true,
+            labelString: "Measures"
+          }
+        }]
+      },
+      legend: {
+        display: true,
+        position: 'bottom',
+        labels:
+        {
+          fontColor: '#000080',
+        }
+      }
+      }
+  };
         var myChart = new Chart(ctx, config);
         console.log("3 was created");
         }));
