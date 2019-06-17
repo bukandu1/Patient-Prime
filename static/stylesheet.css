@@ -235,10 +235,9 @@ article, aside, dialog, figcaption, figure, footer, header, hgroup, main, nav, s
 
 .flex-item{
     background: white;
-    text-align: center;
     padding: 2em;
     box-shadow: 0 0 1em #888;
-    margin: 32px 8px;
+    margin: 32px 8px 32px 8px;
     border-radius: 12px;
 
 }
@@ -513,10 +512,13 @@ input[type="submit"]:hover{
     max-width: 400px;
     box-shadow: 0 0 1em #888;
     border-radius: 12px;
+
 }
 
 td {
-  padding: 18px;
+  text-align: left;
+  padding: 6px 0px 6px 0px;
+  border-bottom: 1px solid rgb(235, 238, 242);;
 }
 
 .btn{
@@ -526,3 +528,24 @@ td {
 a {
   color: #ffffff;
 }
+
+.icon-sketch{
+  background-color: #1abc9c;
+  width: 30px;
+  height: 30px;
+  padding: 2px 2px 2px 2px;
+  margin: 2px 6px 2px 2px;
+  border-radius: 10px;
+}
+
+.title-icon{
+  width: 30px;
+  height: 30px;
+  margin: 1px 20px 1px 1px;
+}
+
+/*table{
+  border-color: #ffffff;
+  border-bottom: 6px solid #969696;
+}*/
+

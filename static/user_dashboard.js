@@ -167,7 +167,7 @@ $(".two").on('click', "button", (event) => {
           "type":"bubble",
           "data":{
               "datasets":[{
-                  label: ["Sepsis"],
+                  label: ["Serious (Preventable) Complications"],
                   backgroundColor: "rgba(60,186,159,1)",
                   //borderColor: "rgba(255,221,50,1)",
                   data: [{
@@ -176,7 +176,7 @@ $(".two").on('click', "button", (event) => {
                     r: 40
                   }]
                 },{
-                  label: ["Clots/DVT"],
+                  label: ["Sepsis/Bloodstream Infection"],
                   backgroundColor: "rgba(255,221,50,1)",
                   //borderColor: "rgba(255,221,50,0.2)",
                   data: [{
@@ -235,7 +235,7 @@ $(".two").on('click', "button", (event) => {
           "type":"bubble",
           "data":{
               "datasets":[{
-                  label: ["Sepsis"],
+                  label: ["Serious (Preventable) Complications"],
                   backgroundColor: "rgba(60,186,159,1)",
                   //borderColor: "rgba(255,221,50,1)",
                   data: [{
@@ -244,7 +244,7 @@ $(".two").on('click', "button", (event) => {
                     r: 40
                   }]
                 },{
-                  label: ["Clots/DVT"],
+                  label: ["Sepsis/Bloodstream Infection"],
                   backgroundColor: "rgba(255,221,50,1)",
                   //borderColor: "rgba(255,221,50,0.2)",
                   data: [{
