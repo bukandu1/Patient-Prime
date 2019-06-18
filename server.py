@@ -324,14 +324,14 @@ def logout():
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point
     # that we invoke the DebugToolbarExtension
-    app.debug = True
+    #app.debug = True
 
     connect_to_db(app)
 
     # Use the DebugToolbar
     #DebugToolbarExtension(app)
 
-    #app.run(host="0.0.0.0")
+    app.run(port=5000, host="0.0.0.0")
 
     # When running locally, disable OAuthlib's HTTPs verification.
     # ACTION ITEM for developers:
@@ -340,7 +340,6 @@ if __name__ == "__main__":
 
     # Specify a hostname and port that are set as a valid redirect URI
     # for your API project in the Google API Console.
-    app.run('localhost', 5000, debug=False)
 
 
 
