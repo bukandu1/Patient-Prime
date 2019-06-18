@@ -331,7 +331,7 @@ if __name__ == "__main__":
     # Use the DebugToolbar
     #DebugToolbarExtension(app)
 
-    app.run(host="0.0.0.0")
+    #app.run(host="0.0.0.0")
 
     # When running locally, disable OAuthlib's HTTPs verification.
     # ACTION ITEM for developers:
@@ -340,7 +340,7 @@ if __name__ == "__main__":
 
     # Specify a hostname and port that are set as a valid redirect URI
     # for your API project in the Google API Console.
-    app.run('localhost', 8080, debug=False)
+    app.run('localhost', 5000, debug=False)
 
 
 
