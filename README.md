@@ -1,5 +1,5 @@
-# ![alt text](/static/title_icon_1.jpeg "Patient Prime Logo") Patient Prime
-A web application that assist patients with reviewing objective quality indicators and subjective reviews together and assist with make an informed decision about their future care.
+# <img src="/static/title_icon_1.jpeg" alt="Patient Prime Logo" width="50" height="50"/>Patient Prime
+A web application that assist patients with reviewing objective patient saftey indicators from hosptials and subjective doctor reviews together to make an informed recommendation and decision about their future care.
 
 <!-- Click here for a video demo: [insert link herehttps://you.be]. -->
 
