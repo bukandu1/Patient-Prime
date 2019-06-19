@@ -32,7 +32,7 @@ Bottom
 ![search-doctor](/static/Patient_Prime_Search_Doctor.gif)
 
 ### Share Current Doctor via Text & Favorite Doctor
-![favorites](/static/gifs/[].gif)
+![favorites-and-text-recommendation](/static/gifs/Patient_Prime_Fav_Text.gif)
 
 ### Doctor Reviews
 ![user](/static/gifs/[].gif)
