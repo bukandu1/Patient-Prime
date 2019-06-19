@@ -23,22 +23,25 @@ Click here for a video demo: [insert link herehttps://you.be].
 # Features
 
 ### Home/Login
+![login](/static/screenshot_login.png)
+
+### User's Dashboard
 Top
 ![homepage_top](/static/screenshot_dashboard_top.png)
 Bottom
 ![homepage_top](/static/screenshot_dashboard_bottom.png)
 
 ### Search Doctor
-![search-doctor](/static/Patient_Prime_Search_Doctor.gif)
+![search-doctor=250x250](/static/Patient_Prime_Search_Doctor.gif)
 
 ### Share Current Doctor via Text & Favorite Doctor
-![favorites-and-text-recommendation](/static/gifs/Patient_Prime_Fav_Text.gif)
+![favorites-and-text-recommendation](/static/gifs/Patient_Prime_Fav_Text.gif=250x205)
 
 ### Doctor Reviews
-![user](/static/gifs/[].gif)
+![user](/static/gifs/Patient_Prime_Reviews.gif)
 
 ### Associated Hospitals Data Visualization & Patient Safety Measure Info
-![favorites](/static/gif/tests.png)
+![favorites](/static/gif/Patient_Prime_ChartJS.gif)
 
 # Future TODOs
 - Write tests!
