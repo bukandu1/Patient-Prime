@@ -1,7 +1,7 @@
-# ![alt text](/static/icon_1.png "Patient Prime Logo") Patient Prime
+# ![patient-prime-icon](/static/icon_1.png) Patient Prime
 A web application that assist patients with reviewing objective quality indicators and subjective reviews together and assist with make an informed decision about their future care.
 
-Click here for a video demo: [insert link herehttps://you.be].
+<!-- Click here for a video demo: [insert link herehttps://you.be]. -->
 
 # Technologies
 
@@ -27,12 +27,12 @@ Click here for a video demo: [insert link herehttps://you.be].
 
 ### User's Dashboard
 Top
-![homepage_top](/static/screenshot_dashboard_top.png)
+![homepage-top](/static/screenshot_dashboard_top.png)
 Bottom
-![homepage_top](/static/screenshot_dashboard_bottom.png)
+![homepage-top](/static/screenshot_dashboard_bottom.png)
 
 ### Search Doctor
-![search-doctor](/static/Patient_Prime_Search_Doctor.gif)
+![search-doctor](/static/gifs/Patient_Prime_Search_Doctor.gif)
 
 ### Share Current Doctor via Text & Favorite Doctor
 ![favorites-and-text-recommendation](/static/gifs/Patient_Prime_Fav_Text.gif)
@@ -50,7 +50,7 @@ Bottom
 - Additional of more doctor review sites
 - Allow for use to review more than 10 reviews (currently limited to saving 10 in the database.)
 
-### Installation
+# Installation
 
 Patient Prime requires Flask to run.
 
