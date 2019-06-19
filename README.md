@@ -1,4 +1,4 @@
-# Patient Prime
+# ![alt text](/static/icon_1.png "Patient Prime Logo") Patient Prime
 A web application that assist patients with reviewing objective quality indicators and subjective reviews together and assist with make an informed decision about their future care.
 
 Click here for a video demo: [insert link herehttps://you.be].
@@ -32,16 +32,16 @@ Bottom
 ![homepage_top](/static/screenshot_dashboard_bottom.png)
 
 ### Search Doctor
-![search-doctor=250x250](/static/Patient_Prime_Search_Doctor.gif)
+![search-doctor](/static/Patient_Prime_Search_Doctor.gif)
 
 ### Share Current Doctor via Text & Favorite Doctor
-![favorites-and-text-recommendation](/static/gifs/Patient_Prime_Fav_Text.gif=250x205)
+![favorites-and-text-recommendation](/static/gifs/Patient_Prime_Fav_Text.gif)
 
 ### Doctor Reviews
 ![user](/static/gifs/Patient_Prime_Reviews.gif)
 
 ### Associated Hospitals Data Visualization & Patient Safety Measure Info
-![favorites](/static/gif/Patient_Prime_ChartJS.gif)
+![favorites](/static/gifs/Patient_Prime_ChartJS.gif)
 
 # Future TODOs
 - Write tests!
@@ -54,7 +54,7 @@ Bottom
 
 Patient Prime requires Flask to run.
 
-For test environments...
+**For test environments...**
 Obtain appropriate API keys for the following APIs/client:
 - Google OAuth client
 - Twilio
