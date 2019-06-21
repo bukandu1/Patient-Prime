@@ -26,25 +26,26 @@ A web application that assist patients with reviewing objective patient saftey i
 ![login](/static/screenshot_login.png)
 
 ### User's Dashboard
-Top
+####Top
 ![homepage-top](/static/screenshot_dashboard_top.png)
-Bottom
+
+####Bottom
 ![homepage-top](/static/screenshot_dashboard_bottom.png)
 
-### Search Doctor
+### Search for a doctor (currently the search work's for only)
 ![search-doctor](/static/gifs/Patient_Prime_Search_Doctor.gif)
 
-### Share Current Doctor via Text & Favorite Doctor
+### Share the current doctor via text & add/remove the doctor from your favorite's list
 ![favorites-and-text-recommendation](/static/gifs/Patient_Prime_Fav_Text.gif)
 
-### Doctor Reviews
-![user](/static/gifs/Patient_Prime_Reviews.gif)
+### Review the current Doctor's Review from RateMD.com
 
 ### Associated Hospitals Data Visualization & Patient Safety Measure Info
 ![favorites](/static/gifs/Patient_Prime_ChartJS.gif)
 
 # Future TODOs
 - Write tests!
+- Expand doctor search search (search is )
 - Autocomplete doctor search textbox
 - Use of machine learning to recommend doctors based on user's preference
 - Additional of more doctor review sites
