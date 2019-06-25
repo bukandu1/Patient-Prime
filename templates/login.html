@@ -3,6 +3,33 @@
 {% block content %}
 <div class="registration-page-wrapper">
 
+<meta name="viewport" content="width=device-width"> 
+
+  <textarea> 6/24/19: Currently this application is undergoing Google verification due to it's use of OAuth. There will be an official announcement when the verification process is complete and the app is usable. Thank you for your patience! See a demo of the site below!</textarea>
+
+  <iframe class="center" width="560" height="315" src="https://www.youtube.com/embed/nrpXqmkGmoM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<!--registration-->
+<div class="registration-form-wrapper">
+<form class="registration-form" action = "#" method="post" id="registration">
+    <h1 class="center">Patient Prime</h1>
+    <p class="center">Login</p>
+    <!-- TODO: Implement username  -->
+    <!-- <input class="center" type="text" name="username" id="username" placeholder="Enter your username" ></p> -->
+    <!-- <div class="icons">Test -->
+      <a href="/authorize" class="login100-social-item center">
+        <img src="static/icon-google.jpg" alt="GOOGLE"></a>
+    <!-- </div> -->
+</form>
+</div>
+
+
+</div>
+
+        
+{%endblock%}
+
+
 <!-- Testing Autho Workflow -->
 <!-- <table>
           <tr><td><a href="/user-dashboard">Test an API request</a></td>
@@ -23,64 +50,3 @@
           </td></tr></table> -->
    
 <!-- Login  Form -->
-
-<meta name="viewport" content="width=device-width"> 
-
-<!--registration-->
-<div class="registration-form-wrapper">
-<form class="registration-form" action = "#" method="post" id="registration">
-    <h1 class="center">Patient Prime</h1>
-    <p class="center">Login</p>
-    <!-- TODO: Implement username  -->
-    <!-- <input class="center" type="text" name="username" id="username" placeholder="Enter your username" ></p> -->
-    <!-- <div class="icons">Test -->
-      <a href="/authorize" class="login100-social-item center">
-        <img src="static/icon-google.jpg" alt="GOOGLE"></a>
-    <!-- </div> -->
-</form>
-</div>
-<!--login-->
-<!-- form action = "#" method="post" id="login">
-  <p>
-    <input type="text" name="username" id="username" placeholder="Enter your username" >
-  </p>
-  <p>
-    <input type="password" name="password" id="password" placeholder="Enter your password">
-  </p>
-  <input type="submit" name="log_in" id="log_in" value="Login">
-</form> -->
-<!-- <script src="//code.jquery.com/jquery-1.12.0.min.js"></script> -->
-</div>
-
-
-
-
-
-
-
-    <!-- <form action="/user-dashboard/username"> -->
-
-      <!--   <form class="form-signin" method="POST">
-
-        <h2 class="form-signin-heading">Please Sign In</h2>
-
-        <div class="form-group">
-            <label for="email-field" class="sr-only">Email Address</label>
-            <input type="email"
-                   name="email"
-                   class="form-control input-lg"
-                   placeholder="Email Address"
-                   required
-                   autofocus>
-        </div>
-
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign In
-        </button>
-
-        <input type="username" name="username">
-        <input type="submit" name="submit" value="Login">
-    </form>
-    </body>
-    </html> -->
-        
-{%endblock%}

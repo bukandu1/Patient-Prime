@@ -187,6 +187,12 @@ def credentials_to_dict(credentials):
             'client_secret': credentials.client_secret,
             'scopes': credentials.scopes}
 
+
+@app.route('/googleed05f74f632c539a.html')
+def google_domain_verification():
+    """ Verification for Google OAuth"""
+    return render_template("googleed05f74f632c539a.html")
+
 ################GOOGLE OAUTH####################
 
 @app.route('/', methods=["POST"])
@@ -258,7 +264,7 @@ def search_doctor():
                     "doctor_id": doctor.doctor_id, "reviews": review_list, "favorites": session['user_favorite_doctors'], "associated_hospitals_list":associated_hospitals_list})
 
 
-#retrive associated hospitals information
+# Retrive associated hospitals information
 @app.route('/search-associated-hospitals')
 def search_associated_hospitals():
     """Returns the associated hospitals of the doctor currently in session."""
