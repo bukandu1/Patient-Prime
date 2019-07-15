@@ -1,6 +1,10 @@
 import unittest
 from server import app
 
+from google.appengine.api import memcache
+from google.appengine.ext import ndb
+from google.appengine.ext import testbed
+
 class FlaskTests(unittest.TestCase):
 
     def setUp(TestCase):
@@ -35,6 +39,8 @@ class TestFlaskRoutes(unittest.TestCase):
         """ Test if doctor searched is found in database"""
         pass
 
+def tearDown(self):
+    self.testbed.deactivate()
 
 if __name__ == '__main__':
     # If called like a script, run our tests
