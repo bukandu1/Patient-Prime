@@ -1,7 +1,7 @@
-from unittest import TestCase
+import unittest
 from server import app
 
-class FlaskTests(TestCase):
+class FlaskTests(unittest.TestCase):
 
     def setUp(TestCase):
         """ Set up test client before each test"""
